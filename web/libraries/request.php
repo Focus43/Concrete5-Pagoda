@@ -3,16 +3,26 @@
 	class Request extends Concrete5_Library_Request {
 		
 		
-		protected $parsedSubdomain;
+		protected $_parsedSubdomain;
 		
 		
 		/**
 		 * Override the constructor
 		 */
 		public function __construct( $path ){
+			$request = $this->pathToPageOrSystem( $path );
+			parent::__construct( $request );
+		}
+		
+		
+		protected function pathToPageOrSystem( $path ){
+			$exploded = explode('/', $path);
+			if( $exploded[0] == 'tools' || $exploded[0] == 'login' ){
+				return $path;
+			}
+			
 			$subdomain = $this->parseSubDomain();
-			$path = ($subdomain === null) ? $path : "{$subdomain}/{$path}";
-			parent::__construct($path);
+			return ($subdomain === null) ? $path : "{$subdomain}/{$path}";
 		}
 		
 		
@@ -21,16 +31,16 @@
 		 * @return string
 		 */
 		protected function parseSubDomain(){
-			if( $this->parsedSubdomain == null ){
+			if( $this->_parsedSubdomain == null ){
 				$domain = parse_url($_SERVER['HTTP_HOST'], PHP_URL_PATH);
 				if( substr_count($domain, '.') > 1 ){
 					$url = explode('.', $domain, 2);
-					$this->parsedSubdomain = $url[0];
+					$this->_parsedSubdomain = $url[0];
 				}else{
-					$this->parsedSubdomain = null;
+					$this->_parsedSubdomain = null;
 				}
 			}
-			return $this->parsedSubdomain;
+			return $this->_parsedSubdomain;
 		}
 		
 	}
