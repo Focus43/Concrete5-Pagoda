@@ -2,7 +2,7 @@
 
 	if( !(isset($_SERVER['PAGODA_PRODUCTION']) && $_SERVER['PAGODA_PRODUCTION'] == 'true') ) {
 		
-		require __DIR__ . '/local.php';
+		require __DIR__ . '/site.local.php';
 		
 	}else{
 		
@@ -21,7 +21,4 @@
     define('DB_USERNAME',   $_SERVER['DB1_USER']);
     define('DB_PASSWORD',   $_SERVER['DB1_PASS']);
 	define('DB_DATABASE',   $_SERVER['DB1_NAME']);
-	define('PASSWORD_SALT', '6NVukfgwAgqaOi3SMlsWwEqURSe4Xh8pBApvhOauP7blC2kx1FKsHxcjGSXMqP3N');	
-
-	// enable advanced permissions
-	define('PERMISSIONS_MODEL', 'advanced');
+	define('PASSWORD_SALT', '6NVukfgwAgqaOi3SMlsWwEqURSe4Xh8pBApvhOauP7blC2kx1FKsHxcjGSXMqP3N');
