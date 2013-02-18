@@ -1,6 +1,6 @@
 web1:
   document_root: web
-  shared_writable_dirs: [web/files]
+  shared_writable_dirs: [web/files, web/libraries]
   php_version: 5.3.10
   php_extensions: [mysql, curl, apc, gd, mbstring, zip, memcache, redis]
   php_short_open_tab: "1"
