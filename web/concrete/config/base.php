@@ -416,8 +416,11 @@ define('USER_PASSWORD_MAXIMUM', 64);
 define('USER_SUPER', 'admin');
 define('USER_SUPER_ID', 1);
 define('GUEST_GROUP_ID', '1');
-define('REGISTERED_GROUP_ID', '2');
-define('ADMIN_GROUP_ID', '3');
+
+// @pagoda_mod
+if( !defined('REGISTERED_GROUP_ID') ){ define('REGISTERED_GROUP_ID', '2'); }
+if( !defined('ADMIN_GROUP_ID') ){ define('ADMIN_GROUP_ID', '3'); }
+
 define('SESSION_MAX_LIFETIME', 7200); // 2 hours
 define('USER_CHANGE_PASSWORD_URL_LIFETIME',  7200);
 define('NEWSFLOW_VIEWED_THRESHOLD', 86400); // once a day

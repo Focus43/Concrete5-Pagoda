@@ -1,0 +1,26 @@
+web1:
+  document_root: web
+  shared_writable_dirs: [web/files]
+  php_version: 5.3.10
+  php_extensions: [mysql, curl, apc, gd, mbstring, zip, memcache, redis]
+  php_short_open_tab: "1"
+  php_file_uploads: "1"
+  php_upload_max_filesize: "20M"
+  php_max_file_uploads: 20
+  php_session_save_handler: redis
+  php_session_save_path: "tcp://tunnel.pagodabox.com:6379"
+  before_deploy:
+    - "php /var/www/before_deploy.php"
+
+global:
+  env:
+    - PAGODA_PRODUCTION: true
+
+db1:
+  type: mysql
+
+cache1:
+  type: memcached
+
+cache2:
+  type: redis
