@@ -1,5 +1,11 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 
+
+	/**
+	 * Determine whether to route the page response from a subdomain.
+	 * The CURRENT_SUBDOMAIN constant is parsed in config/site_post_autoload.php
+	 * higher up in the load order.
+	 */
 	class Request extends Concrete5_Library_Request {
 		
 		
@@ -7,7 +13,8 @@
 		
 		
 		/**
-		 * Override the constructor
+		 * Override the constructor, and run the $path through
+		 * pathToPageOrSystem first.
 		 */
 		public function __construct( $path ){
 			$request = $this->pathToPageOrSystem( $path );
@@ -15,6 +22,12 @@
 		}
 		
 		
+		/**
+		 * Determine if the call is requesting a publicly accessible page, and
+		 * not a "system" tool (eg. tools file, js/css parser, etc.)
+		 * @param string path
+		 * @return string
+		 */
 		protected function pathToPageOrSystem( $path ){
 			$exploded = explode('/', $path);
 			if( $exploded[0] == 'tools' || $exploded[0] == 'login' ){
@@ -34,17 +47,12 @@
 			if( $this->_parsedSubdomain === null ){
 				// default to false (eg. "no subdomain")
 				$this->_parsedSubdomain = false;
-				// try parsing
-				$domain = parse_url($_SERVER['HTTP_HOST'], PHP_URL_PATH);
-				if( substr_count($domain, '.') > 1 ){
-					$url 		= explode('.', $domain, 2);
-					$subdomain 	= $url[0];
-					define('CURRENT_SUBDOMAIN', $subdomain);
-					if( !isset($_GET['cID']) ){
-						$this->_parsedSubdomain = $url[0];
-					}
+				
+				if( defined('CURRENT_SUBDOMAIN') && !isset($_GET['cID']) ){
+					$this->_parsedSubdomain = CURRENT_SUBDOMAIN;
 				}
 			}
+			
 			return $this->_parsedSubdomain;
 		}
 		
