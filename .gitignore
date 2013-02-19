@@ -21,7 +21,7 @@ __MACOSX
 # more stuff
 /web/css/*
 /web/js/*
-/web/blocks/*
+#/web/blocks/* #pagoda
 /web/languages/*
 /web/tools/*
 #/web/controllers/* #pagoda

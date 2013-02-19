@@ -22,22 +22,27 @@
 			}
 			
 			$subdomain = $this->parseSubDomain();
-			return ($subdomain === null) ? $path : "{$subdomain}/{$path}";
+			return ($subdomain === false) ? $path : "{$subdomain}/{$path}";
 		}
 		
 		
 		/**
 		 * Parse the domain request, and get just the subdomain
-		 * @return string
+		 * @return string || bool
 		 */
 		protected function parseSubDomain(){
-			if( $this->_parsedSubdomain == null ){
+			if( $this->_parsedSubdomain === null ){
+				// default to false (eg. "no subdomain")
+				$this->_parsedSubdomain = false;
+				// try parsing
 				$domain = parse_url($_SERVER['HTTP_HOST'], PHP_URL_PATH);
 				if( substr_count($domain, '.') > 1 ){
-					$url = explode('.', $domain, 2);
-					$this->_parsedSubdomain = $url[0];
-				}else{
-					$this->_parsedSubdomain = null;
+					$url 		= explode('.', $domain, 2);
+					$subdomain 	= $url[0];
+					define('CURRENT_SUBDOMAIN', $subdomain);
+					if( !isset($_GET['cID']) ){
+						$this->_parsedSubdomain = $url[0];
+					}
 				}
 			}
 			return $this->_parsedSubdomain;
