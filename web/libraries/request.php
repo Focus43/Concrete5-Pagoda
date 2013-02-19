@@ -30,7 +30,7 @@
 		 */
 		protected function pathToPageOrSystem( $path ){
 			$exploded = explode('/', $path);
-			if( $exploded[0] == 'tools' || $exploded[0] == 'login' ){
+			if( in_array($exploded[0], array('tools', 'login', 'dashboard')) ){
 				return $path;
 			}
 			
