@@ -48,8 +48,8 @@
 				// default to false (eg. "no subdomain")
 				$this->_parsedSubdomain = false;
 				
-				if( defined('CURRENT_SUBDOMAIN') && !isset($_GET['cID']) ){
-					$this->_parsedSubdomain = CURRENT_SUBDOMAIN;
+				if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
+					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
 				}
 			}
 			
