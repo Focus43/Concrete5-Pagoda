@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+	
+	<table name="MultisiteDomain">
+		<field name="id" type="I">
+			<autoincrement />
+			<key />
+			<unsigned />
+		</field>
+		<field name="domain" type="C" size="255" />
+		<field name="path" type="C" size="255" />
+		
+		<!-- indices -->
+		<index name="domain">
+	      <col>domain</col>
+	      <UNIQUE />
+	    </index>
+	    <index name="path">
+	      <col>path</col>
+	      <UNIQUE />
+	    </index>
+	    <index name="domainpath">
+	      <col>domain</col>
+	      <col>path</col>
+	    </index>
+	</table>
+	
+</schema>
