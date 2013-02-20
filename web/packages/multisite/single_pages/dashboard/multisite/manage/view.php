@@ -1,9 +1,10 @@
+<?php Loader::packageElement('flash_message', 'multisite', array('flash' => $flash)); ?>
+
 <?php echo Loader::helper('concrete/dashboard')->getDashboardPaneHeaderWrapper(t('Multisite Manager'), t('Manage multiple domains / subdomains'), false, false ); ?>
 	
-	<div id="msManager" class="ccm-pane-body">		
+	<div id="msManager" class="ccm-pane-body">
 		<ul id="msTabs" class="nav nav-tabs clearfix">
 			<li class="active"><a href="#msPane1">Root Domains</a></li>
-			<li><a href="#msPane2">Subdomains</a></li>
 			<li class="pull-right">
 				<select class="pull-right">
 					<option value="">Actions</option>

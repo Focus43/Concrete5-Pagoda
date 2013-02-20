@@ -1,8 +1,19 @@
 <?php
 
+
 	class MultisitePageController extends Controller {
 		
-		const PACKAGE_HANDLE = 'multisite';
+		const PACKAGE_HANDLE 	= 'multisite',
+			  FLASH_TYPE_OK	 	= 'success',
+			  FLASH_TYPE_ERROR	= 'error';
+		
+		
+		public function flash( $msg = 'Success', $type = self::FLASH_TYPE_OK ){
+			$_SESSION['flash_msg'] = array(
+				'msg'  => $msg,
+				'type' => $type
+			);
+		}
 		
 		
 		public function render(){
@@ -14,6 +25,13 @@
 		public function on_start(){
 			$this->addHeaderItem( $this->getHelper('html')->javascript('ms.dashboard.js', self::PACKAGE_HANDLE) );
 			$this->addHeaderItem( $this->getHelper('html')->css('ms.dashboard.css', self::PACKAGE_HANDLE) );
+			
+			//
+			// message flash
+			if( isset($_SESSION['flash_msg']) ){
+				$this->set('flash', $_SESSION['flash_msg']);
+				unset($_SESSION['flash_msg']);
+			}
 		}
 		
 		

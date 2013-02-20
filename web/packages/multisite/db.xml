@@ -9,6 +9,19 @@
 		</field>
 		<field name="domain" type="C" size="255" />
 		<field name="path" type="C" size="255" />
+		<field name="pageID" type="I" size="11">
+			<UNSIGNED />
+		</field>
+		<field name="allowSubdomains" type="I1">
+			<unsigned />
+			<notnull />
+			<default value="0" />
+		</field>
+		<field name="resolveWildcardSubdomains" type="I1">
+			<unsigned />
+			<notnull />
+			<default value="0" />
+		</field>
 		
 		<!-- indices -->
 		<index name="domain">

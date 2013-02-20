@@ -22,6 +22,8 @@
 				'path'	 => $path
 			));
 			$model->save();
+			$this->flash('Root Domain Created Successfully.');
+			$this->redirect('dashboard/multisite/manage');
 		}
 		
 		
