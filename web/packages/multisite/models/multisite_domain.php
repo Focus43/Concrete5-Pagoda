@@ -31,7 +31,7 @@
 			$domains = array();
 			if(!empty($records)){
 				foreach($records AS $row){
-					$domains[] = new self( $row );
+					$domains[ $row['domain'] ] = new self( $row );
 				}
 			}
 			return $domains;
@@ -48,11 +48,18 @@
 			Loader::db()->Execute("INSERT INTO MultisiteDomain (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
 				$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID
 			));
+			self::compileCache();
 		}
 		
 		
 		public function delete(){
 			Loader::db()->Execute("DELETE FROM MultisiteDomain WHERE id = ?", array( $this->id ));
+			self::compileCache();
+		}
+		
+		
+		public static function compileCache(){
+			
 		}
 		
 	}

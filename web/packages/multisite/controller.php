@@ -26,7 +26,8 @@
 		private function registerAutoloadClasses(){
 			Loader::registerAutoload(array(
 				'MultisitePageController' => array('library', 'multisite_page_controller', $this->pkgHandle),
-				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle)
+				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle),
+				'MultisiteMapper' => array('library', 'multisite_mapper', $this->pkgHandle)
 			));
 		}
 		
