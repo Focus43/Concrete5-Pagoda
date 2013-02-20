@@ -1,13 +1,24 @@
 <?php
 
-
-	class MultisitePageController extends Controller {
+	/**
+	 * Multisite dashboard controller. Implementing classes are the
+	 * actual page controllers.
+	 * @author Jonathan Hartman
+	 * @package Multisite
+	 */
+	abstract class MultisitePageController extends Controller {
 		
 		const PACKAGE_HANDLE 	= 'multisite',
 			  FLASH_TYPE_OK	 	= 'success',
 			  FLASH_TYPE_ERROR	= 'error';
 		
 		
+		/**
+		 * Ruby on Rails "flash" functionality ripoff
+		 * @param string $msg Optional, set the flash message
+		 * @param string $type Optional, set the class for the alert
+		 * @return void
+		 */
 		public function flash( $msg = 'Success', $type = self::FLASH_TYPE_OK ){
 			$_SESSION['flash_msg'] = array(
 				'msg'  => $msg,
@@ -16,17 +27,26 @@
 		}
 		
 		
+		/**
+		 * Override the parent Controller class's render() method so we can render
+		 * view templates that match the name of the called controller action.
+		 * @return void
+		 */
 		public function render(){
 			$this->theme = 'dashboard';
 			parent::render("{$this->c->cPath}/{$this->getTask()}");
 		}
 		
 		
+		/**
+		 * Add js/css + tools URL meta tag; clear the flash.
+		 * @return void
+		 */
 		public function on_start(){
-			$this->addHeaderItem( $this->getHelper('html')->javascript('ms.dashboard.js', self::PACKAGE_HANDLE) );
+			$this->addHeaderItem( '<meta id="multisite_tools" value="'.MULTISITE_TOOLS_URL.'" />' );
 			$this->addHeaderItem( $this->getHelper('html')->css('ms.dashboard.css', self::PACKAGE_HANDLE) );
-			
-			//
+			$this->addFooterItem( $this->getHelper('html')->javascript('ms.dashboard.js', self::PACKAGE_HANDLE) );
+
 			// message flash
 			if( isset($_SESSION['flash_msg']) ){
 				$this->set('flash', $_SESSION['flash_msg']);
@@ -36,7 +56,9 @@
 		
 		
 		/**
-		 * @param string Handle of the helper to load
+		 * "Memoize" helpers so they're only loaded once.
+		 * @param string $handle Handle of the helper to load
+		 * @param string $pkg Package to get the helper from
 		 * @return ...Helper class of some sort
 		 */
 		public function getHelper( $handle, $pkg = false ){

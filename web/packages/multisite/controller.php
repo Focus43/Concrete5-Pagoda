@@ -4,7 +4,7 @@
 	
 	    protected $pkgHandle 			= 'multisite';
 	    protected $appVersionRequired 	= '5.6.1';
-	    protected $pkgVersion 			= '0.1.05';
+	    protected $pkgVersion 			= '0.1.06';
 	
 	    
 	    public function getPackageDescription() {
@@ -18,20 +18,16 @@
 	
 	
 	    public function on_start(){
-	        $uh = Loader::helper('concrete/urls');
-	        define('MULTISITE_TOOLS_URL', BASE_URL . $uh->getToolsURL('', $this->pkgHandle) );
-			
+	        define('MULTISITE_TOOLS_URL', BASE_URL . REL_DIR_FILES_TOOLS_PACKAGES . '/' . $this->pkgHandle . '/');
 			$this->registerAutoloadClasses();
 	    } 
 		
 		
 		private function registerAutoloadClasses(){
-			$classes = array(
+			Loader::registerAutoload(array(
 				'MultisitePageController' => array('library', 'multisite_page_controller', $this->pkgHandle),
-				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle)//,
-				//'PageNoteList' => array('model', 'page_note_list', $this->pkgHandle)
-			);
-			Loader::registerAutoload($classes);
+				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle)
+			));
 		}
 		
 	

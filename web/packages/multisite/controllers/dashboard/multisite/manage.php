@@ -15,13 +15,16 @@
 		}
 		
 		public function create(){
-			$domain = $this->validateRootDomain($_POST['root_domain']);
-			$path	= Page::getByID( (int) $_POST['pageID'] )->getCollectionPath();
 			$model	= new MultisiteDomain(array(
-				'domain' => $domain,
-				'path'	 => $path
+				'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
+				'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
+				'pageID' 			=> (int) $_POST['pageID'],
+				'resolveWildcards'	=> (int) $_POST['resolveWildcards'],
+				'wildcardRootPath'	=> Page::getByID( (int) $_POST['wildcardParentID'] )->getCollectionPath(),
+				'wildcardParentID'	=> (int) $_POST['wildcardParentID']
 			));
 			$model->save();
+			
 			$this->flash('Root Domain Created Successfully.');
 			$this->redirect('dashboard/multisite/manage');
 		}
