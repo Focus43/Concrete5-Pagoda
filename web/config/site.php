@@ -43,3 +43,7 @@
 	
 	// use redis page cache
 	define('PAGE_CACHE_LIBRARY', 'Redis');
+	
+	// enable application profiler
+	define('ENABLE_APPLICATION_PROFILER', true);
+	define('ENABLE_APPLICATION_PROFILER_DATABASE', true);

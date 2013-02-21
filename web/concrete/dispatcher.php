@@ -36,6 +36,9 @@
 		require(DIR_CONFIG_SITE . '/site_post_autoload.php');
 	}
 
+	## APP PROFILER ## // @app_profiler
+	ApplicationProfiler::start( defined('ENABLE_APPLICATION_PROFILER') );
+
 	## Exception handler
 	require($cdir . '/startup/exceptions.php');
 
