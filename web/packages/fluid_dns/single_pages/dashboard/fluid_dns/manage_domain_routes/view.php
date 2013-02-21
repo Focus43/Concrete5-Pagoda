@@ -1,10 +1,10 @@
-<?php Loader::packageElement('flash_message', 'multisite', array('flash' => $flash)); ?>
+<?php Loader::packageElement('flash_message', 'fluid_dns', array('flash' => $flash)); ?>
 
-<?php echo Loader::helper('concrete/dashboard')->getDashboardPaneHeaderWrapper(t('Multisite Manager'), t('Manage multiple domains / subdomains'), false, false ); ?>
+<?php echo Loader::helper('concrete/dashboard')->getDashboardPaneHeaderWrapper(t('FluidDNS Manager'), t('Route Domains/Subdomains to Specific Page Roots'), false, false ); ?>
 	
 	<div id="msManager" class="ccm-pane-body">
 		<div class="clearfix">
-			<h3 class="lead pull-left">Root Domain Settings <small>Configure settings for a <i>base</i> domain (eg. mydomain.com)</small></h3>
+			<h3 class="lead pull-left">FluidDNS <small>Dynamically route domains/subdomains to page roots.</small></h3>
 			<div class="pull-right">
 				<select id="actionMenu" class="pull-right" disabled="disabled">
 					<option value="">-- Actions --</option>

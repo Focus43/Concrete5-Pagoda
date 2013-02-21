@@ -1,6 +1,6 @@
 <?php
 
-	class MultisiteDomain {
+	class FluidDnsRoute {
 		
 		protected $id, 
 				  $domain, 
@@ -32,7 +32,7 @@
 		
 		
 		public static function getByID( $id ){
-			$row = Loader::db()->GetRow("SELECT * FROM MultisiteDomain WHERE id = ?", array( (int)$id ));
+			$row = Loader::db()->GetRow("SELECT * FROM FluidDnsRoute WHERE id = ?", array( (int)$id ));
 			return new self( $row );
 		}
 		
@@ -40,12 +40,12 @@
 		public function save(){
 			// creating a new record?
 			if( !($this->id >= 1) ){
-				Loader::db()->Execute("INSERT INTO MultisiteDomain (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
+				Loader::db()->Execute("INSERT INTO FluidDnsRoute (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
 					$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID
 				));
 			// updating an existing record
 			}else{
-				Loader::db()->Execute("UPDATE MultisiteDomain SET domain = ?, path = ?, pageID = ?, resolveWildcards = ?, wildcardRootPath = ?, wildcardParentID = ? WHERE id = ?", array(
+				Loader::db()->Execute("UPDATE FluidDnsRoute SET domain = ?, path = ?, pageID = ?, resolveWildcards = ?, wildcardRootPath = ?, wildcardParentID = ? WHERE id = ?", array(
 					$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID, $this->id
 				));
 			}
@@ -56,7 +56,7 @@
 		
 		
 		public function delete(){
-			Loader::db()->Execute("DELETE FROM MultisiteDomain WHERE id = ?", array( $this->id ));
+			Loader::db()->Execute("DELETE FROM FluidDnsRoute WHERE id = ?", array( $this->id ));
 			ConcreteRedis::db()->hdel( 'domain_paths', $this->domain );
 		}
 		

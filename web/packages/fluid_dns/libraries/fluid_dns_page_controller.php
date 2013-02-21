@@ -1,14 +1,14 @@
 <?php
 
 	/**
-	 * Multisite dashboard controller. Implementing classes are the
+	 * FluidDNS dashboard controller. Implementing classes are the
 	 * actual page controllers.
 	 * @author Jonathan Hartman
-	 * @package Multisite
+	 * @package FluidDNS
 	 */
-	abstract class MultisitePageController extends Controller {
+	abstract class FluidDnsPageController extends Controller {
 		
-		const PACKAGE_HANDLE 	= 'multisite',
+		const PACKAGE_HANDLE 	= 'fluid_dns',
 			  FLASH_TYPE_OK	 	= 'success',
 			  FLASH_TYPE_ERROR	= 'error';
 		
@@ -43,9 +43,9 @@
 		 * @return void
 		 */
 		public function on_start(){
-			$this->addHeaderItem( '<meta id="multisite_tools" value="'.MULTISITE_TOOLS_URL.'" />' );
-			$this->addHeaderItem( $this->getHelper('html')->css('ms.dashboard.css', self::PACKAGE_HANDLE) );
-			$this->addFooterItem( $this->getHelper('html')->javascript('ms.dashboard.js', self::PACKAGE_HANDLE) );
+			$this->addHeaderItem( '<meta id="fluid_dns_tools" value="'.FLUID_DNS_TOOLS_URL.'" />' );
+			$this->addHeaderItem( $this->getHelper('html')->css('fdns.dashboard.css', self::PACKAGE_HANDLE) );
+			$this->addFooterItem( $this->getHelper('html')->javascript('fdns.dashboard.js', self::PACKAGE_HANDLE) );
 
 			// message flash
 			if( isset($_SESSION['flash_msg']) ){

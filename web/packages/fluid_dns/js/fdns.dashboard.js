@@ -1,9 +1,9 @@
 
-	var Multisite;
+	var FluidDNS;
 
 	$(function(){
 		
-		Multisite = new function(){
+		FluidDNS = new function(){
 			
 			var _self		= $(this),
 				$document	= $(document),
@@ -61,7 +61,7 @@
 			// actions menu
 			$actionMenu.on('change', function(){
 				var $this	= $(this),
-					tools  	= $('#multisite_tools').attr('value'),
+					tools  	= $('#fluid_dns_tools').attr('value'),
 					$checkd = $('tbody', '#domainsList').find(':checkbox').filter(':checked'),
 					data   	= $checkd.serializeArray();
 				
@@ -86,7 +86,7 @@
 			
 			// domain cache
 			$('#updateDomainCache').on('click', function(){
-				var tools = $('#multisite_tools').attr('value');
+				var tools = $('#fluid_dns_tools').attr('value');
 				$.post( tools + 'update_domain_cache', function(resp){
 					if( resp.code == 1 ){
 						ccmAlert.hud('Redis Cache Up-to-date', 2000, 'success', 'Domain Cache Updated!');

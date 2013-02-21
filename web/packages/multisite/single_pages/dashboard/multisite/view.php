@@ -1,1 +1,0 @@
-<?php // redirects to manage

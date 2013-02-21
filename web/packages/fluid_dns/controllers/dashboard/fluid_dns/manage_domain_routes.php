@@ -1,6 +1,6 @@
 <?php
 
-	class DashboardMultisiteManageController extends MultisitePageController {
+	class DashboardFluidDnsManageDomainRoutesController extends FluidDnsPageController {
 		
 		public $helpers = array('form', 'form/page_selector');
 		
@@ -11,18 +11,18 @@
 		}
 		
 		public function add(){
-			$this->set('domainObj', new MultisiteDomain);
+			$this->set('domainObj', new FluidDnsRoute);
 			$this->render();
 		}
 		
 		public function edit( $id ){
-			$this->set('domainObj', MultisiteDomain::getByID($id));
+			$this->set('domainObj', FluidDnsRoute::getByID($id));
 			$this->render();
 		}
 		
 		public function create(){
 			try {
-				$model	= new MultisiteDomain(array(
+				$model	= new FluidDnsRoute(array(
 					'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
 					'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
 					'pageID' 			=> (int) $_POST['pageID'],
@@ -33,17 +33,17 @@
 				$model->save();
 				
 				$this->flash('Root Domain Created Successfully.');
-				$this->redirect('dashboard/multisite/manage');
+				$this->redirect('dashboard/fluid_dns/manage_domain_routes');
 			}catch(Exception $e){
-				$this->flash($e->getMessage(), MultisitePageController::FLASH_TYPE_ERROR);
-				$this->redirect('/dashboard/multisite/manage/add');
+				$this->flash($e->getMessage(), self::FLASH_TYPE_ERROR);
+				$this->redirect('/dashboard/fluid_dns/manage_domain_routes/add');
 			}
 		}
 		
 		
 		public function update( $id ){
 			try {
-				$model = MultisiteDomain::getByID($id);
+				$model = FluidDnsRoute::getByID($id);
 				$model->setProperties(array(
 					'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
 					'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
@@ -55,20 +55,20 @@
 				$model->save();
 				
 				$this->flash('Root Domain Updated Successfully.');
-				$this->redirect('dashboard/multisite/manage');
+				$this->redirect('dashboard/fluid_dns/manage_domain_routes');
 			}catch(Exception $e){
-				$this->flash($e->getMessage(), MultisitePageController::FLASH_TYPE_ERROR);
-				$this->redirect('/dashboard/multisite/manage/add');
+				$this->flash($e->getMessage(), self::FLASH_TYPE_ERROR);
+				$this->redirect('/dashboard/fluid_dns/manage_domain_routes/edit', $id);
 			}
 		}
 		
 		
 		protected function getDomainsList(){
-			$records = Loader::db()->GetArray("SELECT * FROM MultisiteDomain");
+			$records = Loader::db()->GetArray("SELECT * FROM FluidDnsRoute");
 			$domains = array();
 			if(!empty($records)){
 				foreach($records AS $row){
-					$domains[ $row['domain'] ] = new MultisiteDomain( $row );
+					$domains[ $row['domain'] ] = new FluidDnsRoute( $row );
 				}
 			}
 			return $domains;

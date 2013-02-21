@@ -1,6 +1,6 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 
-	$permissions = new Permissions( Page::getByPath('/dashboard/multisite/manage') );
+	$permissions = new Permissions( Page::getByPath('/dashboard/fluid_dns/manage_domain_routes') );
 	
 	// does caller of this URL have access?
 	if( $permissions->canView() ){
@@ -9,10 +9,10 @@
 			ConcreteRedis::db()->del('domain_paths');
 			
 			// reload *EVERY. SINGLE. DOMAIN. RECORD.*
-			$records = Loader::db()->GetCol("SELECT id FROM MultisiteDomain");
+			$records = Loader::db()->GetCol("SELECT id FROM FluidDnsRoute");
 			if(!empty($records)){
 				foreach($records AS $msID){
-					$msDomain = MultisiteDomain::getByID( $msID );
+					$msDomain = FluidDnsRoute::getByID( $msID );
 					$rootPage = Page::getByID( $msDomain->getPageID(), 'ACTIVE' );
 					
 					if( !($rootPage instanceof Page) || !$rootPage->isActive() ){

@@ -1,12 +1,12 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 
-	$permissions = new Permissions( Page::getByPath('/dashboard/multisite/manage') );
+	$permissions = new Permissions( Page::getByPath('/dashboard/fluid_dns/manage_domain_routes') );
 	
 	// does caller of this URL have access?
 	if( $permissions->canView() ){
 		if(!empty($_POST['domainID'])){
 			foreach($_POST['domainID'] AS $domainID){
-				MultisiteDomain::getByID($domainID)->delete();
+				FluidDnsRoute::getByID($domainID)->delete();
 			}
 		}
 		

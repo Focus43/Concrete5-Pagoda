@@ -1,15 +1,13 @@
-<?php Loader::packageElement('flash_message', 'multisite', array('flash' => $flash, 'span_offset' => $span_offset));
-	$formAction = $domainObj->getID() >= 1 ?
-		$this->action('update', $domainObj->getID())
-		: $this->action('create');
+<?php Loader::packageElement('flash_message', 'fluid_dns', array('flash' => $flash, 'span_offset' => $span_offset));
+	$formAction = $domainObj->getID() >= 1 ? $this->action('update', $domainObj->getID()) : $this->action('create');
 ?>
 
 <form id="frmRootDomain" method="post" action="<?php echo $formAction; ?>">
 	<div class="span10 offset1">
-		<?php echo Loader::helper('concrete/dashboard')->getDashboardPaneHeaderWrapper(t('Multisite Manager'), t('Manage multiple domains / subdomains'), false, false ); ?>
+		<?php echo Loader::helper('concrete/dashboard')->getDashboardPaneHeaderWrapper(t('FluidDNS Manager'), t('Route Domains/Subdomains to Specific Page Roots'), false, false ); ?>
 		<div id="msManager" class="ccm-pane-body">
 			<div class="container-fluid">
-				<h3 class="lead">Root Domain Settings <small>Configure settings for a <i>base</i> domain (eg. mydomain.com)</small></h3>
+				<h3 class="lead">Domain Route Settings <small>Configure root or subdomain routes to specific pages.</h3>
 				<div class="row-fluid">
 					<div class="span7">
 						<div class="well">
