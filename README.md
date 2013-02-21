@@ -1,6 +1,6 @@
-Release of Concrete5.6.1, for Pagodabox.
+# Concrete5 CMS (v5.6.1) // Pagodabox Release #
 
-# Concrete5 CMS #
+Release of Concrete5 (latest) for Pagodabox, with a couple extra free add-ons.
 
 ## Overview ##
 
@@ -23,9 +23,9 @@ this repository and perform all setup.
 The intended workflow with this PagodaBox Quickstart is: run QuickStart install on PagodaBox, then clone the
 QuickStart repo to your local machine. Install on your local machine, then develop there. When changes are working,
 simply push back to the origin (pagodabox). To install on your local machine, you *should* be able to simply clone
-the repo, setup a mysql database, and create a file named `local.php` at `web/config/local.php`.
+the repo, setup a mysql database, and create a file named `site.local.php` at `web/config/site.local.php`.
 
-In the `local.php` file, place the following code (credentials for connecting to your *local* database):
+In the `site.local.php` file, place the following code (credentials for connecting to your *local* database):
 
 	<?php
 	$_SERVER['DB1_HOST'] = 'HOST_HERE'; // probably localhost
@@ -33,7 +33,7 @@ In the `local.php` file, place the following code (credentials for connecting to
 	$_SERVER['DB1_PASS'] = 'PASSWORD_HERE'; // maybe empty on your local machine
 	$_SERVER['DB1_NAME'] = 'DB_NAME_HERE'; // local database to use, must be empty
 
-Update appropriately, and save. From the command line:
+Update appropriately, and save. Then from the command line:
 
 	cd /path/to/web/root/ (repository root)
 	php before_deploy.php
