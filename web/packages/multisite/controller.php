@@ -29,6 +29,17 @@
 	
 	    public function uninstall() {
 	        parent::uninstall();
+			
+			try {
+				// delete mysql tables
+				$db = Loader::db();
+				$db->Execute("DROP TABLE MultisiteDomain");
+				
+				// clear redis cache
+				ConcreteRedis::db()->del('domain_paths');
+			}catch(Exception $e){
+				// fail gracefully
+			}
 	    }
 		
 		
@@ -47,7 +58,7 @@
 			}
 			
 			if( !$redisPackageAvail ){
-				throw new Exception('Multisite depends on the Concrete Redis package.');
+				throw new Exception('Multisite depends on the ConcreteRedis package.');
 			}
 		}
 	    
@@ -76,7 +87,8 @@
 		 */
 		private function setupSinglePages(){
 			SinglePage::add('/dashboard/multisite', $this->packageObject());
-			SinglePage::add('/dashboard/multisite/manage', $this->packageObject());
+			$manage = SinglePage::add('/dashboard/multisite/manage', $this->packageObject());
+			$manage->setAttribute('icon_dashboard', 'icon-globe');
 			
 			return $this;
 		}

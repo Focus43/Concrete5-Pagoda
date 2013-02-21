@@ -17,6 +17,11 @@
 		 * pathToPageOrSystem first.
 		 */
 		public function __construct( $path ){
+			if( !defined('REQUEST_ROOT_DOMAIN') ){
+				parent::__construct($path);
+				return;
+			}
+			
 			$request = trim($this->pathToPageOrSystem( $path ), '/');
 			parent::__construct($request);
 		}
