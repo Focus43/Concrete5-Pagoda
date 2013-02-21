@@ -1,6 +1,6 @@
-Release of Concrete5.6.1, for Pagodabox.
+# Concrete5 CMS, v5.6.1 (Pagodabox Quickstart) #
 
-# Concrete5 CMS #
+Release of Concrete5 (latest) for Pagodabox, with a couple extra free add-ons.
 
 ## Overview ##
 
@@ -9,9 +9,8 @@ will remain updated as new stable releases roll out.
 
 Check out the Boxfile to see the basic install settings. Features:
 
-1. APC cache installed, for opcode cache
-2. Memcache used as the object cache (distributed for multi-node setup)
-3. Redis is used as the session cache
+1. APC cache installed as opcode cache
+3. Redis is used as the session cache, and as the Full Page Caching library
 
 ## Usage ##
 
@@ -21,7 +20,7 @@ this repository and perform all setup.
 ## Installing Locally ##
 
 The intended workflow with this PagodaBox Quickstart is: run QuickStart install on PagodaBox, then clone the
-repo of the PagodaBox App to your local machine. Install locally, then develop there. When changes are working,
+QuickStart repo to your local machine. Install on your local machine, then develop there. When changes are working,
 simply push back to the origin (pagodabox). To install on your local machine, you *should* be able to simply clone
 the repo, setup a mysql database, and create a file named `site.local.php` at `web/config/site.local.php`.
 
@@ -33,7 +32,7 @@ In the `site.local.php` file, place the following code (credentials for connecti
 	$_SERVER['DB1_PASS'] = 'PASSWORD_HERE'; // maybe empty on your local machine
 	$_SERVER['DB1_NAME'] = 'DB_NAME_HERE'; // local database to use, must be empty
 
-Update appropriately, and save. From the command line (execute the before_deploy.php script):
+Update appropriately, and save. Then from the command line:
 
 	cd /path/to/web/root/ (repository root)
 	php before_deploy.php
@@ -46,21 +45,15 @@ used in a master-master MySQL configuration are not the same as a standard MySQL
 	auto-increment-increment = *
 	auto-increment-offset = *
 
-This causes the installation of dashboard pages to fail. This has been fixed to work with PagodaBox. See
-MySQL issue: http://www.concrete5.org/developers/bugs/5-6-0-2/install-fails-with-mysql-auto-increment-offset-set/ for
-a reference.
+This causes the installation of dashboard pages to fail. This has been fixed to work with PagodaBox.
 
-*Marketplace Integration*
+
 In order to download marketplace items (packages, themes, etc.), the /packages directory would need to be writable.
 With PagodaBox's shared writable directories, this IS possible, but the code in the packages directory would no longer
 be trackable. By using this QuickStart, understand that *downloading marketplace items directly to the server is not
 possible.* Instead, you should download the package to your local installation, test the install, commit locally, then
 push the changes to Pagoda. This is the intended workflow with Pagoda - so although there is some flexibility lost with
-not being able to install add-ons directly from the marketplace, this workflow forces best-practice anyways.
-
-You *can* enable marketplace integration by customizing the Boxfile and making the `web/packages` directory writable. Use
-a post-deploy hook to copy code into the folder. For those that would like to go this route, its intended to be handled
-on a per-situation basis by developers.
+not being able to install add-ons directly from the marketplace, this workflow will enforce best-practices.
 
 If we get enough requests to enable downloading marketplace add-ons, we'll come up with a solution. Please submit to the
 QuickStart reviews at PagodaBox.
@@ -69,4 +62,5 @@ QuickStart reviews at PagodaBox.
 
 ## Resources ##
 
+MySQL issue: http://www.concrete5.org/developers/bugs/5-6-0-2/install-fails-with-mysql-auto-increment-offset-set/
 Memcache usage: http://www.concrete5.org/community/forums/customizing_c5/memcached-is-not-working/#239289
