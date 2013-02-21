@@ -41,6 +41,7 @@
 		
 		/**
 		 * Parse the domain request, and get just the subdomain
+		 * @todo Work on restricting the ability to load pages by passing cID
 		 * @return string || bool
 		 */
 		protected function parseSubDomain(){
@@ -48,11 +49,11 @@
 				// default to false (eg. resolve to absolute home)
 				$this->domainRoute = false;
 				
-				if( defined('REQUEST_RESOLVE_ROOT_PATH') && !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+				if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
 					$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 				}
 				
-				if( defined('REQUEST_RESOLVE_WILDCARDS') && (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
+				if( (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
 					if( !(REQUEST_SUB_DOMAIN === null) ){
 						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
 							$this->domainRoute = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;

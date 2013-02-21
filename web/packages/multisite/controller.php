@@ -19,36 +19,48 @@
 	
 	    public function on_start(){
 	        define('MULTISITE_TOOLS_URL', BASE_URL . REL_DIR_FILES_TOOLS_PACKAGES . '/' . $this->pkgHandle . '/');
-			$this->registerAutoloadClasses();
 			
-			// hook into on_page_update event, so we can recache domain route if path changes
-			/*if( User::isLoggedIn() ){
-				Events::extend('on_page_update', 'RedisDomainCache', 'update', 'packages/'.$this->pkgHandle.'/models/redis_domain_cache.php');
-			}*/
-	    } 
-		
-		
-		private function registerAutoloadClasses(){
 			Loader::registerAutoload(array(
 				'MultisitePageController' => array('library', 'multisite_page_controller', $this->pkgHandle),
-				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle),
-				'ConcreteRedis'	=> array('library', 'concrete_redis', $this->pkgHandle)
+				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle)
 			));
-		}
+	    }
 		
 	
 	    public function uninstall() {
 	        parent::uninstall();
 	    }
+		
+		
+		/**
+		 * Run before install or upgrade to ensure dependencies are present
+		 * @dependency concrete_redis package
+		 */
+		private function checkDependencies(){
+			// test for the redis package
+			$redisPackage 		= Package::getByHandle('concrete_redis');
+			$redisPackageAvail 	= false;
+			if( $redisPackage instanceof Package ){
+				if( (bool) $redisPackage->isPackageInstalled() ){
+					$redisPackageAvail = true;
+				}
+			}
+			
+			if( !$redisPackageAvail ){
+				throw new Exception('Multisite depends on the Concrete Redis package.');
+			}
+		}
 	    
 	
 	    public function upgrade(){
+	    	$this->checkDependencies();
 			parent::upgrade();
 			$this->installAndUpdate();
 	    }
 		
 		
 		public function install() {
+			$this->checkDependencies();
 	    	$this->_packageObj = parent::install(); 
 			$this->installAndUpdate();
 	    }

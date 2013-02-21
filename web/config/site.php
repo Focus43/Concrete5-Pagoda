@@ -4,6 +4,19 @@
 		
 		require __DIR__ . '/site.local.php';
 		
+		/**************************** SAMPLE *****************************
+		$_SERVER['DB1_HOST'] = 'localhost';
+		$_SERVER['DB1_USER'] = 'root';
+		$_SERVER['DB1_PASS'] = 'chardonn';
+		$_SERVER['DB1_NAME'] = 'pro-guide-direct';
+		
+		// enable all url rewriting
+		define('URL_REWRITING_ALL', true);
+		
+		// redis, and redis full page cache library
+		define('REDIS_CONNECTION_HANDLE', '127.0.0.1:6379');
+		*****************************************************************/
+		
 	}else{
 		
 		// enable all url rewriting
@@ -27,3 +40,6 @@
 	
 	// settings
 	define('PAGE_TITLE_FORMAT', '%2$s');
+	
+	// use redis page cache
+	define('PAGE_CACHE_LIBRARY', 'Redis');

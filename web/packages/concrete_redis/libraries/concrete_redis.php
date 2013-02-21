@@ -1,13 +1,13 @@
 <?php
 
-	class ConcreteRedis {
+	final class ConcreteRedis {
 		
 		
 		private static $instance = null;
 		private static $redisDB;
 		
 		private function __construct(){
-			Loader::library('predis-0.8.3/autoload', 'multisite');
+			Loader::library('predis-0.8.3/autoload', 'concrete_redis');
 			Predis\Autoloader::register();
 			self::$redisDB = new Predis\Client( REDIS_CONNECTION_HANDLE );
 		}

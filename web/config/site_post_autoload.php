@@ -1,6 +1,9 @@
 <?php
 
-	Loader::library('concrete_redis', 'multisite');
+	Loader::registerAutoload(array(
+		'ConcreteRedis'	=> array('library', 'concrete_redis', 'concrete_redis'),
+		'RedisPageCache' => array('library', 'page_cache/type/redis', 'concrete_redis')
+	));
 	
 	// parse request domain, and explode into array
 	$domain   = parse_url( $_SERVER['HTTP_HOST'], PHP_URL_PATH );
