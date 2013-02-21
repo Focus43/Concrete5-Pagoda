@@ -79,10 +79,12 @@
 					// the request *has* a subdomain, but it doesn't point to a specific root
 					if( !(REQUEST_SUB_DOMAIN_IS_ROOT === true) ){
 						$this->domainRoute = 'page_not_found';
-					// but what if its a www. ?
-					}elseif( REQUEST_SUB_DOMAIN == 'www' ){
-						$this->domainRoute = REQUEST_ROOT_DOMAIN;
 					}
+				}
+				
+				// what if its a www? then we automatically assume it aliases to the root
+				if( REQUEST_SUB_DOMAIN == 'www' ){
+					$this->domainRoute = REQUEST_ROOT_DOMAIN;
 				}
 				
 				// handle if cID is passed in the query string
