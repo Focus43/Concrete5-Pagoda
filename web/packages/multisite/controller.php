@@ -20,6 +20,11 @@
 	    public function on_start(){
 	        define('MULTISITE_TOOLS_URL', BASE_URL . REL_DIR_FILES_TOOLS_PACKAGES . '/' . $this->pkgHandle . '/');
 			$this->registerAutoloadClasses();
+			
+			// hook into on_page_update event, so we can recache domain route if path changes
+			/*if( User::isLoggedIn() ){
+				Events::extend('on_page_update', 'RedisDomainCache', 'update', 'packages/'.$this->pkgHandle.'/models/redis_domain_cache.php');
+			}*/
 	    } 
 		
 		

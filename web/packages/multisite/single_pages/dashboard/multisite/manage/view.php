@@ -27,7 +27,7 @@
 				<?php foreach($domainsList AS $domainObj): ?>
 					<tr>
 						<td><?php echo $form->checkbox('domainID[]', $domainObj->getID()); ?></td>
-						<td><?php echo $domainObj->getDomain(); ?></td>
+						<td><a href="<?php echo $this->action('edit', $domainObj->getID()) ?>"><?php echo $domainObj->getDomain(); ?></a></td>
 						<td class="helpTooltip" title="<?php echo $domainObj->getPath(); ?>"><?php echo Page::getByID( $domainObj->getPageID() )->getCollectionName(); ?></td>
 						<td><?php echo (bool) $domainObj->getResolveWildcards() ? 'Yes' : 'No'; ?></td>
 						<td class="helpTooltip" title="<?php echo $domainObj->getWildcardRootPath(); ?>"><?php echo Page::getByID( $domainObj->getWildcardParentID() )->getCollectionName(); ?></td>
@@ -36,6 +36,7 @@
 			</tbody>
 		</table>
 		<div class="btns clearfix">
+			<a id="updateDomainCache" class="btn pull-left">Update Domain Cache</a>
 			<a class="btn primary pull-right" href="<?php echo $this->action('add'); ?>">Add Root Domain</a>
 		</div>
 		

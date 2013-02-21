@@ -9,7 +9,7 @@
 	class Request extends Concrete5_Library_Request {
 		
 		
-		protected $_parsedSubdomain;
+		protected $domainRoute;
 		
 		
 		/**
@@ -44,34 +44,37 @@
 		 * @return string || bool
 		 */
 		protected function parseSubDomain(){
-			if( $this->_parsedSubdomain === null ){
+			if( $this->domainRoute === null ){
 				// default to false (eg. resolve to absolute home)
-				$this->_parsedSubdomain = false;
+				$this->domainRoute = false;
 				
 				if( defined('REQUEST_RESOLVE_ROOT_PATH') && !(REQUEST_RESOLVE_ROOT_PATH === null) ){
-					$this->_parsedSubdomain = REQUEST_RESOLVE_ROOT_PATH;
+					$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 				}
 				
 				if( defined('REQUEST_RESOLVE_WILDCARDS') && (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
 					if( !(REQUEST_SUB_DOMAIN === null) ){
 						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
-							$this->_parsedSubdomain = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
+							$this->domainRoute = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
 						}else{
-							$this->_parsedSubdomain .= '/' . REQUEST_SUB_DOMAIN;
+							$this->domainRoute .= '/' . REQUEST_SUB_DOMAIN;
 						}
 					}
 				}
 				
-				if( defined('REQUEST_RESOLVE_WILDCARDS') && !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
-					$this->_parsedSubdomain = 'page_not_found';
+				if( !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
+					$this->domainRoute = 'page_not_found';
 				}
 				
 				/*if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
 					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
 				}*/
+				if( isset($_GET['cID']) ){
+					$this->domainRoute = false;
+				}
 			}
-			//echo $this->_parsedSubdomain;exit;
-			return $this->_parsedSubdomain;
+			
+			return $this->domainRoute;
 		}
 		
 	}

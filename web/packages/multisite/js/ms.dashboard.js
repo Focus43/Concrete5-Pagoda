@@ -62,7 +62,7 @@
 			$actionMenu.on('change', function(){
 				var $this	= $(this),
 					tools  	= $('#multisite_tools').attr('value'),
-					$checkd = $('tbody', '#domainsList').find(':checkbox'),
+					$checkd = $('tbody', '#domainsList').find(':checkbox').filter(':checked'),
 					data   	= $checkd.serializeArray();
 				
 				switch( $this.val() ){
@@ -81,6 +81,19 @@
 				
 				// reset the menu
 				$this.val('');
+			});
+			
+			
+			// domain cache
+			$('#updateDomainCache').on('click', function(){
+				var tools = $('#multisite_tools').attr('value');
+				$.post( tools + 'update_domain_cache', function(resp){
+					if( resp.code == 1 ){
+						ccmAlert.hud('Redis Cache Up-to-date', 2000, 'success', 'Domain Cache Updated!');
+					}else{
+						ccmAlert.notice('Error', resp.msg);
+					}
+				}, 'json');
 			});
 			
 		}

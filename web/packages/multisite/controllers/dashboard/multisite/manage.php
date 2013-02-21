@@ -11,22 +11,55 @@
 		}
 		
 		public function add(){
+			$this->set('domainObj', new MultisiteDomain);
+			$this->render();
+		}
+		
+		public function edit( $id ){
+			$this->set('domainObj', MultisiteDomain::getByID($id));
 			$this->render();
 		}
 		
 		public function create(){
-			$model	= new MultisiteDomain(array(
-				'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
-				'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
-				'pageID' 			=> (int) $_POST['pageID'],
-				'resolveWildcards'	=> (int) $_POST['resolveWildcards'],
-				'wildcardRootPath'	=> Page::getByID( (int) $_POST['wildcardParentID'] )->getCollectionPath(),
-				'wildcardParentID'	=> (int) $_POST['wildcardParentID']
-			));
-			$model->save();
-			
-			$this->flash('Root Domain Created Successfully.');
-			$this->redirect('dashboard/multisite/manage');
+			try {
+				$model	= new MultisiteDomain(array(
+					'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
+					'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
+					'pageID' 			=> (int) $_POST['pageID'],
+					'resolveWildcards'	=> (int) $_POST['resolveWildcards'],
+					'wildcardRootPath'	=> (!((bool) $_POST['resolveWildcards'])) ? null : Page::getByID( (int) $_POST['wildcardParentID'] )->getCollectionPath(),
+					'wildcardParentID'	=> (!((bool) $_POST['resolveWildcards'])) ? null : (int) $_POST['wildcardParentID']
+				));
+				$model->save();
+				
+				$this->flash('Root Domain Created Successfully.');
+				$this->redirect('dashboard/multisite/manage');
+			}catch(Exception $e){
+				$this->flash($e->getMessage(), MultisitePageController::FLASH_TYPE_ERROR);
+				$this->redirect('/dashboard/multisite/manage/add');
+			}
+		}
+		
+		
+		public function update( $id ){
+			try {
+				$model = MultisiteDomain::getByID($id);
+				$model->setProperties(array(
+					'domain' 			=> $this->validateRootDomain($_POST['root_domain']),
+					'path'	 			=> Page::getByID( (int) $_POST['pageID'] )->getCollectionPath(),
+					'pageID' 			=> (int) $_POST['pageID'],
+					'resolveWildcards'	=> (int) $_POST['resolveWildcards'],
+					'wildcardRootPath'	=> (!((bool) $_POST['resolveWildcards'])) ? null : Page::getByID( (int) $_POST['wildcardParentID'] )->getCollectionPath(),
+					'wildcardParentID'	=> (!((bool) $_POST['resolveWildcards'])) ? null : (int) $_POST['wildcardParentID']
+				));
+				$model->save();
+				
+				$this->flash('Root Domain Updated Successfully.');
+				$this->redirect('dashboard/multisite/manage');
+			}catch(Exception $e){
+				$this->flash($e->getMessage(), MultisitePageController::FLASH_TYPE_ERROR);
+				$this->redirect('/dashboard/multisite/manage/add');
+			}
 		}
 		
 		

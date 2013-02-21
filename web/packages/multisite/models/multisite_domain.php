@@ -20,6 +20,11 @@
 		
 		
 		public function __construct( array $params = array() ){
+			$this->setProperties($params);
+		}
+		
+		
+		public function setProperties( array $params = array() ){
 			foreach($params AS $prop => $val){
 				$this->{$prop} = $val;
 			}
@@ -33,9 +38,19 @@
 		
 		
 		public function save(){
-			Loader::db()->Execute("INSERT INTO MultisiteDomain (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
-				$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID
-			));
+			// creating a new record?
+			if( !($this->id >= 1) ){
+				Loader::db()->Execute("INSERT INTO MultisiteDomain (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
+					$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID
+				));
+			// updating an existing record
+			}else{
+				Loader::db()->Execute("UPDATE MultisiteDomain SET domain = ?, path = ?, pageID = ?, resolveWildcards = ?, wildcardRootPath = ?, wildcardParentID = ? WHERE id = ?", array(
+					$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID, $this->id
+				));
+			}
+			
+			// update redis (no need to delete then update; auto-overwrites by key)
 			ConcreteRedis::db()->hset( 'domain_paths', $this->domain, $this->serializeJson() );
 		}
 		

@@ -31,14 +31,3 @@
 		define('REQUEST_RESOLVE_WILDCARDS', (bool) $domainData->resolveWildcards);
 		define('REQUEST_RESOLVE_WILDCARDS_PATH', $domainData->wildcardRootPath);
 	}
-	
-	
-	
-
-	/*var_dump(REQUEST_ROOT_DOMAIN);
-	var_dump(REQUEST_SUB_DOMAIN);
-	var_dump(REQUEST_RESOLVE_ROOT_PATH);
-	var_dump(REQUEST_RESOLVE_WILDCARDS);
-	var_dump(REQUEST_RESOLVE_WILDCARDS_PATH);
-
-	exit;*/
