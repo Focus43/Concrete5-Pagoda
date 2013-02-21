@@ -67,12 +67,15 @@
 						$this->domainRoute = 'page_not_found';
 					}
 				}
-				
-				/*if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
-					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
-				}*/
+
 				if( isset($_GET['cID']) ){
 					$this->domainRoute = false;
+					
+					// if the user is NOT logged in, disallow rendering a specific page by passing
+					// cID as a query param
+					if( !($_SESSION['uID'] > 0) ){
+						$this->domainRoute = 'page_not_found';
+					}
 				}
 			}
 			
