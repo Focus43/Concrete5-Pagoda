@@ -9,7 +9,7 @@
 	class Request extends Concrete5_Library_Request {
 		
 		
-		protected $_parsedSubdomain;
+		protected $domainRoute;
 		
 		
 		/**
@@ -17,8 +17,8 @@
 		 * pathToPageOrSystem first.
 		 */
 		public function __construct( $path ){
-			$request = $this->pathToPageOrSystem( $path );
-			parent::__construct( $request );
+			$request = trim($this->pathToPageOrSystem( $path ), '/');
+			parent::__construct($request);
 		}
 		
 		
@@ -41,19 +41,46 @@
 		
 		/**
 		 * Parse the domain request, and get just the subdomain
+		 * @todo Work on restricting the ability to load pages by passing cID
 		 * @return string || bool
 		 */
 		protected function parseSubDomain(){
-			if( $this->_parsedSubdomain === null ){
-				// default to false (eg. "no subdomain")
-				$this->_parsedSubdomain = false;
+			if( $this->domainRoute === null ){
+				// default to false (eg. resolve to absolute home)
+				$this->domainRoute = false;
 				
-				if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
-					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
+				if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+					$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
+				}
+				
+				if( (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
+					if( !(REQUEST_SUB_DOMAIN === null) ){
+						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
+							$this->domainRoute = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
+						}else{
+							$this->domainRoute .= '/' . REQUEST_SUB_DOMAIN;
+						}
+					}
+				}
+				
+				if( !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
+					if( !(REQUEST_SUB_DOMAIN_IS_ROOT === true) ){
+						$this->domainRoute = 'page_not_found';
+					}
+				}
+
+				if( isset($_GET['cID']) ){
+					$this->domainRoute = false;
+					
+					// if the user is NOT logged in, disallow rendering a specific page by passing
+					// cID as a query param
+					if( !($_SESSION['uID'] > 0) ){
+						$this->domainRoute = 'page_not_found';
+					}
 				}
 			}
 			
-			return $this->_parsedSubdomain;
+			return $this->domainRoute;
 		}
 		
 	}
