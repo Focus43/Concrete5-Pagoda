@@ -84,7 +84,13 @@
 				
 				// what if its a www? then we automatically assume it aliases to the root
 				if( REQUEST_SUB_DOMAIN == 'www' ){
-					$this->domainRoute = REQUEST_ROOT_DOMAIN;
+					// if a root path *is* found, root to there
+					if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+						$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
+					// otherwise, root to the absolute top (home page in sitemap)
+					}else{
+						$this->domainRoute = REQUEST_ROOT_DOMAIN;
+					}
 				}
 				
 				// handle if cID is passed in the query string
