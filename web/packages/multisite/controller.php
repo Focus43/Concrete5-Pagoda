@@ -65,7 +65,6 @@
 		private function setupSinglePages(){
 			SinglePage::add('/dashboard/multisite', $this->packageObject());
 			SinglePage::add('/dashboard/multisite/manage', $this->packageObject());
-			SinglePage::add('/dashboard/multisite/settings', $this->packageObject());
 			
 			return $this;
 		}

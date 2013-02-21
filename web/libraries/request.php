@@ -63,7 +63,9 @@
 				}
 				
 				if( !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
-					$this->domainRoute = 'page_not_found';
+					if( !(REQUEST_SUB_DOMAIN_IS_ROOT === true) ){
+						$this->domainRoute = 'page_not_found';
+					}
 				}
 				
 				/*if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){

@@ -12,9 +12,11 @@
 	define('REQUEST_ROOT_DOMAIN', "{$base}.{$dot_}");
 	define('REQUEST_SUB_DOMAIN', empty($sections) ? null : join('.', $sections));
 	
-	// see if the current domain is registered as a root domain
+	// see if the current domain is registered as a root domain. means that a subdomain
+	// can *technically* be the root
 	$domainAsRoot = ConcreteRedis::db()->hget('domain_paths', $domain);
 	if( !($domainAsRoot === null) ){
+		define('REQUEST_SUB_DOMAIN_IS_ROOT', true);
 		$domainData = json_decode($domainAsRoot);
 	
 	// if the above failed, check the absolute root domain for an entry
