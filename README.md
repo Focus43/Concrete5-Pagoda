@@ -1,4 +1,4 @@
-# Concrete5 CMS (v5.6.1) // Pagodabox Release #
+# Concrete5 CMS, v5.6.1 (Pagodabox Quickstart) #
 
 Release of Concrete5 (latest) for Pagodabox, with a couple extra free add-ons.
 
@@ -9,13 +9,12 @@ will remain updated as new stable releases roll out.
 
 Check out the Boxfile to see the basic install settings. Features:
 
-1. APC cache installed, for opcode cache
-2. Memcache used as the object cache (distributed for multi-node setup)
-3. Redis is used as the session cache
+1. APC cache installed as opcode cache
+3. Redis is used as the session cache, and as the Full Page Caching library
 
 ## Usage ##
 
-Visit https://pagodabox.com/cafe/jonohartman/concrete-5-6-1-beta4. The one-click install will clone
+Visit https://pagodabox.com/cafe/jonohartman/concrete-5-6-1. The one-click install will clone
 this repository and perform all setup.
 
 ## Installing Locally ##
