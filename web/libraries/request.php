@@ -39,41 +39,53 @@
 				return $path;
 			}
 			
-			$subdomain = $this->parseSubDomain();
+			$subdomain = $this->parseDomainRoute();
 			return ($subdomain === false) ? $path : "{$subdomain}/{$path}";
 		}
 		
 		
 		/**
 		 * Parse the domain request, and get just the subdomain
-		 * @todo Work on restricting the ability to load pages by passing cID
+		 * @todo Work on restricting the ability to load pages by passing cID (specifically, if
+		 * the user *is* logged in still)
 		 * @return string || bool
 		 */
-		protected function parseSubDomain(){
+		protected function parseDomainRoute(){
 			if( $this->domainRoute === null ){
 				// default to false (eg. resolve to absolute home)
 				$this->domainRoute = false;
 				
+				// this domain starts at a specific page root (could be home or anything else)
 				if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
 					$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 				}
 				
+				// root domain *can* have wildcard subdomains
 				if( (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
+					// a subdomain *is* being requested
 					if( !(REQUEST_SUB_DOMAIN === null) ){
+						// wildcard subdomains have a different root than directly underneath
 						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
 							$this->domainRoute = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
+						// wildcard subdomain should resolve to page directly underneath the root
 						}else{
 							$this->domainRoute .= '/' . REQUEST_SUB_DOMAIN;
 						}
 					}
 				}
 				
+				// no wildcards, but a subdomain *is* being requested
 				if( !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
+					// the request *has* a subdomain, but it doesn't point to a specific root
 					if( !(REQUEST_SUB_DOMAIN_IS_ROOT === true) ){
 						$this->domainRoute = 'page_not_found';
+					// but what if its a www. ?
+					}elseif( REQUEST_SUB_DOMAIN == 'www' ){
+						$this->domainRoute = REQUEST_ROOT_DOMAIN;
 					}
 				}
-
+				
+				// handle if cID is passed in the query string
 				if( isset($_GET['cID']) ){
 					$this->domainRoute = false;
 					
