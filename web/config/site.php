@@ -15,6 +15,8 @@
 		define('REGISTERED_GROUP_ID', '5');
 		define('ADMIN_GROUP_ID', '9');
 		
+		define('REDIS_CONNECTION_HANDLE', 'tunnel.pagodabox.com:6379');
+		
 	}
 
 	define('DB_SERVER',     $_SERVER['DB1_HOST']);
