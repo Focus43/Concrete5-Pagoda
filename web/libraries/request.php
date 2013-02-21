@@ -89,7 +89,7 @@
 						$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 					// otherwise, root to the absolute top (home page in sitemap)
 					}else{
-						$this->domainRoute = REQUEST_ROOT_DOMAIN;
+						$this->domainRoute = false;
 					}
 				}
 				
