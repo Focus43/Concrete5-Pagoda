@@ -10,7 +10,7 @@ will remain updated as new stable releases roll out.
 Check out the Boxfile to see the basic install settings. Features:
 
 1. APC cache installed as opcode cache
-3. Redis is used as the session cache, and as the Full Page Caching library
+3. Redis is used as the session cache
 
 ## Usage ##
 
@@ -32,10 +32,10 @@ In the `site.local.php` file, place the following code (credentials for connecti
 	$_SERVER['DB1_PASS'] = 'PASSWORD_HERE'; // maybe empty on your local machine
 	$_SERVER['DB1_NAME'] = 'DB_NAME_HERE'; // local database to use, must be empty
 
-Update appropriately, and save. Then from the command line:
+Put in your credential to run locally and save. Then from the command line:
 
 	cd /path/to/web/root/ (repository root)
-	php before_deploy.php
+	php cli_installer.php
 
 ## Notes ##
 
