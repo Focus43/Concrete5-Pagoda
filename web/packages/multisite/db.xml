@@ -25,6 +25,11 @@
 		<!-- indices -->
 		<index name="domain">
 			<col>domain</col>
+			<UNIQUE />
+		</index>
+		<index name="path">
+			<col>path</col>
+			<UNIQUE />
 		</index>
 	    <index name="domainPageID">
 	      <col>domain</col>

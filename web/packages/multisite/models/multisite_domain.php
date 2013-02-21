@@ -26,18 +26,6 @@
 		}
 		
 		
-		public static function getList(){
-			$records = Loader::db()->GetArray("SELECT * FROM MultisiteDomain");
-			$domains = array();
-			if(!empty($records)){
-				foreach($records AS $row){
-					$domains[ $row['domain'] ] = new self( $row );
-				}
-			}
-			return $domains;
-		}
-		
-		
 		public static function getByID( $id ){
 			$row = Loader::db()->GetRow("SELECT * FROM MultisiteDomain WHERE id = ?", array( (int)$id ));
 			return new self( $row );
@@ -48,18 +36,22 @@
 			Loader::db()->Execute("INSERT INTO MultisiteDomain (domain, path, pageID, resolveWildcards, wildcardRootPath, wildcardParentID) VALUES (?, ?, ?, ?, ?, ?)", array(
 				$this->domain, $this->path, $this->pageID, $this->resolveWildcards, $this->wildcardRootPath, $this->wildcardParentID
 			));
-			self::compileCache();
+			ConcreteRedis::db()->hset( 'domain_paths', $this->domain, $this->serializeJson() );
 		}
 		
 		
 		public function delete(){
 			Loader::db()->Execute("DELETE FROM MultisiteDomain WHERE id = ?", array( $this->id ));
-			self::compileCache();
+			ConcreteRedis::db()->hdel( 'domain_paths', $this->domain );
 		}
 		
 		
-		public static function compileCache(){
-			
+		protected function serializeJson(){
+			return json_encode(array(
+				'path'   			=> $this->path,
+				'resolveWildcards' 	=> $this->resolveWildcards,
+				'wildcardRootPath' 	=> $this->wildcardRootPath
+			));
 		}
 		
 	}

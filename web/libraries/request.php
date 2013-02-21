@@ -17,8 +17,8 @@
 		 * pathToPageOrSystem first.
 		 */
 		public function __construct( $path ){
-			$request = $this->pathToPageOrSystem( $path );
-			parent::__construct( $request );
+			$request = trim($this->pathToPageOrSystem( $path ), '/');
+			parent::__construct($request);
 		}
 		
 		
@@ -45,14 +45,32 @@
 		 */
 		protected function parseSubDomain(){
 			if( $this->_parsedSubdomain === null ){
-				// default to false (eg. "no subdomain")
+				// default to false (eg. resolve to absolute home)
 				$this->_parsedSubdomain = false;
 				
-				if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
-					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
+				if( defined('REQUEST_RESOLVE_ROOT_PATH') && !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+					$this->_parsedSubdomain = REQUEST_RESOLVE_ROOT_PATH;
 				}
+				
+				if( defined('REQUEST_RESOLVE_WILDCARDS') && (REQUEST_RESOLVE_WILDCARDS === true) && !isset($_GET['cID']) ){
+					if( !(REQUEST_SUB_DOMAIN === null) ){
+						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
+							$this->_parsedSubdomain = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
+						}else{
+							$this->_parsedSubdomain .= '/' . REQUEST_SUB_DOMAIN;
+						}
+					}
+				}
+				
+				if( defined('REQUEST_RESOLVE_WILDCARDS') && !(REQUEST_RESOLVE_WILDCARDS === true) && !(REQUEST_SUB_DOMAIN === null) ){
+					$this->_parsedSubdomain = 'page_not_found';
+				}
+				
+				/*if( defined('REQUEST_SUB_DOMAIN') && !isset($_GET['cID']) ){
+					$this->_parsedSubdomain = REQUEST_SUB_DOMAIN;
+				}*/
 			}
-			
+			//echo $this->_parsedSubdomain;exit;
 			return $this->_parsedSubdomain;
 		}
 		

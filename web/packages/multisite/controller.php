@@ -4,7 +4,7 @@
 	
 	    protected $pkgHandle 			= 'multisite';
 	    protected $appVersionRequired 	= '5.6.1';
-	    protected $pkgVersion 			= '0.1.06';
+	    protected $pkgVersion 			= '0.1.07';
 	
 	    
 	    public function getPackageDescription() {
@@ -27,7 +27,7 @@
 			Loader::registerAutoload(array(
 				'MultisitePageController' => array('library', 'multisite_page_controller', $this->pkgHandle),
 				'MultisiteDomain' => array('model', 'multisite_domain', $this->pkgHandle),
-				'MultisiteMapper' => array('library', 'multisite_mapper', $this->pkgHandle)
+				'ConcreteRedis'	=> array('library', 'concrete_redis', $this->pkgHandle)
 			));
 		}
 		

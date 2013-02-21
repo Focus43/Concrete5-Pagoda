@@ -5,7 +5,7 @@
 		public $helpers = array('form', 'form/page_selector');
 		
 		public function view(){
-			$domainsList = MultisiteDomain::getList();
+			$domainsList = $this->getDomainsList();
 			$this->set('domainsList', $domainsList);
 			$this->render();
 		}
@@ -27,6 +27,18 @@
 			
 			$this->flash('Root Domain Created Successfully.');
 			$this->redirect('dashboard/multisite/manage');
+		}
+		
+		
+		protected function getDomainsList(){
+			$records = Loader::db()->GetArray("SELECT * FROM MultisiteDomain");
+			$domains = array();
+			if(!empty($records)){
+				foreach($records AS $row){
+					$domains[ $row['domain'] ] = new MultisiteDomain( $row );
+				}
+			}
+			return $domains;
 		}
 		
 		
