@@ -56,7 +56,7 @@
 				$this->domainRoute = false;
 				
 				// this domain starts at a specific page root (could be home or anything else)
-				if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+				if( defined('REQUEST_RESOLVE_ROOT_PATH') ){
 					$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 				}
 				
@@ -65,7 +65,7 @@
 					// a subdomain *is* being requested
 					if( !(REQUEST_SUB_DOMAIN === null) ){
 						// wildcard subdomains have a different root than directly underneath
-						if( !(REQUEST_RESOLVE_WILDCARDS_PATH === null) ){
+						if( defined('REQUEST_RESOLVE_WILDCARDS_PATH') ){
 							$this->domainRoute = REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN;
 						// wildcard subdomain should resolve to page directly underneath the root
 						}else{
@@ -85,7 +85,7 @@
 				// what if its a www? then we automatically assume it aliases to the root
 				if( REQUEST_SUB_DOMAIN == 'www' ){
 					// if a root path *is* found, root to there
-					if( !(REQUEST_RESOLVE_ROOT_PATH === null) ){
+					if( defined('REQUEST_RESOLVE_ROOT_PATH') && !(REQUEST_RESOLVE_ROOT_PATH === null) ){
 						$this->domainRoute = REQUEST_RESOLVE_ROOT_PATH;
 					// otherwise, root to the absolute top (home page in sitemap)
 					}else{
