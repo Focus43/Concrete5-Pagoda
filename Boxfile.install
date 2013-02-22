@@ -1,0 +1,3 @@
+web1:
+  before_deploy:
+    - "php /var/www/cli_installer.php"

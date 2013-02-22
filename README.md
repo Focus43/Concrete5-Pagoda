@@ -35,7 +35,7 @@ In the `site.local.php` file, place the following code (credentials for connecti
 Update appropriately, and save. Then from the command line:
 
 	cd /path/to/web/root/ (repository root)
-	php before_deploy.php
+	php cli_installer.php
 
 ## Notes ##
 
