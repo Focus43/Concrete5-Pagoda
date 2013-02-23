@@ -5,8 +5,8 @@
 	class AutonavBlockItem extends Concrete5_Controller_Block_AutonavItem {
 		
 		function getURL(){
-			if( defined('REQUEST_SUB_DOMAIN') ){
-				$this->cPath = str_replace('/' . REQUEST_SUB_DOMAIN, '', $this->cPath);
+			if( defined('REQUEST_RESOLVE_WILDCARDS') ){
+				$this->cPath = str_replace( REQUEST_RESOLVE_WILDCARDS_PATH . '/' . REQUEST_SUB_DOMAIN, '', $this->cPath);
 			}
 			
 			return parent::getURL();
