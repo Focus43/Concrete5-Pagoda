@@ -160,7 +160,13 @@
 			self::$instance->logMemory('Profiler Stop, Rendering Page', 'profiler_end');
 			self::$instance->logFileIncludeSnapshot('All file includes at page render', 'profiler_end');
 			
-			// serialize and store the profile (in a flat file)
+			// if Redis is available, store it in Redis instead of a flat file
+			if( class_exists('ConcreteRedis') ){
+				ConcreteRedis::db()->hset( 'c5_app_profiler', $md5, serialize(self::$instance->logCollection) );
+				return;
+			}
+			
+			// if we get here, we're storing in a flat file
 			$store = self::getFileStore( $md5 );
 			Loader::helper('file')->append( $store, serialize( self::$instance->logCollection ) );
 		}
@@ -186,14 +192,14 @@
 		 * @return string
 		 */
 		public static function getFileStore( $fileName = '' ){
-			if( !is_dir(DIR_BASE . '/files/profiler') ){
-				@mkdir(DIR_BASE . '/files/profiler', DIRECTORY_PERMISSIONS_MODE);
-				@chmod(DIR_BASE . '/files/profiler', DIRECTORY_PERMISSIONS_MODE);
-				@touch(DIR_BASE . '/files/profiler/index.html');
+			if( !is_dir(DIR_BASE . '/files/cache/profiler') ){
+				@mkdir(DIR_BASE . '/files/cache/profiler', DIRECTORY_PERMISSIONS_MODE);
+				@chmod(DIR_BASE . '/files/cache/profiler', DIRECTORY_PERMISSIONS_MODE);
+				@touch(DIR_BASE . '/files/cache/profiler/index.html');
 			}
 			
-			if( is_dir(DIR_BASE . '/files/profiler') && is_writable(DIR_BASE . '/files/profiler') ){
-				return $fileName != '' ? DIR_BASE . "/files/profiler/$fileName" : DIR_BASE . '/files/profiler';
+			if( is_dir(DIR_BASE . '/files/cache/profiler') && is_writable(DIR_BASE . '/files/cache/profiler') ){
+				return $fileName != '' ? DIR_BASE . "/files/cache/profiler/$fileName" : DIR_BASE . '/files/cache/profiler';
 			}
 		}
 		

@@ -44,6 +44,11 @@ class Concrete5_Library_FilePageCache extends PageCache {
 	public function flush() {
 		$fh = Loader::helper("file");
 		$fh->removeAll(DIR_FILES_PAGE_CACHE);
+		
+		// @app_profiler
+		if( defined('ENABLE_APPLICATION_PROFILER') ){
+			$fh->removeAll( ApplicationProfiler::getFileStore() );
+		}
 	}
 
 	public function purge(Page $c) {

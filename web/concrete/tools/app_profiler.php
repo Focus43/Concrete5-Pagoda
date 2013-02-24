@@ -1,14 +1,25 @@
 <?php defined('C5_EXECUTE') or die("Access Denied."); // @app_profiler
 
 	try {
-		$profileDataPath = ApplicationProfiler::getFileStore( $_REQUEST['id'] );
-		$profileData 	 = unserialize( Loader::helper('file')->getContents( $profileDataPath ) );
-		$profile 		 = new ApplicationProfilerReport($profileData);
+		if( class_exists('ConcreteRedis') ){
+			$serialized = ConcreteRedis::db()->hget( 'c5_app_profiler', $_REQUEST['id'] );
+		}else{
+			$dataPath 	= ApplicationProfiler::getFileStore( $_REQUEST['id'] );
+			$serialized	= Loader::helper('file')->getContents( $dataPath );
+		}
+		
+		// load the 'view' (the elements file)
+		$data	 = unserialize($serialized);
+		$profile = new ApplicationProfilerReport($data);
 		Loader::element('application_profiler', array('profile' => $profile));
 		
 	}catch(Exception $e){  }
 	
 	
+	/**
+	 * Application profiler report. Defined in here so it eliminates overhead of loading it
+	 * from somewhere else. It's only EVER used here.
+	 */
 	class ApplicationProfilerReport {
 		
 		public $profilerStartTime,
