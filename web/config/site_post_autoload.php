@@ -37,7 +37,9 @@
 				// can *technically* be the root
 				$domainAsRoot = ConcreteRedis::db()->hget('domain_paths', $domain);
 				if( !($domainAsRoot === null) ){
-					define('REQUEST_SUB_DOMAIN_IS_ROOT', true);
+					if( !(REQUEST_SUB_DOMAIN === null) ){
+						define('REQUEST_SUB_DOMAIN_IS_ROOT', true);
+					}
 					$domainData = json_decode($domainAsRoot);
 				
 				// if the above failed, check the absolute root domain for an entry
