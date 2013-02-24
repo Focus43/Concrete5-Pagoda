@@ -145,6 +145,7 @@
 				
 				// add to log to indicate this was a cached page
 				self::$instance->logMixed('Yes', 'Full Page Cached?', 'page_cache_status');
+				self::$instance->logMixed( PAGE_CACHE_LIBRARY, 'Page Cache Library' );
 				
 			// if the page hasn't been cached yet, just use the controller's addFooterItem
 			}else{

@@ -259,7 +259,7 @@
 						ADOdb_Active_Record::SetDatabaseAdapter($_dba);
 
 						// @app_profiler
-						if( defined('ENABLE_APPLICATION_PROFILER_DATABASE') ){
+						if( defined('ENABLE_APPLICATION_PROFILER') && (ENABLE_APPLICATION_PROFILER === true) ){
 							ApplicationProfiler::enableQueryLogging( $_dba );
 						}
 

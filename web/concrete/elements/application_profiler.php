@@ -92,9 +92,6 @@
 								</td>
 							</tr>
 						</table>
-						<?php if( !defined('ENABLE_APPLICATION_PROFILER_DATABASE') ){ ?>
-							<p>Database logging is not enabled. Add the flag ENABLE_APPLICATION_PROFILER_DATABASE to site.php to enable.</p>
-						<?php } ?>
 					</div>
 				</div>
 			</div>
