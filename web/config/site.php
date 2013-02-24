@@ -63,4 +63,5 @@
 	define('DB_DATABASE',   $_SERVER['DB1_NAME']);
 	define('PASSWORD_SALT', '6NVukfgwAgqaOi3SMlsWwEqURSe4Xh8pBApvhOauP7blC2kx1FKsHxcjGSXMqP3N');
 	
-	
+	// marketplace settings and such
+	define('ENABLE_MARKETPLACE_SUPPORT', false);
