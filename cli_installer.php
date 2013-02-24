@@ -58,9 +58,11 @@
 	require($corePath . '/startup/encoding_check.php');
 	
 	## Required for command line installation, with RedisPageCache ##
-	require( DIR_BASE . '/packages/concrete_redis/libraries/concrete_redis.php' );
-	require( DIR_BASE . '/packages/concrete_redis/libraries/page_cache/type/redis.php' );
-	
+	if( defined('PAGE_CACHE_LIBRARY') && (PAGE_CACHE_LIBRARY == 'Redis') ){
+		require( DIR_BASE . '/packages/concrete_redis/libraries/concrete_redis.php' );
+		require( DIR_BASE . '/packages/concrete_redis/libraries/page_cache/type/redis.php' );
+	}
+
 	
 	/**
 	 * Custom stuff to work w/ Pagoda
