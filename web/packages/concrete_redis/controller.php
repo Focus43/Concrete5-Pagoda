@@ -4,7 +4,7 @@
 	
 	    protected $pkgHandle 			= 'concrete_redis';
 	    protected $appVersionRequired 	= '5.6.1';
-	    protected $pkgVersion 			= '0.01';
+	    protected $pkgVersion 			= '0.02';
 	
 	    
 	    public function getPackageDescription() {
@@ -44,15 +44,29 @@
 		
 		
 		private function installAndUpdate(){
-			
+			$this->setupSinglePages();
 		}
 		
 		
-		// make sure its PHP >= 5.3 to support the Predis library
+		/**
+		 * Make sure the PHP version is 5.3 or greater. If its not,throw an exception and
+		 * stop the install.
+		 * @return void
+		 */
 		private function checkPhpVersion(){
 			if( !( (float) phpversion() >= 5.3 ) ){
 				throw new Exception('This package only runs on PHP 5.3 or greater.');
 			}
+		}
+
+
+		/**
+		 * @return ConcreteRedisPackage
+		 */
+		private function setupSinglePages(){
+			SinglePage::add('/dashboard/system/optimization/redis_cache', $this->packageObject());
+			
+			return $this;
 		}
 
 
