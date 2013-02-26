@@ -48,8 +48,36 @@
 				#c5AppPanes table.overview tr td {text-align:center;}
 				#c5AppPanes table.overview tr td p {font-size:2em;line-height:1em;margin:0 0 6px;}
 	</style>
-
+	
 	<div id="c5ApInner">
+	
+	<?php if( isset($exception) ): ?>
+		
+		<ul class="apTypes apClearfix roundTop">
+			<li class="active"><span>Unable to load Profiler data.</span></li>
+		</ul>
+		<div id="c5AppPanes">
+			<div class="panes active">
+				<div class="right full">
+					<div style="text-align:center;padding-top:20px;">
+						<h3><?php echo $exception->getMessage(); ?></h3>
+						<?php
+							switch($exception->getCode()){
+								case 100:
+									echo '<p>Profiler data automatically expires after 3 minutes.</p>';
+									break;
+								default:
+									echo '<p>Try refreshing the page.</p>';
+									break;
+							}
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	<?php else: ?>
+	
 		<ul class="apTypes apClearfix roundTop" data-toggle="pane">
 			<li class="active" data-pane="#c5APOverview"><a>Overview</a></li>
 			<li data-pane="#c5Console"><a>Console</a></li>
@@ -258,4 +286,7 @@
 				</div>
 			</div>
 		</div>
+
+	<?php endif; ?>
+	
 	</div>

@@ -162,7 +162,10 @@
 			
 			// if Redis is available, store it in Redis instead of a flat file
 			if( class_exists('ConcreteRedis') ){
-				ConcreteRedis::db()->hset( 'c5_app_profiler', $md5, serialize(self::$instance->logCollection) );
+				//ConcreteRedis::db()->hset( 'c5_app_profiler', $md5, serialize(self::$instance->logCollection) );
+				$profilerKey = "C5_PROFILER_{$md5}";
+				ConcreteRedis::db()->set( $profilerKey, serialize(self::$instance->logCollection) );
+				ConcreteRedis::db()->expire( $profilerKey, 240 ); // expire after 3 mins
 				return;
 			}
 			

@@ -26,7 +26,6 @@
 		
 		public function flush(){
 			ConcreteRedis::db()->del( self::REDIS_HASH_HANDLE );
-			ConcreteRedis::db()->del('c5_app_profiler');
 		}
 		
 		public function purge(Page $c){

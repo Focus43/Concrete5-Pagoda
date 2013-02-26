@@ -2,18 +2,26 @@
 
 	try {
 		if( class_exists('ConcreteRedis') ){
-			$serialized = ConcreteRedis::db()->hget( 'c5_app_profiler', $_REQUEST['id'] );
+			$serialized = ConcreteRedis::db()->get( "C5_PROFILER_{$_REQUEST['id']}" );
 		}else{
 			$dataPath 	= ApplicationProfiler::getFileStore( $_REQUEST['id'] );
 			$serialized	= Loader::helper('file')->getContents( $dataPath );
 		}
 		
-		// load the 'view' (the elements file)
-		$data	 = unserialize($serialized);
+		// parse the serialized data
+		$data = unserialize($serialized);
+		
+		if( !is_array($data) ){
+			throw new Exception('Profiler data expired.', 100);
+		}
+		
+		// parse data and load the 'view' (the elements file)
 		$profile = new ApplicationProfilerReport($data);
 		Loader::element('application_profiler', array('profile' => $profile));
 		
-	}catch(Exception $e){  }
+	}catch(Exception $e){
+		Loader::element('application_profiler', array('exception' => $e));
+	}
 	
 	
 	/**
