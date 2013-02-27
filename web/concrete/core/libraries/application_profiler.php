@@ -92,7 +92,7 @@
 		 * @return void
 		 */
 		final public static function start( $enabled = false ){
-			if( $enabled === true ){
+			if( $enabled === true ){				
 				self::$instance = new ApplicationProfiler;
 				return;
 			}
@@ -131,6 +131,8 @@
 			$metaTagString 	= '<meta id="c5App-Profiler" value="'.$md5.'" data-url="'.self::getToolsFileURL().'" />';
 			$jsFileString	= Loader::helper('html')->javascript('app_profiler.js');
 			
+			self::$instance->logMixed(Request::get(), 'Request object');
+			
 			// is this a page cache record? then modify the content string (actual html file)
 			if( $controllerOrCache instanceof PageCacheRecord ){
 				$pageHTML = $controllerOrCache->content;
@@ -162,7 +164,6 @@
 			
 			// if Redis is available, store it in Redis instead of a flat file
 			if( class_exists('ConcreteRedis') ){
-				//ConcreteRedis::db()->hset( 'c5_app_profiler', $md5, serialize(self::$instance->logCollection) );
 				$profilerKey = "C5_PROFILER_{$md5}";
 				ConcreteRedis::db()->set( $profilerKey, serialize(self::$instance->logCollection) );
 				ConcreteRedis::db()->expire( $profilerKey, 240 ); // expire after 3 mins
