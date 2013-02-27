@@ -16,7 +16,9 @@
 			
 			<div class="well">
 				<h4 style="margin-bottom:.6em;">Object Data</h4>
-				<pre><?php print_r( $keyData ); ?></pre>
+				<pre>
+					<?php if( !$keyData ){ echo $rawKeyData; }else{ print_r( $keyData ); } ?>
+				</pre>
 			</div>
 
 		<?php elseif( $this->controller->getTask() == 'explore_hash' ): ?>
@@ -37,24 +39,30 @@
 			
 		<?php else: ?>
 			
-			<style type="text/css">
-				#redisExplorer tbody tr td {white-space:nowrap;padding-left:8px;padding-right:16px;}
-				#redisExplorer tbody tr td.key {width:99%;}
-			</style>
+			<div class="clearfix">
+				<h3 class="lead pull-left">ConcreteRedis <small>Explore Redis Cache Data</small></h3>
+				<div class="pull-right">
+					<select id="actionMenu" class="pull-right" disabled="disabled">
+						<option value="">-- Actions --</option>
+						<option value="delete">Delete</option>
+					</select>
+				</div>
+			</div>
 			
-			<h3 class="lead" style="margin-bottom:.6em;">ConcreteRedis <small>Explore Redis Cache Data</small></h3>
-			
-			<table id="redisExplorer" border="0" cellspacing="0" cellpadding="0" class="ccm-results-list" style="margin-bottom:0;">
+			<table id="tblRedisData" border="0" cellspacing="0" cellpadding="0" class="ccm-results-list" style="margin-bottom:0;">
 				<thead>
 					<tr>
+						<th><input id="checkAllBoxes" type="checkbox" /></th>
 						<th>Redis Key</th>
 						<th>Type</th>
 						<th>Object Length</th>
+						<th>TTL</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach($cacheKeys AS $cKey => $data): ?>
 						<tr>
+							<td><?php echo $form->checkbox('redisKeyID[]', $cKey); ?></td>
 							<td class="key">
 								<?php if($data->type == 'hash'){ ?>
 									<a href="<?php echo $this->action('explore_hash', $cKey); ?>"><?php echo $cKey; ?></a>
@@ -64,10 +72,15 @@
 							</td>
 							<td><?php echo ucfirst( $data->type ); ?></td>
 							<td><?php echo $data->len; ?></td>
+							<td><?php echo $data->ttl; ?></td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			
+			<!-- output the ajax delete path only on this "page" because it can't be used
+				 anywhere else -->
+			<meta id="redisDeleteKeyPath" value="<?php echo $this->action('delete_keys'); ?>" />
 		
 		<?php endif; ?>
 	

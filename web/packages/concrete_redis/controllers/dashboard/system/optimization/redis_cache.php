@@ -2,7 +2,16 @@
 
 	class DashboardSystemOptimizationRedisCacheController extends Controller {
 		
+		const PACKAGE_HANDLE = 'concrete_redis';
+		
 		public $helpers = array('form');
+		
+		
+		public function on_start(){
+			$htmlHelper = Loader::helper('html');
+			$this->addHeaderItem( $htmlHelper->css('credis.dashboard.css', self::PACKAGE_HANDLE) );
+			$this->addFooterItem( $htmlHelper->javascript('credis.dashboard.js', self::PACKAGE_HANDLE) );
+		}
 		
 		
 		public function view(){
@@ -37,7 +46,25 @@
 			}
 			
 			// pass stuff to the view
+			$this->set('rawKeyData', $keyData);
 			$this->set('keyData', unserialize($keyData) );
+		}
+		
+		
+		public function delete_keys(){
+			if( !empty($_REQUEST['redisKeyID']) ){
+				$redisDB = ConcreteRedis::db();
+				foreach($_REQUEST['redisKeyID'] AS $redisKey){
+					$redisDB->del( $redisKey );
+				}
+			}
+			
+			echo Loader::helper('json')->encode( (object) array(
+				'code'	=> 1,
+				'msg'	=> 'Success'
+			));
+			
+			exit;
 		}
 		
 		
@@ -48,7 +75,8 @@
 			$data = array();
 			if(!empty($keys)){
 				foreach($keys AS $cKey){
-					$keyType 	= $redisDB->type($cKey);
+					$keyType = $redisDB->type($cKey);
+					$keyTTL	 = $redisDB->ttl($cKey);
 					
 					switch($keyType){
 						case 'hash':
@@ -61,7 +89,8 @@
 					
 					$data[$cKey] = (object) array(
 						'type' => $keyType,
-						'len'  => $hashLength
+						'len'  => $hashLength,
+						'ttl'  => $keyTTL
 					);
 				}
 			}
