@@ -48,3 +48,6 @@
 	// marketplace settings and such
 	define('ENABLE_MARKETPLACE_SUPPORT', false);
 	
+	// sitemap.xml file
+	define('SITEMAPXML_FILE', 'files/sitemap.xml');
+	
