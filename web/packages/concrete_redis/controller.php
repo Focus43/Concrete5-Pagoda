@@ -30,14 +30,14 @@
 	    
 	
 	    public function upgrade(){
-	    	$this->checkPhpVersion();
+	    	$this->dependencyCheck();
 			parent::upgrade();
 			$this->installAndUpdate();
 	    }
 		
 		
 		public function install() {
-			$this->checkPhpVersion();
+			$this->dependencyCheck();
 	    	$this->_packageObj = parent::install(); 
 			$this->installAndUpdate();
 	    }
@@ -49,14 +49,27 @@
 		
 		
 		/**
-		 * Make sure the PHP version is 5.3 or greater. If its not,throw an exception and
+		 * Make sure the PHP version is 5.3 or greater. If its not, throw an exception and
 		 * stop the install.
 		 * @return void
 		 */
-		private function checkPhpVersion(){
+		private function dependencyCheck(){
+		    // make sure ConcreteRedis class is loaded and available
+		    if( !class_exists('ConcreteRedis') ){
+		        $this->on_start();
+		    }
+            
+            // test php version is adequate
 			if( !( (float) phpversion() >= 5.3 ) ){
 				throw new Exception('This package only runs on PHP 5.3 or greater.');
 			}
+
+            // test redis connection; if fails, abort install
+            try {
+                ConcreteRedis::db()->ping();
+            }catch(Exception $e){
+                throw new Exception('Unable to connect to Redis. Check connection settings.');
+            }
 		}
 
 

@@ -2,10 +2,13 @@
 
 	final class ConcreteRedis {
 		
-		
 		private static $instance = null;
 		private static $redisDB;
 		
+        
+        /**
+         * Private singleton constructor
+         */
 		private function __construct(){
 			Loader::library('predis-0.8.3/autoload', 'concrete_redis');
 			Predis\Autoloader::register();
