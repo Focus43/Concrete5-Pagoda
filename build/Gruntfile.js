@@ -21,14 +21,14 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['web/concrete/js/ccm.base.js', 'web/packages/toj/js/libs/bootstrap.min.js', 'web/packages/toj/js/toj.app.js'],
-        dest: 'web/js/<%= filename %>.js'
+        src: ['../web/concrete/js/ccm.base.js'],
+        dest: '../web/js/<%= filename %>.js'
       }
     },
     strip: {
       main : {
         src : '<%= concat.dist.dest %>',
-        dest : 'web/js/<%= filename %>.min.js'
+        dest : '../web/js/<%= filename %>.min.js'
       }
     },
     uglify: {
