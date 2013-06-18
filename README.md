@@ -1,16 +1,20 @@
-# Concrete5 CMS, v5.6.1.2 (Pagodabox Quickstart) #
+# Concrete5 CMS Pagodabox Quickstart #
 
-Release of Concrete5 (latest) for Pagodabox, with a couple extra free add-ons.
+Release of Concrete5 (latest stable: 5.6.1.2) for Pagodabox, with a couple extra free add-ons.
 
 ## Overview ##
 
 This is a release of the Concrete5 CMS, with slight modifications to run on the PagodaBox infrastructure. This repository
 will remain updated as new stable releases roll out.
 
+This quickstart will automatically provision the a 200mb web server, a 10mb MySQL server, and a 10mb
+Redis cache server. Every resource can be scaled independently using the Pagodabox dashboard.
+
 Check out the Boxfile to see the basic install settings. Features:
 
 1. APC cache installed as opcode cache
-3. Redis is used as the session cache, and as the Full Page Caching library
+2. Redis ~~is~~ can be used as the session cache, and as the Full Page Caching library
+3. Server file upload size set to 20mb
 
 ## Usage ##
 
