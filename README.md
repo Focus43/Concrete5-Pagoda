@@ -10,7 +10,7 @@ will remain updated as new stable releases roll out.
 Check out the Boxfile to see the basic install settings. Features:
 
 1. APC cache installed as opcode cache
-3. Redis is used as the session cache
+3. Redis is used as the session cache, and as the Full Page Caching library
 
 ## Usage ##
 
@@ -22,7 +22,7 @@ this repository and perform all setup.
 The intended workflow with this PagodaBox Quickstart is: run QuickStart install on PagodaBox, then clone the
 QuickStart repo to your local machine. Install on your local machine, then develop there. When changes are working,
 simply push back to the origin (pagodabox). To install on your local machine, you *should* be able to simply clone
-the repo, setup a mysql database, and create a file named `local.php` at `web/config/local.php`.
+the repo, setup a mysql database, and create a file named `site.local.php` at `web/config/site.local.php`.
 
 In the `site.local.php` file, place the following code (credentials for connecting to your *local* database):
 
@@ -32,7 +32,7 @@ In the `site.local.php` file, place the following code (credentials for connecti
 	$_SERVER['DB1_PASS'] = 'PASSWORD_HERE'; // maybe empty on your local machine
 	$_SERVER['DB1_NAME'] = 'DB_NAME_HERE'; // local database to use, must be empty
 
-Put in your credential to run locally and save. Then from the command line:
+Update appropriately, and save. Then from the command line:
 
 	cd /path/to/web/root/ (repository root)
 	php cli_installer.php
