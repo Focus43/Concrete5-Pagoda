@@ -74,7 +74,36 @@
 		// start mysql connection test
 		print "Testing MySQL Connection. \n";
 		print "Server: " . DB_SERVER . "Database: " . DB_DATABASE . ", Username: " . DB_USERNAME . ", Password: " . DB_PASSWORD . "\n";
-		
+
+        // if we're in a dev environment, try and create the database if it doesnt exist
+        if( !isset($_SERVER['PAGODA_PRODUCTION']) && !((bool) $_SERVER['PAGODA_PRODUCTION'] === true) ) {
+            // test for database existence (cannot use Loader::db() here because of
+            // C5 exception handling)
+            try {
+                $conn = new PDO('mysql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE, DB_USERNAME, DB_PASSWORD);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }catch(Exception $e){
+                $createDatabase = true;
+                print "Database does not exist yet, attempting to create... \n";
+            }
+
+            // now try and reconnect to the mysql server and create the database
+            if( $createDatabase === true ){
+                try {
+                    $conn = new PDO('mysql:host=' . DB_SERVER, DB_USERNAME, DB_PASSWORD);
+                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $conn->exec("CREATE DATABASE `{$_SERVER['DB1_NAME']}`;
+						CREATE USER '" . DB_USERNAME . "'@'localhost' IDENTIFIED BY '" . DB_PASSWORD . "';
+						GRANT ALL ON `" . DB_DATABASE . "`.* TO '" . DB_USERNAME . "'@'localhost';
+						FLUSH PRIVELEGES;");
+
+                    print "Development database successfully created. \n";
+                }catch(Exception $e){
+                    throw new Exception("Unable to create local development database.");
+                }
+            }
+        }
+
 		// test that we can connect to the database		
 		Loader::db($_SERVER['DB1_HOST'], $_SERVER['DB1_USER'], $_SERVER['DB1_PASS'], $_SERVER['DB1_NAME']);
 		
