@@ -1,0 +1,107 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# This will build and configure a development box for Concrete5, which closely mirrors
+# the environment when deployed to Pagodabox.
+
+Vagrant.configure("2") do |config|
+
+  # base box
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  # networking
+  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 3306, host: 3307
+
+  config.vm.synced_folder "../", "/home/vagrant/app"
+  config.ssh.forward_agent = true
+
+  # upgrade chef provisioner
+  config.vm.provision :shell, :inline => "gem install chef --version 11.4.2 --no-rdoc --no-ri --conservative"
+
+  # @todo: autorun cli_installer.php (check below = ok)
+  # @todo: install grunt-cli (sudo npm install -g grunt-cli)
+  # @todo: auto-run grunt watch
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["cookbooks"]
+    chef.add_recipe :apt
+    chef.add_recipe 'openssl'
+    chef.add_recipe 'mysql::server'
+    chef.add_recipe 'redis'
+    chef.add_recipe 'git'
+    chef.add_recipe 'apache2'
+    chef.add_recipe 'nodejs'
+    chef.add_recipe 'nodejs::npm'
+    chef.add_recipe 'rvm::vagrant'
+    chef.add_recipe 'rvm::system'
+    chef.add_recipe 'php'
+    chef.add_recipe 'php::module_curl'
+    chef.add_recipe 'php::module_mysql'
+    chef.add_recipe 'php::module_apc'
+    chef.add_recipe 'php::module_gd'
+    chef.add_recipe 'apache2::mod_php5'
+    chef.add_recipe 'apache2::mod_rewrite'
+    chef.add_recipe 'apache2::mod_deflate'
+    chef.add_recipe 'apache2::mod_headers'
+    chef.add_recipe 'apache2::mod_ssl'
+    chef.add_recipe 'vagrant_concrete5'
+
+    chef.json = {
+      :mysql  => {
+        :server_root_password   => "root", # was "password"
+        :server_repl_password   => "root", # was "password"
+        :server_debian_password => "root", # was "password"
+        :service_name           => "mysql",
+        :basedir                => "/usr",
+        :data_dir               => "/var/lib/mysql",
+        :root_group             => "root",
+        :mysqladmin_bin         => "/usr/bin/mysqladmin",
+        :mysql_bin              => "/usr/bin/mysql",
+        :conf_dir               => "/etc/mysql",
+        :confd_dir              => "/etc/mysql/conf.d",
+        :socket                 => "/var/run/mysqld/mysqld.sock",
+        :pid_file               => "/var/run/mysqld/mysqld.pid",
+        :grants_path            => "/etc/mysql/grants.sql",
+        :bind_address           => "0.0.0.0",
+        :allow_remote_root      => "1"
+      },
+      :redis  => {
+        :bind        => "127.0.0.1",
+        :port        => "6379",
+        :config_path => "/etc/redis/redis.conf",
+        :daemonize   => "yes",
+        :timeout     => "300",
+        :loglevel    => "notice"
+      },
+      :git    => {
+        :prefix => "/usr/local"
+      },
+      :apache => {
+        :default_site_enabled => "true",
+        :dir                  => "/etc/apache2",
+        :log_dir              => "/var/log/apache2",
+        :error_log            => "error.log",
+        :user                 => 'vagrant', #"www-data",
+        :group                => 'vagrant', #"www-data",
+        :binary               => "/usr/sbin/apache2",
+        :cache_dir            => "/var/cache/apache2",
+        :pid_file             => "/var/run/apache2.pid",
+        :lib_dir              => "/usr/lib/apache2",
+        :listen_ports         => [
+          "80"
+        ],
+        :contact              => "ops@example.com",
+        :timeout              => "300",
+        :keepalive            => "On",
+        :keepaliverequests    => "100",
+        :keepalivetimeout     => "5"
+      }
+    }
+  end
+
+  # auto-run the command line install script for c5
+  config.vm.provision :shell, :inline => "php /home/vagrant/app/cli_installer.php"
+
+end
