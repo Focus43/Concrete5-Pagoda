@@ -1,0 +1,2 @@
+# node.js modules for static asset compilation, when using the vagrant VM
+/node_modules
