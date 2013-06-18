@@ -46,3 +46,6 @@ error_log
 # ignore Eclipse-specific files
 /.settings/
 /.buildpath
+
+# node.js modules for static asset compilation, when using the vagrant VM
+/node_modules
