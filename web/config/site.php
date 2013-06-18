@@ -12,6 +12,21 @@
 		// http://www.concrete5.org/developers/bugs/5-6-0-2/install-fails-with-mysql-auto-increment-offset-set/
 		define('REGISTERED_GROUP_ID', '5');
 		define('ADMIN_GROUP_ID', '9');
+		
+		// connect to Redis cache
+		define('REDIS_CONNECTION_HANDLE', 'tunnel.pagodabox.com:6379');
+		
+		// the following depend on the constant REDIS_CONNECTION_HANDLE being defined
+		if( defined('REDIS_CONNECTION_HANDLE') ){
+			// use Redis as the page cache library
+			define('PAGE_CACHE_LIBRARY', 'Redis');
+		
+			// if using the FluidDNS package
+			define('PAGE_TITLE_FORMAT', '%2$s');
+		}
+		
+		// application profiler. disable this for live sites! (just comment out)
+		define('ENABLE_APPLICATION_PROFILER', true);
 	
 	/**
 	 * LOCAL DEVELOPMENT OR STAGING
@@ -33,6 +48,9 @@
 		
 		// enable url rewriting. use locally if you have an Apache VirtualHost setup
 		define('URL_REWRITING_ALL', true);
+		
+		// if you have Redis installed on your local machine...
+		define('REDIS_CONNECTION_HANDLE', '127.0.0.1:6379');
 		*****************************************************************/
 		
 	}
@@ -50,4 +68,3 @@
 	
 	// sitemap.xml file
 	define('SITEMAPXML_FILE', 'files/sitemap.xml');
-	

@@ -7,6 +7,7 @@ web1:
   php_file_uploads: "1"
   php_upload_max_filesize: "20M"
   php_max_file_uploads: 20
+  php_post_max_size: "20M"
   php_session_save_handler: redis
   php_session_save_path: "tcp://tunnel.pagodabox.com:6379"
   after_build:

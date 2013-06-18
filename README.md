@@ -22,7 +22,7 @@ this repository and perform all setup.
 The intended workflow with this PagodaBox Quickstart is: run QuickStart install on PagodaBox, then clone the
 QuickStart repo to your local machine. Install on your local machine, then develop there. When changes are working,
 simply push back to the origin (pagodabox). To install on your local machine, you *should* be able to simply clone
-the repo, setup a mysql database, and create a file named `site.local.php` at `web/config/site.local.php`.
+the repo, setup a mysql database, and create a file named `local.php` at `web/config/local.php`.
 
 In the `site.local.php` file, place the following code (credentials for connecting to your *local* database):
 

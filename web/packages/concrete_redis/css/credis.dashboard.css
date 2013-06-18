@@ -1,0 +1,14 @@
+.tooltip {width:auto;white-space:nowrap;}
+#redisExplorer {}
+#redisExplorer h3 {margin-bottom:.6em;}
+#redisExplorer table {width:100%;}
+#redisExplorer table tbody tr td {padding-left:8px;}
+#redisExplorer div.btns {margin:0;padding:0;}
+#redisExplorer .btn.block {display:block;width:100%;padding-right:0;padding-left:0;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+#redisExplorer div.ccm-summary-selected-item {background:#fff;margin:0;padding:5px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+#redisExplorer div.ccm-summary-selected-item div.ccm-summary-selected-item-inner {margin:1px 0;}
+#redisExplorer div.toggleable {display:none;}
+
+#redisExplorer .clearfix {padding:0;}
+#redisExplorer div.container-fluid {padding:0;}
+#redisExplorer div.row-fluid.spaced {margin-bottom:1em;}

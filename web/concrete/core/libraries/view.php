@@ -925,6 +925,9 @@ defined('C5_EXECUTE') or die("Access Denied.");
 					$cache->outputCacheHeaders($c);
 				}
 
+				// @app_profiler
+				ApplicationProfiler::finish( $this->controller );
+
 				ob_start();
 				include($this->theme);
 				$pageContent = ob_get_contents();

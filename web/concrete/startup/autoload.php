@@ -1,6 +1,9 @@
 <?php
 
 $classes = array(
+	// @app_profiler
+	'ApplicationProfiler' => array('library', 'application_profiler'),
+	
 	'Log' => array('library','log'),
 	'Request' => array('library','request'),
 	'Localization' => array('library','localization'),
