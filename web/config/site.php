@@ -27,6 +27,9 @@
 		
 		// application profiler. disabled on production by default (just uncomment to use)
 		//define('ENABLE_APPLICATION_PROFILER', true);
+
+        // disable marketplace support b/c of Pagodabox read-only file system
+        define('ENABLE_MARKETPLACE_SUPPORT', false);
 	
 	/**
 	 * STAGING, LOCAL MACHINE, OR VAGRANT?
@@ -86,9 +89,6 @@
     define('DB_PASSWORD',   $_SERVER['DB1_PASS']);
 	define('DB_DATABASE',   $_SERVER['DB1_NAME']);
 	define('PASSWORD_SALT', '6NVukfgwAgqaOi3SMlsWwEqURSe4Xh8pBApvhOauP7blC2kx1FKsHxcjGSXMqP3N');
-	
-	// marketplace settings and such
-	define('ENABLE_MARKETPLACE_SUPPORT', false);
 	
 	// sitemap.xml file
 	define('SITEMAPXML_FILE', 'files/sitemap.xml');
