@@ -14,15 +14,17 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 3306, host: 3307
 
+  # mount shared folder, setup ssh port forwarding
   config.vm.synced_folder "../", "/home/vagrant/app"
   config.ssh.forward_agent = true
 
+  # set the name for the VM as displayed in VirtualBox to the project root directory
+  config.vm.provider "virtualbox" do |v|
+    v.name = File.basename(File.expand_path(".."))
+  end
+
   # upgrade chef provisioner
   config.vm.provision :shell, :inline => "gem install chef --version 11.4.2 --no-rdoc --no-ri --conservative"
-
-  # @todo: autorun cli_installer.php (check below = ok)
-  # @todo: install grunt-cli (sudo npm install -g grunt-cli)
-  # @todo: auto-run grunt watch
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks"]
