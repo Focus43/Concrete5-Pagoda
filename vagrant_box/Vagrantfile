@@ -103,6 +103,11 @@ Vagrant.configure("2") do |config|
     }
   end
 
+  # run bundle install
+  config.vm.provision :shell do |s|
+    s.inline = "echo Provisioning Gemfile with Bundler; cd /home/vagrant/app; bundle install"
+  end
+
   # auto-run the command line install script for c5
   config.vm.provision :shell, :inline => "php /home/vagrant/app/cli_installer.php VAGRANT_VM"
 

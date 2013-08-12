@@ -10,22 +10,6 @@ web_app "default" do
 	php_timezone 'UTC'
 end
 
-# install bundler gem (all subsequent gems managed via bundler)
-#execute "Install ruby Bundler gem" do
-#	cwd "/home/vagrant/app/"
-#	#user "vagrant"
-#	command "gem install bundler"
-#	action :run
-#end
-
-# run Bundler to pull in Gemfile dependencies
-execute "Install bundled gems" do
-	cwd "/home/vagrant/app/"
-	#user "vagrant"
-	command "bundle install"
-	action :run
-end
-
 # install node dependencies (uses package.json file in node_grunt)
 execute "npm dependencies installation" do
 	cwd "/home/vagrant/app/build/"
