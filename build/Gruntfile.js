@@ -5,13 +5,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    //banner: '/*! <%= pkg.title || pkg.name %>-<%= pkg.customer %> - v<%= pkg.version %> - ' +
-    //  '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-    //  '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-    //  '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-    //  ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
-    banner: '/*! <%= pkg.project %> - Deploy v: <%= pkg.version %>\n' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+    // Banner license
+    banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n' +
         'Author: <%= pkg.author.name %> (<%= pkg.author.url %>) */\n',
     filename: '<%= pkg.name %>',
     // Task configuration.
@@ -58,10 +53,8 @@ module.exports = function(grunt) {
         jquery: true,
         es5: true,
         globals: {
-          cust_params: true,
           app: true,
           "$": true,
-          fluid: true,
           asyncTest: true,
           deepEqual: true,
           equal: true,
@@ -71,7 +64,6 @@ module.exports = function(grunt) {
           notEqual: true,
           notStrictEqual: true,
           ok: true,
-          QUnit: true,
           raises: true,
           start: true,
           stop: true,
@@ -83,11 +75,8 @@ module.exports = function(grunt) {
         src: 'Gruntfile.js'
       },
       lib_test: {
-        src: ['web/packages/toj/js/**/*.js', 'test/**/*.js']
+        src: ['../web/js/**/*.js']
       }
-    },
-    qunit: {
-      files: ['test/**/*.html']
     },
     sass: {
       dev: {
@@ -96,7 +85,7 @@ module.exports = function(grunt) {
           debugInfo: false
         },
         files: {
-          'web/css/<%= filename %>-dev.css': 'web/css/manifest.scss'
+          'web/css/<%= filename %>-dev.css': '../web/css/manifest.scss'
         }
       },
       build: {
@@ -104,19 +93,7 @@ module.exports = function(grunt) {
           style: 'compressed'
         },
         files: {
-          'web/css/<%= filename %>.min.css': 'web/css/manifest.scss'
-        }
-      }
-    },
-    yuidoc: {
-      compile: {
-        name: 'Base Docs',
-        description: 'Documentation for the Base Implementation',
-        version: '<%= pkg.version %>',
-        url: '<%= pkg.repository.url %>',
-        options: {
-          paths: 'dist/assets/js',
-          outdir: 'docs'
+          'web/css/<%= filename %>.min.css': '../web/css/manifest.scss'
         }
       }
     },
@@ -127,7 +104,7 @@ module.exports = function(grunt) {
       },
       lib_test: {
         files: '<%= jshint.lib_test.src %>',
-        tasks: ['default']
+        tasks: ['jshint','concat']
       },
       sassy_pants: {
         files: 'web/packages/**/*.scss',
@@ -142,7 +119,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-sass');
-  //grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-strip');
   grunt.loadNpmTasks('grunt-bump');
 

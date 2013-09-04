@@ -1,7 +1,7 @@
 {
-  "name": "c5-app",
+  "name": "c5app",
   "project": "Concrete5 Project",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "author": {
     "name": "Focus43",
     "url": "http://focus-43.com"
