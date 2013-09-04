@@ -3,46 +3,49 @@
 thumbs.db
 __MACOSX
 ._*
+/.project
+.idea/
+/.settings/
+/.buildpath
 
-# ignore the site.php
+
+# ignore error log
+error_log
+.ftpquota
+
+
+# DO NOT ignore site.php, only files in web/config/*.local.php
 /web/config/*.local.php
+
 
 #ignore everything but the index.html
 /web/files/*
 !/web/files/index.html
 
+
 # ignore updates folder
 /web/updates/*
 
-# ignore packages folder
-#/web/packages/* #pagoda; DO NOT ignore contents in the directory package
+
+# ignore concrete packages folder; *not* web/packages though
+#/web/packages/* ### See documentation for deploying to Pagoda ###
 /web/concrete/packages/*
 
-# more stuff
-/web/css/*
-/web/js/*
-#/web/blocks/* #pagoda
-/web/languages/*
-/web/tools/*
-#/web/controllers/* #pagoda
-/web/single_pages/*
-/web/models/*
 
-# ignore sitemap.xml
+# more stuff (in default C5 installations, these are not commented out)
+#/web/css/*
+#/web/js/*
+#/web/blocks/*
+#/web/languages/*
+#/web/tools/*
+#/web/controllers/*
+#/web/single_pages/*
+#/web/models/*
+
+
+# ignore sitemap.xml (Symlink is used in Pagodabox)
 /web/sitemap.xml
 
-# ignore the error log and .htaccess and others
-error_log
-#.htaccess #pagoda
-.ftpquota
-/.idea/
 
 # DO NOT ignore the .htaccess file; track it
 !/web/.htaccess
-
-# ignore Aptana and Eclipse project files
-.project
-
-# ignore Eclipse-specific files
-/.settings/
-/.buildpath
