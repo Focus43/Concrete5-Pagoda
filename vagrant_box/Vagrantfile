@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   # networking
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 3306, host: 3307
+  config.vm.network :forwarded_port, guest: 443, host:443
 
   # mount shared folder, setup ssh port forwarding
   config.vm.synced_folder "../", "/home/vagrant/app"
@@ -105,7 +106,7 @@ Vagrant.configure("2") do |config|
 
   # run bundle install
   config.vm.provision :shell do |s|
-    s.inline = "echo Provisioning Gemfile with Bundler; cd /home/vagrant/app; bundle install"
+    s.inline = "echo Provisioning Gemfile with Bundler; cd /home/vagrant/app && bundle install"
   end
 
   # auto-run the command line install script for c5
