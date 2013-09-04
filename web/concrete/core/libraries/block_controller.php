@@ -60,7 +60,7 @@ defined('C5_EXECUTE') or die("Access Denied.");
 		public function getIdentifier() {
 			return $this->identifier;
 		}
-		
+
 		/**
 		 * Sets a value used by a particular block. These variables will automatically be present in the corresponding views used by the block.
 		 * @param string $key
@@ -247,7 +247,10 @@ defined('C5_EXECUTE') or die("Access Denied.");
 							} else if (in_array($key, $this->btExportPageTypeColumns)) {
 								$tableRecord->addChild($key, ContentExporter::replacePageTypeWithPlaceHolder($value));
 							} else {
-								$tableRecord->addChild($key, '<![CDATA[' . $value . ']]>');
+								$cnode = $tableRecord->addChild($key);
+								$node = dom_import_simplexml($cnode);
+								$no = $node->ownerDocument;
+								$node->appendChild($no->createCDataSection($value));
 							}
 						}
 					}
@@ -433,7 +436,6 @@ defined('C5_EXECUTE') or die("Access Denied.");
 			} else if ($obj instanceof Block) {
 				$b = $obj;
 				$this->identifier = 'BLOCK_' . $obj->getBlockID();
-				// we either have a blockID passed, or nothing passed, if we're adding a block type				
 				$this->bID = $b->getBlockID();
 				$this->btHandle = $obj->getBlockTypeHandle();
 				$this->bActionCID = $obj->getBlockActionCollectionID();

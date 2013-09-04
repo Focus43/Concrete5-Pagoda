@@ -75,7 +75,7 @@ if ($_REQUEST['approveImmediately'] == 1) {
 	</script>
 	
 
-	<div id="ccm-required-meta">
+	<div id="ccm-required-meta"></div>
 	
 	
 	<? if (!$c->isMasterCollection()) { ?>
@@ -127,20 +127,21 @@ if ($_REQUEST['approveImmediately'] == 1) {
 	
 	<? if ($asl->allowEditPaths()) { ?>
 	<div id="ccm-page-paths-tab" style="display: none">
-		
+		<?php if ($c->getCollectionID() != 1) { ?>
 		<div class="clearfix">
 		<label for="cHandle"><?= t('Canonical URL')?></label>
 		<div class="input">
 		<?php if (!$c->isGeneratedCollection()) { ?>
 			<?=BASE_URL . DIR_REL;?><? if (URL_REWRITING == false) { ?>/<?=DISPATCHER_FILENAME?><? } ?><?
 			$cPath = substr($c->getCollectionPath(), strrpos($c->getCollectionPath(), '/') + 1);
-			print substr($c->getCollectionPath(), 0, strrpos($c->getCollectionPath(), '/'))?>/<input type="text" name="cHandle" value="<?php echo $cPath?>" id="cHandle"><input type="hidden" name="oldCHandle" id="oldCHandle" value="<?php echo $c->getCollectionHandle()?>"><br /><br />
+			print substr($c->getCollectionPath(), 0, strrpos($c->getCollectionPath(), '/'))?>/<input type="text" name="cHandle" value="<?php echo $cPath?>" id="cHandle" maxlength="128"><input type="hidden" name="oldCHandle" id="oldCHandle" value="<?php echo $c->getCollectionHandle()?>"><br /><br />
 		<?php  } else { ?>
 			<?php echo $c->getCollectionHandle()?><br /><br />
 		<?php  } ?>
 			<span class="help-block"><?=t('This page must always be available from at least one URL. That URL is listed above.')?></span>
 		</div>
 		</div>
+		<?php } ?>
 		
 		<?php if (!$c->isGeneratedCollection()) { ?>
 		<div class="clearfix" id="ccm-more-page-paths">

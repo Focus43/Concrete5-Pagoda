@@ -5,6 +5,10 @@
 		define('C5_EXECUTE', true);
 	}
 
+	if (!defined('C5_RUNTIME_HASH')) {
+		define('C5_RUNTIME_HASH', md5(uniqid()));
+	}
+
 	if(defined("E_DEPRECATED")) {
 		error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED); // E_DEPRECATED required for php 5.3.0 because of depreciated function calls in 3rd party libs (adodb).
 	} else {
@@ -52,6 +56,7 @@
 	require($cdir . '/config/theme_paths.php');
 
 	## Load session handlers
+	## Must come before full page caching
 	require($cdir . '/startup/session.php');
 
 	## Early loading full page cache
@@ -81,8 +86,8 @@
 	# Startup check, install ##
 	require($cdir . '/startup/config_check_complete.php');
 
-	# Must come before packages 
-	require($cdir . '/startup/tools_upgrade_check.php');
+	## Determines whether we can use the more efficient permission local caching
+	require($cdir . '/startup/permission_cache_check.php');
 
 	## Determines whether we can use the more efficient permission local caching
 	require($cdir . '/startup/permission_cache_check.php');
@@ -94,15 +99,19 @@
 	## Security helpers
 	require($cdir . '/startup/security.php');
 
-	## Package events
-	require($cdir . '/startup/packages.php');
-
-	## Load permissions and attributes
-	PermissionKey::loadAll();
-
 	## File types ##
 	## Note: these have to come after config/localization.php ##
 	require($cdir . '/config/file_types.php');
+
+	## Package events
+	require($cdir . '/startup/packages.php');
+
+	# Not sure why this said it had to come in front of startup/packages - but that causes a problem when a package
+	# defines autoload classes like for permissions and then has to act on permissions in upgrade. It can't find the classes
+	require($cdir . '/startup/tools_upgrade_check.php');
+
+	## Load permissions and attributes
+	PermissionKey::loadAll();
 
 	## Check host for redirection ##
 	require($cdir . '/startup/url_check.php');
