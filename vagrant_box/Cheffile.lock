@@ -1,0 +1,67 @@
+SITE
+  remote: http://community.opscode.com/api/v1
+  specs:
+    apache2 (1.7.0)
+    apt (2.1.1)
+    build-essential (1.4.2)
+    chef_handler (1.1.4)
+    dmg (2.0.0)
+    git (2.6.0)
+      build-essential (>= 0.0.0)
+      dmg (>= 0.0.0)
+      runit (>= 1.0.0)
+      windows (>= 0.0.0)
+      yum (>= 0.0.0)
+    mysql (3.0.4)
+      build-essential (> 1.1.0)
+      openssl (>= 0.0.0)
+    openssl (1.1.0)
+    php (1.2.4)
+      build-essential (>= 0.0.0)
+      mysql (>= 0.0.0)
+      xml (>= 0.0.0)
+    runit (1.2.0)
+      build-essential (>= 0.0.0)
+      yum (>= 0.0.0)
+    windows (1.10.0)
+      chef_handler (>= 0.0.0)
+    xml (1.1.2)
+      build-essential (>= 0.0.0)
+    yum (2.3.2)
+
+GIT
+  remote: https://github.com/ctrabold/chef-redis
+  ref: master
+  sha: e3a89f34d0f5b81867ae9e07a9404ac89e1ff61c
+  specs:
+    redis (0.0.4)
+
+GIT
+  remote: https://github.com/fnichol/chef-rvm
+  ref: v0.9.0
+  sha: 4a408e5d6c5a52c37388a799c516430263339849
+  specs:
+    rvm (0.9.0)
+
+GIT
+  remote: https://github.com/mdxp/nodejs-cookbook
+  ref: master
+  sha: 4c685529e7a8db0222b17407367e8b309afd3137
+  specs:
+    nodejs (1.3.0)
+      apt (>= 0.0.0)
+      build-essential (>= 0.0.0)
+      yum (>= 0.0.0)
+
+DEPENDENCIES
+  apache2 (>= 0)
+  apt (>= 0)
+  build-essential (>= 0)
+  git (>= 0)
+  mysql (>= 0)
+  nodejs (>= 0)
+  openssl (>= 0)
+  php (>= 0)
+  redis (>= 0)
+  rvm (>= 0)
+
