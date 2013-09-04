@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
         RewriteEngine On
+        # Uncomment to force always using SSL
+        #RewriteCond %{HTTPS} !=on
+        #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+        # Normal concrete URL rewriting
         RewriteBase /
 	    RewriteCond %{REQUEST_URI} !^/favicon.ico$
         RewriteCond %{REQUEST_FILENAME} !-f

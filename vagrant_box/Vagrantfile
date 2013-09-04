@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   # networking
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 3306, host: 3307
-  config.vm.network :forwarded_port, guest: 443, host:443
+  config.vm.network :forwarded_port, guest: 443, host:4433
 
   # mount shared folder, setup ssh port forwarding
   config.vm.synced_folder "../", "/home/vagrant/app"
@@ -47,6 +47,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe 'php::module_mysql'
     chef.add_recipe 'php::module_apc'
     chef.add_recipe 'php::module_gd'
+    chef.add_recipe 'apache2::mod_mime'
+    chef.add_recipe 'apache2::mod_expires'
     chef.add_recipe 'apache2::mod_php5'
     chef.add_recipe 'apache2::mod_rewrite'
     chef.add_recipe 'apache2::mod_deflate'
