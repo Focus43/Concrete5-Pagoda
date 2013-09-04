@@ -24,7 +24,8 @@
 			$domainRecords = ConcreteRedis::db()->hlen('domain_paths');
 			if( $domainRecords >= 1 ){
 				// parse request domain, and explode into array
-				$domain   = parse_url( $_SERVER['HTTP_HOST'], PHP_URL_PATH );
+				$_domain  = parse_url( $_SERVER['HTTP_HOST'] );
+                $domain   = $_domain['host'];
 				$sections = explode('.', $domain);
 				
 				// setup root and subdomain constants
