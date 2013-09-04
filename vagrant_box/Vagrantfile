@@ -3,6 +3,9 @@
 
 # This will build and configure a development box for Concrete5, which closely mirrors
 # the environment when deployed to Pagodabox.
+# Ref for creating self-signed certificates for testing SSL:
+#### http://blog.didierstevens.com/2008/12/30/howto-make-your-own-cert-with-openssl/
+#### http://www.digicert.com/ssl-support/pem-ssl-creation.htm
 
 Vagrant.configure("2") do |config|
 
