@@ -1,3 +1,18 @@
+# install php xdebug from pecl
+php_pear "xdebug" do
+    # Specify that xdebug.so must be loaded as zend extension
+    zend_extensions ['xdebug.so']
+    action :install
+end
+
+# xdebug configuration template
+template "/etc/php5/conf.d/xdebug.ini" do
+    source "xdebug.ini.erb"
+    owner "root"
+    group "root"
+    mode 0644
+end
+
 # ditch "could not reliably determine hostname" warning
 cookbook_file '/etc/apache2/httpd.conf' do
     owner 'root'
@@ -32,4 +47,12 @@ execute "npm dependencies installation" do
 	user "root"
 	command "/usr/local/bin/npm install; /usr/local/bin/npm install -g grunt-cli"
 	action :run
+end
+
+# set pear channel auto-discover and install PHPunit
+execute "Pear channel auto-discover and install PHPUnit" do
+    user "root"
+    command "pear config-set auto_discover 1 && pear install pear.phpunit.de/PHPUnit"
+    action :run
+    not_if "which phpunit"
 end
