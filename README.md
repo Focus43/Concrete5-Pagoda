@@ -52,6 +52,10 @@ your local computer, `$git clone {git-url-here}`.
 
 * In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch the magic...
 
+## To Do ##
+
+Write-up on using updated build tools (GruntJS) in the VM, and the bundled ConcreteRedis and FluidDNS packages in the /packages directory.
+
 ## Notes ##
 
 PagodaBox MySQL defaults to different auto-increment settings. Specifically, the auto-increment-increment settings 
