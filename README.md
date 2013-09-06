@@ -41,7 +41,7 @@ Redis package, which enables Concrete5's full page cache library to use ultra-fa
 ## Getting Started ##
 
 **Prerequisites**: A [Pagodabox account](https://dashboard.pagodabox.com/account/register), configured for
-pushing pulling via Git (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927), [Windows](http://help.pagodabox.com/customer/portal/articles/202068)),
+pushing/pulling via Git (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927), [Windows](http://help.pagodabox.com/customer/portal/articles/202068)),
 and the following installed on your local computer: [VirtualBox](https://www.virtualbox.org/), and [Vagrant](http://docs.vagrantup.com/v2/installation/).
 
 * After logging in, click this link to launch a new C5 instance: https://pagodabox.com/q/u8/go. (Be patient, takes a sec
@@ -58,18 +58,18 @@ Once the VM is done provisioning, open a browser and go to `http://localhost:808
 
 Now open the project in your favorite IDE, build something awesome, and when you're ready to push the changes to your live Pagodabox instance, just...
 
-* `$ git add . && commit -m "Built something fly"
+* `$ git add . && commit -m "Built something fly"`
 * `$ git push origin pagoda`
 
 Rinse and repeat.
 
-**Note** If you're new to developing within a VM, understand this: you write all the code on your local machine, but when you visit `http://localhost:8080` in a browser, your code base is being executed completely within the VM. Its totally segregated from whatever operating system your using. The VM is running Ubuntu linux.
+**Note** If you're new to developing within a VM, understand this: you write all the code on your local machine, but when you visit `http://localhost:8080` in a browser, your code base is being executed completely within the VM. Its totally segregated from whatever operating system your using. Your code is actually being run on Ubuntu linux 12.04 w/ Apache, MySQL, PHP 5.3.10, and Redis (if your using the ConcreteRedis package).
 
 #### Starting/Stopping the VM for day-to-day development ####
 
 Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant_box && vagrant up`. When you're done,
 do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly 
-light weight). Just beware that every VM you `vagrant up` will be accessible on a different port in the browser (it tells you which you start it up).
+light weight). Just beware that every VM you `vagrant up` will be accessible on a different port in the browser (it tells you which when you start the VM via `vagrant up`).
 
 To start it up faster, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`).
 
@@ -79,7 +79,7 @@ If you want to inspect whats going on in the database, you can easily connect to
 * host: `127.0.0.1` (or `localhost`)
 * username: `root`
 * password: `root`
-* port: 3307
+* port: `3307`
 
 If something else was running on port 3307 when you ran `vagrant up`, Vagrant will bind to the next available port, similar to how it handles :8080 (see above).
 
