@@ -25,7 +25,7 @@ In short, this Quickstart/repo is targeted at developers or git-savvy folks/team
 Using the VagrantVM, you can be sure anyone who ever checks out and runs the project locally is using the exact same
 environment, with the same toolset.
 
-### Default Pagodabox Configuration ###
+#### Default Pagodabox Configuration ####
 
 This quickstart will automatically provision the following resources for a new Concrete5 app on Pagodabox
 (see the [Boxfile](https://github.com/Focus43/concrete5/blob/pagoda/Boxfile) for exact details).
@@ -50,17 +50,20 @@ to initialize).
 * Once the app has launched, visit the app dashboard and look for 'Show Git Clone Url'. Copy the URL, then on
 your local computer, `$ git clone {git-url-here}`.
 
-* In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch the magic...
+* In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch Vagrant build your development environment (could take a while).
 
-Once the VM is done provisioning, open a browser and go to http://localhost:8080 (assuming port 8080 is not being used on your machine). If :8080 is
-in use by another program, the VM will automatically bind to the next available port. When you `vagrant up`, it'll tell you where.
+#### Build Locally ####
+
+Once the VM is done provisioning, open a browser and go to `http://localhost:8080` (assuming port 8080 is not being used on your machine). If :8080 is in use by another program, the VM will automatically bind to the next available port. When you `vagrant up`, it'll tell you where.
 
 Now open the project in your favorite IDE, build something awesome, and when you're ready to push the changes to your live Pagodabox instance, just...
 
-`$ git add . && commit -m "Built something fly"
-`$ git push origin pagoda` (and again watch the magic as your entire code base gets deployed from version control)
+* `$ git add . && commit -m "Built something fly"
+* `$ git push origin pagoda`
 
 Rinse and repeat.
+
+**Note** If you're new to developing within a VM, understand this: you write all the code on your local machine, but when you visit `http://localhost:8080` in a browser, your code base is being executed completely within the VM. Its totally segregated from whatever operating system your using. The VM is running Ubuntu linux.
 
 #### Starting/Stopping the VM for day-to-day development ####
 
@@ -69,6 +72,16 @@ do `vagrant halt`. If you need to work on multiple projects throughout the day, 
 light weight). Just beware that every VM you `vagrant up` will be accessible on a different port in the browser (it tells you which you start it up).
 
 To start it up faster, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`).
+
+#### Connecting to the database from a MySQL GUI ####
+
+If you want to inspect whats going on in the database, you can easily connect to the MySQL instance running inside the VM from your local machine. From your favorite MySQL GUI, use:
+* host: `127.0.0.1` (or `localhost`)
+* username: `root`
+* password: `root`
+* port: 3307
+
+If something else was running on port 3307 when you ran `vagrant up`, Vagrant will bind to the next available port, similar to how it handles :8080 (see above).
 
 ## To Do ##
 
