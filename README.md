@@ -42,15 +42,33 @@ Redis package, which enables Concrete5's full page cache library to use ultra-fa
 
 **Prerequisites**: A [Pagodabox account](https://dashboard.pagodabox.com/account/register), configured for
 pushing pulling via Git (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927), [Windows](http://help.pagodabox.com/customer/portal/articles/202068)),
-and the following installed on your local computer:[VirtualBox](https://www.virtualbox.org/), and [Vagrant](http://docs.vagrantup.com/v2/installation/).
+and the following installed on your local computer: [VirtualBox](https://www.virtualbox.org/), and [Vagrant](http://docs.vagrantup.com/v2/installation/).
 
 * After logging in, click this link to launch a new C5 instance: https://pagodabox.com/q/u8/go. (Be patient, takes a sec
 to initialize).
 
 * Once the app has launched, visit the app dashboard and look for 'Show Git Clone Url'. Copy the URL, then on
-your local computer, `$git clone {git-url-here}`.
+your local computer, `$ git clone {git-url-here}`.
 
 * In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch the magic...
+
+Once the VM is done provisioning, open a browser and go to http://localhost:8080 (assuming port 8080 is not being used on your machine). If :8080 is
+in use by another program, the VM will automatically bind to the next available port. When you `vagrant up`, it'll tell you where.
+
+Now open the project in your favorite IDE, build something awesome, and when you're ready to push the changes to your live Pagodabox instance, just...
+
+`$ git add . && commit -m "Built something fly"
+`$ git push origin pagoda` (and again watch the magic as your entire code base gets deployed from version control)
+
+Rinse and repeat.
+
+#### Starting/Stopping the VM for day-to-day development ####
+
+Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant_box && vagrant up`. When you're done,
+do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly 
+light weight). Just beware that every VM you `vagrant up` will be accessible on a different port in the browser (it tells you which you start it up).
+
+To start it up faster, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`).
 
 ## To Do ##
 
