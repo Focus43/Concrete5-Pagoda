@@ -52,13 +52,15 @@ your local computer, `$ git clone {git-url-here}`.
 
 * In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch Vagrant build your development environment (could take a while).
 
+When you clone the repository from Pagodabox, the default branch in your repo will be called "pagoda" instead of the usual "master". From your project root, do `$ git status` to confirm. You'll want to make all changes to this branch (it is effectively master, but for upgrading purposes when new releases come out from the core team, we preserve master).
+
 #### Build Locally ####
 
 Once the VM is done provisioning, open a browser and go to `http://localhost:8080` (assuming port 8080 is not being used on your machine). If :8080 is in use by another program, the VM will automatically bind to the next available port. When you `vagrant up`, it'll tell you where.
 
 Now open the project in your favorite IDE, build something awesome, and when you're ready to push the changes to your live Pagodabox instance, just...
 
-* `$ git add . && commit -m "Built something fly"`
+* `$ git add . && git commit -m "Built something fly"`
 * `$ git push origin pagoda`
 
 Rinse and repeat.
