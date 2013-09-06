@@ -3,13 +3,25 @@
 Concrete5 (latest stable: 5.6.2.1) for [Pagodabox](http://pagodabox.com), with a couple freebie packages and a whole slew
 of tools for developers. Use the one-click Quickstart launcher at **[Concrete5 Quickstart](https://pagodabox.com/cafe/jonohartman/concrete5)**.
 
+**Intended Audience/Users**
+In short, this Quickstart/repo is targeted at developers/teams or git-savvy folks that want a super-streamlined workflow.
+Using the bundled VM provisioning tools, you can be sure anyone who ever checks out and runs the project locally is using the exact same environment, with the exact same toolset. And deploys via `git push`.
+
+[Overview](#overview)
+
+[Usage / Getting Started](#usage--getting-started)
+* [Building Locally](#build-locally)
+* [Starting/Stopping VM](#startingstopping-the-vm-for-day-to-day-development)
+* [Connecting To Database from GUI](#connecting-to-the-database-from-a-mysql-gui)
+* [SSL](#ssl-stuff)
+
+[Notes](#notes)
+
 ## Overview ##
 
-This is a release of Concrete5 v5.6.2.1, with slight modifications to run on PagodaBox (see notes at the bottom of this
-page for details). Several tools come bundled with this repo for creating a super-streamlined workflow for development and
-deployment. From start to finish, here's what can be accomplished with **3 commands** (literally, that's it).
+This is a release of Concrete5 v5.6.2.1, with slight modifications to run on PagodaBox (see notes at the bottom of this page for details). Several tools come bundled with this repo for creating a super-streamlined workflow for development and deployment. From start to finish, here's what can be accomplished with **3 commands** (literally, that's it).
 
-1. Launch a public instance of Concrete5 on Pagodabox,
+1. Launch a production instance of Concrete5 on Pagodabox,
 2. Get a local copy of the repo on your own machine (with Git-deployment pre-configured),
 3. Build and provision a VM for local development with: Ubuntu 12.04, Apache, PHP 5.3.10, MySQL 5.5+, Redis, NodeJS, GruntJS, Xdebug, PHPUnit
 
@@ -19,11 +31,6 @@ an entire VM automatically, and will bind (if avail) to port :8080 on your local
 installed in the VM, matching the install process used for Pagodabox.
 
 If you're new to Vagrant or the idea of working with virtual machines for local development, [read this](http://www.vagrantup.com/about.html).
-
-**Intended Audience/Users**
-In short, this Quickstart/repo is targeted at developers or git-savvy folks/teams that want a super-streamlined workflow.
-Using the VagrantVM, you can be sure anyone who ever checks out and runs the project locally is using the exact same
-environment, with the same toolset.
 
 #### Default Pagodabox Configuration ####
 
@@ -38,7 +45,7 @@ Every resource can be scaled independently in the app dashboard, but the default
 can handle a very decent traffic load with full page caching enabled. (Even better if you install the included
 Redis package, which enables Concrete5's full page cache library to use ultra-fast, in-memory Redis).
 
-## Getting Started ##
+## Usage / Getting Started ##
 
 **Prerequisites**: A [Pagodabox account](https://dashboard.pagodabox.com/account/register), configured for
 pushing/pulling via Git (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927), [Windows](http://help.pagodabox.com/customer/portal/articles/202068)),
@@ -54,10 +61,12 @@ your local computer, `$ git clone {git-url-here}`.
 
 When you clone the repository from Pagodabox, the default branch in your repo will be called "pagoda" instead of the usual "master". From your project root, do `$ git status` to confirm. You'll want to make all changes to this branch (it is effectively master, but for upgrading purposes when new releases come out from the core team, we preserve master).
 
-```Default login info for Pagodabox and local installations:
-   **username**: admin **password**: c5@dmin
-   CHANGE THE PASSWORD ON YOUR PAGODABOX (eg "PRODUCTION") INSTANCE RIGHT AWAY
-```
+**Default Login Credentials**
+For both Pagodabox and local installations:
+* user: `admin`
+* password: `c5@dmin`
+
+CHANGE THE PASSWORD ON YOUR PAGODABOX (eg. "PRODUCTION") INSTANCE RIGHT AWAY
 
 #### Build Locally ####
 
@@ -95,11 +104,13 @@ The VM comes with a self-signed certificate for testing SSL during development. 
 On OSX, from terminal:
 
 * `$ sudo nano /etc/hosts`
-* Add a line with `127.0.0.1     lo.cal`
+* Add a line with `127.0.0.1 lo.cal` then save
 * Test in your browser by first visiting the `http://lo.cal:8080` (or whatever port the VM is running on)
-* Next, try to visit it via https: `https://lo.cal:4433` (again, when you start the VM, Vagrant will show which port 443 is forwarded to - usually it'll be 4433).
+* Next, try to visit it via https: `https://lo.cal:4433` (again, when you start the VM, Vagrant will show which port 443 is forwarded to - usually it'll be 4433)
 
-** Deploying w/ SSL to Pagodabox **
+If you setup the browser correctly, you should be able to connect via HTTPS with a green "secure" notification in the browser bar.
+
+**Deploying w/ SSL to Pagodabox**
 
 This repo comes pre-configured with an [.htaccess](https://github.com/Focus43/concrete5/blob/pagoda/web/.htaccess) file, to enable Pretty URLs by default (as well as a whole bunch of static asset caching optimizations). It also includes settings for forcing HTTPS connections either sitewide, or when accessing the dashboard (commented out). When you want to deploy a site with SSL, simply uncomment the appropriate lines.
 
