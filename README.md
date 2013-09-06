@@ -54,6 +54,11 @@ your local computer, `$ git clone {git-url-here}`.
 
 When you clone the repository from Pagodabox, the default branch in your repo will be called "pagoda" instead of the usual "master". From your project root, do `$ git status` to confirm. You'll want to make all changes to this branch (it is effectively master, but for upgrading purposes when new releases come out from the core team, we preserve master).
 
+```Default login info for Pagodabox and local installations:
+   **username**: admin **password**: c5@dmin
+   CHANGE THE PASSWORD ON YOUR PAGODABOX (eg "PRODUCTION") INSTANCE RIGHT AWAY
+```
+
 #### Build Locally ####
 
 Once the VM is done provisioning, open a browser and go to `http://localhost:8080` (assuming port 8080 is not being used on your machine). If :8080 is in use by another program, the VM will automatically bind to the next available port. When you `vagrant up`, it'll tell you where.
@@ -69,11 +74,9 @@ Rinse and repeat.
 
 #### Starting/Stopping the VM for day-to-day development ####
 
-Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant_box && vagrant up`. When you're done,
-do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly 
-light weight). Just beware that every VM you `vagrant up` will be accessible on a different port in the browser (it tells you which when you start the VM via `vagrant up`).
+Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant_box && vagrant up`. When you're done, do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly light weight). Just beware that every VM you `vagrant up` will bind on a different port, so accessing each project/site in the browser happens on a different port (it tells you which when you start the VM via `vagrant up`).
 
-To start it up faster, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`).
+To start the VM without provisioning, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`). After the VM is built the first time, you can start it with `--no-provision` to load it faster.
 
 #### Connecting to the database from a MySQL GUI ####
 
@@ -84,6 +87,21 @@ If you want to inspect whats going on in the database, you can easily connect to
 * port: `3307`
 
 If something else was running on port 3307 when you ran `vagrant up`, Vagrant will bind to the next available port, similar to how it handles :8080 (see above).
+
+#### SSL Stuff ####
+
+The VM comes with a self-signed certificate for testing SSL during development. As it's a self-signed certificate, your browser will (almost definitely) show security warnings. Just click proceed. To eliminate the warning, you should add the certificate to your system's trusted certificate chain. If you're on chrome, the only way to make the `https://` connection marker in the URL bar green is to setup an alias in your system's `hosts` file (the alias must include a `.`).
+
+On OSX, from terminal:
+
+* `$ sudo nano /etc/hosts`
+* Add a line with `127.0.0.1     lo.cal`
+* Test in your browser by first visiting the `http://lo.cal:8080` (or whatever port the VM is running on)
+* Next, try to visit it via https: `https://lo.cal:4433` (again, when you start the VM, Vagrant will show which port 443 is forwarded to - usually it'll be 4433).
+
+** Deploying w/ SSL to Pagodabox **
+
+This repo comes pre-configured with an [.htaccess](https://github.com/Focus43/concrete5/blob/pagoda/web/.htaccess) file, to enable Pretty URLs by default (as well as a whole bunch of static asset caching optimizations). It also includes settings for forcing HTTPS connections either sitewide, or when accessing the dashboard (commented out). When you want to deploy a site with SSL, simply uncomment the appropriate lines.
 
 ## To Do ##
 
