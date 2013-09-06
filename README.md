@@ -44,7 +44,8 @@ Redis package, which enables Concrete5's full page cache library to use ultra-fa
 pushing pulling via Git (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927), [Windows](http://help.pagodabox.com/customer/portal/articles/202068)),
 and the following installed on your local computer:[VirtualBox](https://www.virtualbox.org/), and [Vagrant](http://docs.vagrantup.com/v2/installation/).
 
-* After logging in, click this link to launch a new C5 instance: https://pagodabox.com/q/u8/go.
+* After logging in, click this link to launch a new C5 instance: https://pagodabox.com/q/u8/go. (Be patient, takes a sec
+to initialize).
 
 * Once the app has launched, visit the app dashboard and look for 'Show Git Clone Url'. Copy the URL, then on
 your local computer, `$git clone {git-url-here}`.
