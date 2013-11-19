@@ -2,8 +2,18 @@
         RewriteEngine On
 
         ################ FORCE HTTPS EXAMPLES (PAGODABOX SPECIFIC) ################
+        #-- redirect anything domains containing "something" to a specific page --#
+        #RewriteCond %{HTTP_HOST} ^((.*)something(.*))$ [NC]
+        #RewriteRule ^ http://townofjackson.com/something-url-here [L,R=301]
+
+        #-- REDIRECT ANY DOMAINS THAT ARENT: test.org, lo.cal:**** (vagrant ssl), --#
+        #-- or localhost:**** (vagrant normal) to "test.org" --#
+        #RewriteCond %{HTTP_HOST} !^((test\.org)|(lo\.cal(.*))|localhost(.*))$ [NC]
+        #RewriteRule ^ http://test.org%{REQUEST_URI} [L,R=301]
+
         #-- FORCE SITEWIDE HTTPS (UNCOMMENT BELOW) --#
         #RewriteCond %{HTTP:X-Forwarded-Proto} !https
+        #RewriteCond %{HTTPS} off
         #RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,L]
 
         #-- FORCE HTTPS ON ACCESSING /login/* or /dashboard/* (UNCOMMENT BELOW) --#
