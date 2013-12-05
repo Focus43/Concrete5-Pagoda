@@ -25,7 +25,6 @@ Vagrant.configure("2") do |config|
   # declare resource usage caps for VirtualBox VM
   begin
     config.vm.provider "virtualbox" do |v|
-      v.name = File.basename(File.expand_path("../"))
       v.customize ['modifyvm', :id, '--cpuexecutioncap', '35']
       v.customize ['modifyvm', :id, '--cpus', '1']
       v.customize ['modifyvm', :id, '--memory', '512']
@@ -115,9 +114,7 @@ Vagrant.configure("2") do |config|
         :cache_dir            => "/var/cache/apache2",
         :pid_file             => "/var/run/apache2.pid",
         :lib_dir              => "/usr/lib/apache2",
-        :listen_ports         => [
-          "80"
-        ],
+        :listen_ports         => ["80", "443"],
         :contact              => "ops@example.com",
         :timeout              => "300",
         :keepalive            => "On",
@@ -127,12 +124,13 @@ Vagrant.configure("2") do |config|
     }
   end
 
-  # run bundle install
-  config.vm.provision :shell do |s|
-    s.inline = "echo Provisioning Gemfile with Bundler; cd /home/vagrant/app && bundle install"
-  end
+  # $: bundle install (uses {root}/Gemfile)
+  config.vm.provision :shell, :inline => "echo Provisioning Gemfile with Bundler; cd /home/vagrant/app && bundle install"
 
-  # auto-run the command line install script for c5
-  config.vm.provision :shell, :inline => "php /home/vagrant/app/cli_installer.php VAGRANT_VM"
+  # run Concrete5 installation
+  config.vm.provision :shell, :inline => "echo Running Concrete5 setup via CLI; php /home/vagrant/app/cli_installer.php VAGRANT_VM"
+
+  # install timezone tables for MySQL
+  config.vm.provision :shell, :inline => "echo Installing MySQL timezone tables from Ubuntu zoneinfo; mysql_tzinfo_to_sql 2>/dev/null /usr/share/zoneinfo | mysql -u root --password=root mysql 2>/dev/null"
 
 end
