@@ -13,19 +13,37 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  # networking
-  config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :forwarded_port, guest: 3306, host: 3307
-  config.vm.network :forwarded_port, guest: 443, host:4433
+  # set the name for the VM as displayed in VirtualBox to the project root directory
+  begin
+    config.vm.provider "virtualbox" do |v|
+      v.name = File.basename(File.expand_path("../"))
+    end
+  rescue
+    $stdout.puts "Unable to rename Concrete5 VM; VirtualBox will display a generic name"
+  end
+
+  # declare resource usage caps for VirtualBox VM
+  begin
+    config.vm.provider "virtualbox" do |v|
+      v.name = File.basename(File.expand_path("../"))
+      v.customize ['modifyvm', :id, '--cpuexecutioncap', '35']
+      v.customize ['modifyvm', :id, '--cpus', '1']
+      v.customize ['modifyvm', :id, '--memory', '512']
+    end
+  rescue
+    $stdout.puts "Unable to set resource usage for VirtualBox; proceeding with defaults"
+  end
+
+  # apache
+  config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
+  # mysql
+  config.vm.network :forwarded_port, guest: 3306, host: 3307, auto_correct: true
+  # apache SSL
+  config.vm.network :forwarded_port, guest: 443, host:4433, auto_correct: true
 
   # mount shared folder, setup ssh port forwarding
   config.vm.synced_folder "../", "/home/vagrant/app"
   config.ssh.forward_agent = true
-
-  # set the name for the VM as displayed in VirtualBox to the project root directory
-  config.vm.provider "virtualbox" do |v|
-    v.name = File.basename(File.expand_path(".."))
-  end
 
   # upgrade chef provisioner
   config.vm.provision :shell, :inline => "gem install chef --version 11.4.2 --no-rdoc --no-ri --conservative"
@@ -58,9 +76,9 @@ Vagrant.configure("2") do |config|
 
     chef.json = {
       :mysql  => {
-        :server_root_password   => "root", # was "password"
-        :server_repl_password   => "root", # was "password"
-        :server_debian_password => "root", # was "password"
+        :server_root_password   => "root",
+        :server_repl_password   => "root",
+        :server_debian_password => "root",
         :service_name           => "mysql",
         :basedir                => "/usr",
         :data_dir               => "/var/lib/mysql",
