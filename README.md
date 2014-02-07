@@ -7,6 +7,10 @@ of tools for developers. Use the one-click Quickstart launcher at **[Concrete5 Q
 In short, this Quickstart/repo is targeted at developers/teams or git-savvy folks that want a super-streamlined workflow.
 Using the bundled VM provisioning tools, you can be sure anyone who ever checks out and runs the project locally is using the exact same environment, with the exact same toolset. And deploys via `git push`.
 
+**Versions**: Vagrant builds were tested with VirtualBox 4.2.18 and Vagrant 1.3.5 on OSX Mavericks. Small version incremements should remain stable,
+however, not guaranteed. If you're using a newer version of either VirtualBox or Vagrant and run into issues, please file an issue report in the
+[issues tracker](https://github.com/Focus43/Concrete5-Stable/issues)
+
 [Overview](#overview)
 
 [Usage / Getting Started](#usage--getting-started)
@@ -26,7 +30,7 @@ This is a release of Concrete5 v5.6.2.1, with slight modifications to run on Pag
 3. Build and provision a VM for local development with: Ubuntu 12.04, Apache, PHP 5.3.10, MySQL 5.5+, Redis, NodeJS, GruntJS, Xdebug, PHPUnit
 
 Thanks to kick-ass [Vagrant](http://www.vagrantup.com/), you **do not** need to have a LAMP stack installed on your machine
-to get a development copy up and running. The files in the /vagrant_box directory will automatically build and provision
+to get a development copy up and running. The files in the /vagrant directory will automatically build and provision
 an entire VM automatically, and will bind (if avail) to port :8080 on your local machine. Concrete5 will be automatically
 installed in the VM, matching the install process used for Pagodabox.
 
@@ -57,7 +61,7 @@ to initialize).
 * Once the app has launched, visit the app dashboard and look for 'Show Git Clone Url'. Copy the URL, then on
 your local computer, `$ git clone {git-url-here}`.
 
-* In the repo root on your machine, `$cd vagrant_box && vagrant up`. Watch Vagrant build your development environment (could take a while).
+* In the repo root on your machine, `$cd vagrant && vagrant up`. Watch Vagrant build your development environment (could take a while).
 
 When you clone the repository from Pagodabox, the default branch in your repo will be called "pagoda" instead of the usual "master". From your project root, do `$ git status` to confirm. You'll want to make all changes to this branch (it is effectively master, but for upgrading purposes when new releases come out from the core team, we preserve master).
 
@@ -83,9 +87,9 @@ Rinse and repeat.
 
 #### Starting/Stopping the VM for day-to-day development ####
 
-Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant_box && vagrant up`. When you're done, do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly light weight). Just beware that every VM you `vagrant up` will bind on a different port, so accessing each project/site in the browser happens on a different port (it tells you which when you start the VM via `vagrant up`).
+Whenever you work on the project, make sure the VM is running. From project root, `$ cd vagrant && vagrant up`. When you're done, do `vagrant halt`. If you need to work on multiple projects throughout the day, you can run a few VMs at a time without much problem (they're fairly light weight). Just beware that every VM you `vagrant up` will bind on a different port, so accessing each project/site in the browser happens on a different port (it tells you which when you start the VM via `vagrant up`).
 
-To start the VM without provisioning, do `vagrant up` with the `--no-provision` flag. (`cd vagrant_box && vagrant up --no-provision`). After the VM is built the first time, you can start it with `--no-provision` to load it faster.
+To start the VM without provisioning, do `vagrant up` with the `--no-provision` flag. (`cd vagrant && vagrant up --no-provision`). After the VM is built the first time, you can start it with `--no-provision` to load it faster.
 
 #### Connecting to the database from a MySQL GUI ####
 
