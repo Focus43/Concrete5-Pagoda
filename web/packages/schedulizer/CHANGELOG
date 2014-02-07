@@ -1,0 +1,11 @@
+Schedulizer :: Calender + Event Management for Concrete5
+
+Todo
+1) Daylight savings time support (done in the setIsAlias method of the event model)
+2) Handle "LAST x of monthly repeat" (4th works, 5th incosistently)
+
+// DEPENDS ON MYSQL TIMEZONE TABLES FOR PROPER TIMEZONE CONVERSION
+For Ubuntu, for example, run:
+    $: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+Type in the password. If you don't have /usr/share/zoneinfo, check your distribution to
+see where the system timezone locations are stored.

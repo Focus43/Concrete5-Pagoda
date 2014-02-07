@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+
+	<table name="SchedulizerCalendar">
+		<field name="id" type="I">
+			<autoincrement />
+			<key />
+			<unsigned />
+		</field>
+
+        <!-- created/modified -->
+        <field name="createdUTC" type="T">
+            <NOTNULL/>
+        </field>
+        <field name="modifiedUTC" type="T">
+            <NOTNULL/>
+            <DEFTIMESTAMP/>
+        </field>
+
+		<field name="title" type="C" size="255" />
+        <field name="defaultTimezone" type="C" size="255" />
+        <field name="ownerID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+            <DEFAULT value="0"/>
+        </field>
+		
+		<!-- indices -->
+        <index name="createdUTC">
+            <col>createdUTC</col>
+        </index>
+        <index name="modifiedUTC">
+            <col>modifiedUTC</col>
+        </index>
+		<index name="title">
+			<col>title</col>
+		</index>
+		<index name="ownerID">
+			<col>ownerID</col>
+		</index>
+	</table>
+
+
+    <table name="SchedulizerCalendarAttributeValues">
+        <field name="calendarID" type="I">
+            <KEY/>
+            <DEFAULT value="0"/>
+            <UNSIGNED />
+            <NOTNULL />
+        </field>
+        <field name="akID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+            <DEFAULT value="0"/>
+        </field>
+        <field name="avID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+            <DEFAULT value="0"/>
+        </field>
+    </table>
+
+
+    <table name="SchedulizerEvent">
+        <field name="id" type="I">
+            <autoincrement />
+            <key />
+            <unsigned />
+        </field>
+
+        <!-- created/modified -->
+        <field name="createdUTC" type="T">
+            <NOTNULL/>
+        </field>
+        <field name="modifiedUTC" type="T">
+            <NOTNULL/>
+            <DEFTIMESTAMP/>
+        </field>
+
+        <field name="calendarID" type="I" size="11">
+            <unsigned />
+        </field>
+        <field name="title" type="C" size="255" />
+        <field name="description" type="X2" />
+        <field name="startUTC" type="T">
+            <NOTNULL/>
+        </field>
+        <field name="endUTC" type="T">
+            <NOTNULL/>
+        </field>
+        <field name="isAllDay" type="I1">
+            <unsigned />
+            <notnull />
+            <default value="1" />
+        </field>
+        <field name="useCalendarTimezone" type="I1">
+            <unsigned />
+            <notnull />
+            <default value="1" />
+        </field>
+        <field name="timezoneName" type="C" size="255" />
+        <field name="colorHex" type="C" size="10" />
+        <field name="isRepeating" type="I1">
+            <unsigned />
+            <notnull />
+            <default value="0" />
+        </field>
+        <field name="repeatTypeHandle" type="C" size="255" />
+        <field name="repeatEvery" type="I" size="11">
+            <unsigned />
+        </field>
+        <field name="repeatIndefinite" type="I1">
+            <unsigned />
+            <notnull />
+            <default value="0" />
+        </field>
+        <field name="repeatEndUTC" type="T">
+            <NOTNULL/>
+        </field>
+        <field name="repeatMonthlyMethod" type="I1">
+            <unsigned />
+        </field>
+        <field name="ownerID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+            <DEFAULT value="0"/>
+        </field>
+
+
+        <!-- indices -->
+        <index name="createdUTC">
+            <col>createdUTC</col>
+        </index>
+        <index name="modifiedUTC">
+            <col>modifiedUTC</col>
+        </index>
+        <index name="startUTC">
+            <col>startUTC</col>
+        </index>
+        <index name="endUTC">
+            <col>endUTC</col>
+        </index>
+        <index name="calendarID">
+            <col>calendarID</col>
+        </index>
+        <index name="title">
+            <col>title</col>
+        </index>
+        <index name="repeatTypeHandle">
+            <col>ownerID</col>
+        </index>
+        <index name="repeatEndUTC">
+            <col>repeatEndUTC</col>
+        </index>
+        <index name="ownerID">
+            <col>ownerID</col>
+        </index>
+    </table>
+
+
+    <table name="SchedulizerEventRepeat">
+        <field name="eventID" type="I" size="11">
+            <unsigned />
+        </field>
+        <field name="repeatWeek" type="I" size="2">
+            <unsigned />
+        </field>
+        <field name="repeatDay" type="I" size="2">
+            <unsigned />
+        </field>
+        <field name="repeatWeekday" type="I" size="2">
+            <unsigned />
+        </field>
+
+        <!-- indices -->
+        <index name="eventID">
+            <col>eventID</col>
+        </index>
+        <index name="repeatWeek">
+            <col>repeatWeek</col>
+        </index>
+        <index name="repeatDay">
+            <col>repeatDay</col>
+        </index>
+        <index name="repeatWeekday">
+            <col>repeatWeekday</col>
+        </index>
+    </table>
+
+
+    <table name="SchedulizerEventRepeatNullify">
+        <field name="eventID" type="I" size="11">
+            <unsigned />
+        </field>
+        <field name="hideOnDate" type="T">
+            <NOTNULL/>
+        </field>
+
+        <!-- indices -->
+        <index name="eventID">
+            <col>eventID</col>
+        </index>
+        <index name="hideOnDate">
+            <col>hideOnDate</col>
+        </index>
+    </table>
+	
+</schema>

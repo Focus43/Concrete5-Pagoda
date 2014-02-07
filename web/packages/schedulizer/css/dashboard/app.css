@@ -1,0 +1,32 @@
+#schedulizerFlash ul.unstyled {margin:0;}
+#schedulizerWrap form {margin:0;}
+#schedulizerWrap .custom-attributes input[type="text"] {max-width:100%;padding:13px 4px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.btn.btn-block {width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.ccm-ui .message ul.unstyled {margin:0;}
+form {margin-bottom:0 !important;}
+span.colorThumbnail {width:20px;height:20px;float:left;margin-right:5px;cursor:pointer;border:2px solid transparent; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+span.colorThumbnail.active {border-color:#333;}
+span.colorThumbnail input[type="radio"] {display:none;}
+
+/* EVENT CONFIGURATION WINDOW */
+#eventSetupForm .well {margin-bottom:8px;}
+#eventSetupForm .pull-left {display:block;margin-right:4px;}
+#eventSetupForm .timeChoozers {margin-bottom:0;}
+#eventSetupForm .timeChoozers .from-to {display:inline-block;padding-top:7px;}
+#eventSetupForm .timeChoozers .chzn-container {width:120px !important;}
+#eventSetupForm .timeChoozers .chzn-drop {width:118px !important;}
+#eventSetupForm .timeChoozers .chzn-search input[type="text"] {width:83px !important;margin:-3px 0 2px;}
+#eventSetupForm .timeChoozers .chzn-single {height:26px;}
+#eventSetupForm .timeChoozers .chzn-single span {position:relative;top:2px;}
+#eventSetupForm input[type="radio"] {margin-top:0;}
+#eventSetupForm label.checkbox.no-pad {padding-left:0;}
+#eventSetupForm .control-group .control-label {width:80px;white-space:nowrap;}
+#eventSetupForm .control-group .controls {margin-left:100px;}
+#eventSetupForm .btn-group button input {display:none;}
+#eventSetupForm .repeat-options {display:none;}
+
+    #eventRepeatSettings div.checkbox.inline {padding-left:0;}
+
+
+/* SETTINGS PAGE */
+#schedulizerWrap .clearfix.btn-wrap {margin:0;padding:12px 0 0;}

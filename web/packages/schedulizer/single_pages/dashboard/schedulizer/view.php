@@ -1,0 +1,1 @@
+<?php // placeholder; redirects to /calendars
