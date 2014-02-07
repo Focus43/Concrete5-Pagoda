@@ -3,27 +3,23 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    // Banner license
-    banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n' +
-        'Author: <%= pkg.author.name %> (<%= pkg.author.url %>) */\n',
+    banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n',
     filename: '<%= pkg.name %>',
-    // Task configuration.
     concat: {
       options: {
         banner: '<%= banner %>',
         stripBanners: true
       },
       dist: {
-        src: ['../web/concrete/js/ccm.base.js'],
-        dest: '../web/js/<%= filename %>.js'
+        src:  [],
+        dest: ''
       }
     },
     strip: {
       main : {
-        src : '<%= concat.dist.dest %>',
-        dest : '../web/js/<%= filename %>.min.js'
+        src :  '<%= concat.dist.dest %>',
+        dest : ''
       }
     },
     uglify: {
@@ -36,46 +32,12 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        unused: true,
-        boss: true,
-        eqnull: true,
-        browser: true,
-        devel: true,
-        jquery: true,
-        es5: true,
-        globals: {
-          app: true,
-          "$": true,
-          asyncTest: true,
-          deepEqual: true,
-          equal: true,
-          expect: true,
-          module: true,
-          notDeepEqual: true,
-          notEqual: true,
-          notStrictEqual: true,
-          ok: true,
-          raises: true,
-          start: true,
-          stop: true,
-          strictEqual: true,
-          test: true
-        }
-      },
+      options: {},
       gruntfile: {
         src: 'Gruntfile.js'
       },
       lib_test: {
-        src: ['../web/js/**/*.js']
+        src: ['']
       }
     },
     sass: {
@@ -84,17 +46,13 @@ module.exports = function(grunt) {
           style: 'expanded',
           debugInfo: false
         },
-        files: {
-          'web/css/<%= filename %>-dev.css': '../web/css/manifest.scss'
-        }
+        files: {}
       },
       build: {
         options: {
           style: 'compressed'
         },
-        files: {
-          'web/css/<%= filename %>.min.css': '../web/css/manifest.scss'
-        }
+        files: {}
       }
     },
     watch: {
@@ -107,8 +65,8 @@ module.exports = function(grunt) {
         tasks: ['jshint','concat']
       },
       sassy_pants: {
-        files: 'web/packages/**/*.scss',
-        tasks: ['sass:build', 'bump']
+        files: '',
+        tasks: ['sass:build', 'bump:minor']
       }
     }
   });
@@ -123,7 +81,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
 
   // Default task.
-  grunt.registerTask('default', ['concat', 'sass:dev', 'bump']);
+  grunt.registerTask('default', ['concat', 'sass:dev', 'bump:minor']);
   grunt.registerTask('build', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:minor']);
   grunt.registerTask('release', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:major']);
 

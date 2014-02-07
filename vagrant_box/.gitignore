@@ -1,4 +1,0 @@
-# ignore the chef-librarian build files; just include the Vagrant file and cookbooks
-.librarian
-.vagrant
-/tmp
