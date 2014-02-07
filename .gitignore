@@ -1,5 +1,6 @@
 # ignore system files
 .DS_Store
+*.DS_Store
 thumbs.db
 __MACOSX
 ._*
@@ -29,7 +30,7 @@ error_log
 
 # ignore concrete packages folder; *not* web/packages though
 #/web/packages/* ### See documentation for deploying to Pagoda ###
-/web/concrete/packages/*
+#/web/concrete/packages/*
 
 
 # more stuff (in default C5 installations, these are not commented out)
