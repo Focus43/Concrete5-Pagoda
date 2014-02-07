@@ -137,7 +137,7 @@ Vagrant.configure("2") do |config|
       :core       => '/home/vagrant/app/web/concrete/',
       :target     => '/home/vagrant/app/web/',
       :database   => {
-        :name     => 'concrete5_site',
+        :name     => 'flexry_dev',
         :server   => '127.0.0.1',
         :username => 'root'
       }
