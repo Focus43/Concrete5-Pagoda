@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     :http_ssl_port      => 4433,      # port to access the site from with ssl; eg: http://localhost:4433
     :mysql_port         => 3307,      # want to use a MySQL GUI?
     :vm_memory          => '384',     # how much memory can this VM use?
-    :use_rbenv          => false,     # *developers*: if you want a different ruby version, rbenv will install
+    :use_rbenv          => true,     # *developers*: if you want a different ruby version, rbenv will install
     :rbenv_settings     => {          # only valid if :use_rbenv is set to true
       :user_installs => [{
         :user        => "vagrant",
@@ -166,11 +166,12 @@ Vagrant.configure("2") do |config|
 
     # Use rbenv cookbooks?
     if( box_settings[:use_rbenv] )
-      # Include chef recipes
-      chef.add_recipe 'ruby_build'
-      chef.add_recipe 'rbenv::user'
       # Include rbenv settings
       _attributes[:rbenv] = box_settings[:rbenv_settings]
+      # Include chef recipes
+      chef.add_recipe 'build-essential'
+      chef.add_recipe 'ruby_build'
+      chef.add_recipe 'rbenv::user'
     end
 
     # attributes
