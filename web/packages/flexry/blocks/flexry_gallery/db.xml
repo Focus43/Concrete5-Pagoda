@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+
+    <table name="btFlexryGallery">
+		<field name="bID" type="I">
+			<key />
+			<unsigned />
+		</field>
+        <field name="fileSourceMethod" type="I" size="2">
+            <unsigned />
+            <default value="0" />
+        </field>
+        <field name="fileSetIDs" type="X2" />
+        <field name="thumbWidth" type="I" size="11" />
+        <field name="thumbHeight" type="I" size="11" />
+        <field name="thumbCrop" type="I1">
+            <unsigned />
+            <default value="0" />
+        </field>
+        <field name="fullUseOriginal" type="I1">
+            <unsigned />
+            <default value="1" />
+        </field>
+        <field name="fullWidth" type="I" size="11" />
+        <field name="fullHeight" type="I" size="11" />
+        <field name="fullCrop" type="I1">
+            <unsigned />
+            <default value="0" />
+        </field>
+        <field name="autoIncludeJsInFooter" type="I1">
+            <unsigned />
+            <default value="0" />
+        </field>
+        <field name="templateData" type="X2" />
+        <field name="lightboxEnable" type="I1">
+            <unsigned />
+            <default value="1" />
+        </field>
+        <field name="lbMaskColor" type="C" size="10" />
+        <field name="lbMaskOpacity" type="C" size="10" />
+        <field name="lbMaskFadeSpeed" type="C" size="10" />
+        <field name="lbCloseOnClick" type="I1">
+            <unsigned />
+            <default value="1" />
+        </field>
+        <field name="lbTransitionEffect" type="C" size="255" />
+        <field name="lbTransitionDuration" type="C" size="10" />
+        <field name="lbCaptions" type="I1">
+            <unsigned />
+            <default value="1" />
+        </field>
+        <field name="lbGalleryMarkers" type="I1">
+            <unsigned />
+            <default value="0" />
+        </field>
+	</table>
+
+    <table name="btFlexryGalleryFiles">
+        <field name="bID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+        </field>
+        <field name="fileID" type="I">
+            <KEY/>
+            <UNSIGNED />
+            <NOTNULL />
+        </field>
+        <field name="displayOrder" type="I" size="10">
+            <NOTNULL/>
+            <DEFAULT value="0"/>
+            <UNSIGNED/>
+        </field>
+
+        <index name="bIDfileID">
+            <UNIQUE />
+            <col>bID</col>
+            <col>fileID</col>
+        </index>
+        <index name="displayOrder">
+            <col>displayOrder</col>
+        </index>
+    </table>
+
+</schema>

@@ -1,0 +1,207 @@
+<?php defined('C5_EXECUTE') or die("Access Denied.");
+    /** @var BlockView $this */
+    /** @var FormHelper $formHelper */
+?>
+
+	<style type="text/css">
+        #flexryGallery .nav-tabs select {width:160px;}
+        #flexryGallery .nav-tabs a {cursor:pointer;}
+        #flexryGallery .tab-content {overflow:visible;}
+        #flexryGallery .well {margin-bottom:15px;padding-top:13px;padding-bottom:11px;}
+        #flexryGallery .well h3 {margin:0;padding-bottom:5px;line-height:1em;}
+        #flexryGallery .well p:last-child {margin:0;}
+        #flexryGallery .well p.muted {font-size:11px;}
+        #flexryGallery label {display:inline-block;font-weight:inherit;margin-bottom:0;padding-top:0;}
+        #flexryGallery table.table {vertical-align:middle;margin-bottom:8px;background:#fff;border-spacing:0;border-collapse:collapse;}
+        #flexryGallery table.table:last-child {margin-bottom:0;}
+        #flexryGallery table.table th,
+        #flexryGallery table.table td {white-space:nowrap;vertical-align:inherit;background:#fff;}
+        #flexryGallery table.table tr td:last-child {width:98%;}
+        #flexryGallery table.table.table-bordered thead tr th {white-space:nowrap;border-bottom-width:0 !important;}
+        #flexryGallery input[type="text"] {padding:5px;height:auto;}
+        #flexryGallery input[type="checkbox"] {position:relative;top:-1px;}
+        #flexryGallery select {padding:5px;height:27px;}
+        /* duplicates warning */
+        #tabPaneImages .alert {display:none;}
+        #tabPaneImages.dups .alert {display:block;}
+        #tabPaneImages.dups .alert .btn {color:inherit;float:right;}
+        #tabPaneImages.dups .alert .close {top:1px;}
+        #tabPaneImages.dups #imageSelections {top:110px;}
+        /* custom gallery builder */
+        #imageSelections {background:#eee;position:absolute;top:58px;right:10px;bottom:10px;left:10px;border:1px dashed #bbb;overflow-y:scroll;overflow-x:hidden;}
+        #imageSelections p {position:absolute;z-index:5;width:100%;text-align:center;font-size:11px;color:#777;margin:0;padding:8px 0;}
+        #imageSelections p i {position:relative;top:-2px;}
+            #flexryClearAll {position:relative;top:-1px;}
+        #imageSelections .inner {padding:38px 0 0;width:100%;height:100%;position:relative;}
+        #imageSelections .item {display:inline-block;width:60px;height:60px;margin:0 0 5px 6px;position:relative;border:1px solid #fff;cursor:pointer;background-size:cover;background-position:50% 50%; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; -webkit-box-shadow:0 0 4px rgba(0,0,0,.25);-moz-box-shadow:0 0 4px rgba(0,0,0,.25);box-shadow:0 0 4px rgba(0,0,0,.25);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
+        #imageSelections .item i {display:none;position:absolute;}
+        #imageSelections .item i.icon-minus-sign {bottom:-8px;right:-6px;cursor:not-allowed;}
+        #imageSelections .item i.icon-move {top:-8px;left:50%;margin-left:-8px;cursor:move;}
+        #imageSelections .item:hover i {display:block;}
+        /* gallery type selection dropdown */
+        #flexryGallery .fileSourceMethod {display:none;}
+        #flexryGallery .fileSourceMethod.active {display:block;}
+        /* template forms */
+        #tabPaneTemplates .template-form {display:none;margin:10px 0 0;}
+        #tabPaneTemplates .template-form.active {display:block;}
+	</style>
+
+	<div id="flexryGallery" class="ccm-ui">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-tab="#tabPaneImages">Gallery</a></li>
+            <li><a data-tab="#tabPaneSettings">Settings</a></li>
+            <li><a data-tab="#tabPaneTemplates">Template Options</a></li>
+            <li id="flexryOptionsRight" class="pull-right">
+                <?php echo $formHelper->select('fileSourceMethod', FlexryGalleryBlockController::$fileSourceMethods, $this->controller->fileSourceMethod); ?>
+                <button id="chooseImg" type="button" class="btn" title="Select multiple with checkboxes." data-method="<?php echo FlexryGalleryBlockController::FILE_SOURCE_METHOD_CUSTOM; ?>">Add Images</button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- image selection tab -->
+            <div id="tabPaneImages" class="tab-pane active">
+                <!-- build gallery manually -->
+                <div class="fileSourceMethod <?php if((int)$this->controller->fileSourceMethod === FlexryGalleryBlockController::FILE_SOURCE_METHOD_CUSTOM){ echo 'active'; } ?>" data-method="<?php echo FlexryGalleryBlockController::FILE_SOURCE_METHOD_CUSTOM; ?>">
+                    <div class="dups-warning alert alert-warning">The same image was added more than once; duplicates have been removed.  <button type="button" class="close">&times;</button></div>
+                    <div id="imageSelections">
+                        <p>Hover images and: <i class="icon-hand-up"></i> <strong>click</strong> to edit; <i class="icon-move"></i> to reorder; <i class="icon-minus-sign"></i> to remove. <button id="flexryClearAll" class="btn btn-mini btn-warning" type="button">Clear All</button></p>
+                        <div class="inner clearfix">
+                            <?php foreach($imageList AS $fileObj){ /** @var FlexryFile $fileObj */ ?>
+                                <div class="item" style="background-image:url('<?php echo $fileObj->getThumbnail(2, false); ?>');">
+                                    <i class="icon-minus-sign"></i><i class="icon-move"></i>
+                                    <input type="hidden" name="fileIDs[]" value="<?php echo $fileObj->getFileID(); ?>" />
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- compose gallery from sets -->
+                <div class="fileSourceMethod <?php if((int)$this->controller->fileSourceMethod === FlexryGalleryBlockController::FILE_SOURCE_METHOD_SETS){ echo 'active'; } ?>" data-method="<?php echo FlexryGalleryBlockController::FILE_SOURCE_METHOD_SETS; ?>">
+                    <div class="well">
+                        <h3>Choose One Or More File Sets</h3>
+                        <p>If more than one File Set is used, images will be ordered randomly.</p>
+                        <select id="fileSetPicker" class="input-block-level" name="fileSetIDs[]" multiple data-placeholder="Choose one or more File Set">
+                            <?php foreach($availableFileSets AS $fsObj): ?>
+                                <option value="<?php echo $fsObj->getFileSetID(); ?>"<?php if(in_array($fsObj->getFileSetID(), $savedFileSets)){ echo ' selected="selected"'; } ?>><?php echo $fsObj->getFileSetName(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <p class="muted" style="padding-top:4px;">The advantage to using File Sets is that you can simply add one or more images to a set, or image sets, in the File Manager, and the gallery will automatically update with the images (instead of adding by hand using the custom gallery option).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- settings tab -->
+            <div id="tabPaneSettings" class="tab-pane">
+                <div class="well">
+                    <h3>Image Size Settings</h3>
+                    <p>Configure image size settings for thumbnails, and the full image size (if applicable).</p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Thumbnail Size</th>
+                                <th><label class="checkbox"><?php echo $formHelper->checkbox('fullUseOriginal', FlexryGalleryBlockController::FULL_USE_ORIGINAL_TRUE, $this->controller->fullUseOriginal); ?> Full Size: Use Original Image?</label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Max Width</strong></td>
+                                <td><?php echo $formHelper->text('thumbWidth', $this->controller->thumbWidth, array('class' => 'span1', 'placeholder' => '250')); ?> px</td>
+                                <td><?php echo $formHelper->text('fullWidth', ($this->controller->fullWidth >= 1 ? $this->controller->fullWidth : ''), array('class' => 'span1', 'placeholder' => '900')); ?> px</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Max Height</strong></td>
+                                <td><?php echo $formHelper->text('thumbHeight', $this->controller->thumbHeight, array('class' => 'span1', 'placeholder' => '250')); ?> px</td>
+                                <td><?php echo $formHelper->text('fullHeight', ($this->controller->fullHeight >= 1 ? $this->controller->fullHeight : ''), array('class' => 'span1', 'placeholder' => '750')); ?> px</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Crop To Fit?</strong></td>
+                                <td><label class="checkbox"><?php echo $formHelper->checkbox('thumbCrop', FlexryGalleryBlockController::CROP_TRUE, $this->controller->thumbCrop); ?> Yes</label></td>
+                                <td><label class="checkbox"><?php echo $formHelper->checkbox('fullCrop', FlexryGalleryBlockController::CROP_TRUE, $this->controller->fullCrop); ?> Yes</label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="muted">Images will be scaled to the maximum width/height, while maintaining the aspect ratio to not be blurry.</p>
+                </div>
+
+                <div class="well">
+                    <h3>Gallery Settings</h3>
+                    <p>Allow user to click an image and view full size image overlayed on the page.</p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="5"><label class="checkbox" style="font-weight:normal;"><?php echo $formHelper->checkbox('lightbox[enable]', FlexryGalleryBlockController::LIGHTBOX_ENABLE_TRUE, (int) $this->controller->lightboxEnable, array('class' => 'enableLightboxCheckbox')); ?> Enable Lightbox Gallery (If supported by template)</label></th>
+                            </tr>
+                        </thead>
+                        <tbody class="flexry-lightbox-settings">
+                            <tr>
+                                <td rowspan="2"><strong>Mask</strong></td>
+                                <td>Color</td>
+                                <td>Opacity</td>
+                                <td>Fade Speed</td>
+                                <td>Click __ To Close</td>
+                            </tr>
+                            <tr>
+                                <td><?php echo $formHelper->text('lightbox[maskColor]', $this->controller->lbMaskColor, array('class' => 'span2 color-choose', 'placeholder' => '2d2d2d') ); ?></td>
+                                <td><?php echo $formHelper->select('lightbox[maskOpacity]', FlexryGalleryBlockController::lightboxMaskOpacities(), $this->controller->lbMaskOpacity, array('style' => 'width:55px;') ); ?> &#37;</td>
+                                <td><?php echo $formHelper->select('lightbox[maskFadeSpeed]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbMaskFadeSpeed, array('style' => 'width:65px;') ); ?> sec</td>
+                                <td><?php echo $formHelper->select('lightbox[closeOnClick]', FlexryGalleryBlockController::$lightboxCloseMethods, $this->controller->lbCloseOnClick, array('style' => 'width:110px;') ); ?></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"><strong>Animation</strong></td>
+                                <td>Transition</td>
+                                <td colspan="3">Duration</td>
+                            </tr>
+                            <tr>
+                                <td><?php echo $formHelper->select('lightbox[transitionEffect]', FlexryGalleryBlockController::$lightboxTransitions, $this->controller->lbTransitionEffect, array('style' => 'width:138px;') ); ?></td>
+                                <td colspan="3"><?php echo $formHelper->select('lightbox[transitionDuration]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbTransitionDuration, array('style' => 'width:65px;') ); ?> sec</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"><strong>Display</strong></td>
+                                <td>Captions <i class="icon-info-sign show-popover" title="Title/Description" data-content="Hidden by default; Title visible on devices >= 460px; Description visible on devices >= 568px."></i></td>
+                                <td colspan="3">Thumbnail Markers <i class="icon-info-sign show-popover" title="Hover-to-see Preview" data-content="Visible only on: non-touch devices >= 568px height and 768px wide."></i></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo $formHelper->select('lightbox[captions]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbCaptions, array('style' => 'width:80px;') ); ?></td>
+                                <td colspan="3"><?php echo $formHelper->select('lightbox[galleryMarkers]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbGalleryMarkers, array('style' => 'width:80px;') ); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="well">
+                    <h3>Advanced</h3>
+                    <p>Fine-tune the block settings (mainly for advanced users).</p>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td><label class="checkbox"><?php echo $formHelper->checkbox('autoIncludeJsInFooter', FlexryGalleryBlockController::JS_IN_FOOTER_TRUE, $this->controller->autoIncludeJsInFooter); ?> Output javascript includes in footer</label></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tabPaneTemplates" class="tab-pane">
+                <div class="well">
+                    <h3>Template Settings</h3>
+                    <p>Configure different settings for different block templates.</p>
+                    <?php echo $formHelper->select('flexryTemplateHandle', $templateSelectList, $currentTemplateHandle, array('class' => 'input-block-level')); ?>
+                    <div class="template-form <?php if( empty($currentTemplateHandle) ){ echo 'active'; } ?>" data-tmpl="selected">
+                        <!-- "Default"; has no options -->
+                        <p>This template has no editable options.</p>
+                    </div>
+                    <?php foreach($templateDirList AS $handle => $templatePath): ?>
+                        <div class="template-form <?php if( $currentTemplateHandle == $handle ){ echo 'active'; } ?>" data-tmpl="<?php echo $handle; ?>">
+                            <?php
+                            if( is_dir($templatePath) && file_exists($templatePath . '/settings.php') ){
+                                FlexryBlockTemplateOptions::setup( $handle, $templatePath, $templateData )->renderForm();
+                            }else{
+                                echo '<p>This template has no editable options.</p>';
+                            }
+                            ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+	</div>

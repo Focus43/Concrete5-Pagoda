@@ -1,0 +1,11 @@
+@import '../../../css/dev/variables-mixins';
+
+$spacing: 10px;
+
+.flexry-default {text-align:center;line-height:1;
+  .flexry-default-row {padding:$spacing;}
+  .flexry-default-item {background:#fff;padding:$spacing $spacing 0;display:inline-block;margin:0 auto;@include box-shadow(0 0 $spacing rgba(0,0,0,.35));@include box-sizing(border-box);
+    img {display:block;max-width:100%;width:auto;height:auto;margin:0 auto;}
+    span {display:block;line-height:1em;padding:$spacing;overflow:hidden;max-width:100%;@include box-sizing(border-box);}
+  }
+}
