@@ -97,20 +97,10 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
     }
 
     // Watch Tasks
-    _currentConfigs.watch.flexry_all = {
+    _currentConfigs.watch.flexry = {
         files : [pkgPath('**/*.dev.js'), pkgPath('**/*.scss')],
-        tasks : ['concat:flexry', 'sass_style_uncompressed', 'sass:flexry']
-    }
-
-    _currentConfigs.watch.flexry_js = {
-        files : [pkgPath('**/*.dev.js')],
-        tasks : ['concat:flexry']
-    }
-
-    _currentConfigs.watch.flexry_sass = {
-        files : [pkgPath('**/*.scss')],
-        tasks : ['sass_style_uncompressed', 'sass:flexry']
-    }
+        tasks : ['newer:concat:flexry', 'sass_style_uncompressed', 'newer:sass:flexry']
+    };
 
     // During watch tasks, change the sass output style to expanded
     grunt.registerTask('sass_style_uncompressed', 'Modify SASS output style', function(){

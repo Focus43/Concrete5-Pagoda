@@ -1,6 +1,11 @@
-.flexry-dicer {
-  .flexry-dicer-item {display:none;position:absolute;
-    img {max-width:100%;}
-    &.current {display:block;position:relative;}
+@import '../../../../../css/dev/variables-mixins';
+
+.flexry-dicer {margin-top:150px;@include perspective(1000px);
+  .flexry-dicer-item {position:absolute;text-align:center;top:0;left:0;width:100%;
+    &.current {position:relative;}
+
+    .inner {display:inline-block;margin:0 auto;
+      img {max-width:100%;}
+    }
   }
 }

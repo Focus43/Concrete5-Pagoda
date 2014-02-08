@@ -2,9 +2,11 @@
 
     function FlexryDicer( $selector, _settings ){
 
-        var _self  = this,
+        var _self       = this,
+            _timeline   = new gsTimeline(),
+            _tweens     = [],
             config = $.extend(true, {}, {
-                slices: 4
+                bricks: 1
             }, _settings);
 
 
@@ -31,24 +33,30 @@
         }
 
 
-        function trace(){
-            var _current = $('.current img', $selector),
-                _clientW = _current[0].clientWidth,
-                _clientH = _current[0].clientHeight;
-            console.log(_clientW, _clientH);
-        }
-
-
         batchLoadImages( $('img', $selector) ).done(function(){
-            trace();
-        })
+            var $items = $('.flexry-dicer-item', $selector),
+                length = $items.length;
+            $items.each(function(_index, element){
+                    _tweens.push( gsTween.to(element, .35, {
+                        //z:       -((length-_index)/10),
+                        y:       -((length-_index)*10),//length-_index,//-((length-_index)/10),
+                        scale:   1.1 + ((length-_index)/100),
+                        opacity: ((100/length)*_index)/100,
+                        delay:   .35
+                    }));
+            });
+            _timeline.add(_tweens, '+=0', 'normal',.1);
+        });
 
 
         // @public methods
         return {
             $element     : $selector,
             initSettings : _settings,
-            configs      : config
+            configs      : config,
+            timeline     : function(){
+                return _timeline;
+            }
         }
     }
 

@@ -1,2 +1,324 @@
-/*! concrete5_project - Build v0.0.6 (2014-02-08) */
-window.Modernizr=function(a,b,c){function d(a){s.cssText=a}function e(a,b){return typeof a===b}function f(a,b){return!!~(""+a).indexOf(b)}function g(a,b){for(var d in a){var e=a[d];if(!f(e,"-")&&s[e]!==c)return"pfx"==b?e:!0}return!1}function h(a,b,d){for(var f in a){var g=b[a[f]];if(g!==c)return d===!1?a[f]:e(g,"function")?g.bind(d||b):g}return!1}function i(a,b,c){var d=a.charAt(0).toUpperCase()+a.slice(1),f=(a+" "+v.join(d+" ")+d).split(" ");return e(b,"string")||e(b,"undefined")?g(f,b):(f=(a+" "+w.join(d+" ")+d).split(" "),h(f,b,c))}var j,k,l,m="2.7.1",n={},o=!0,p=b.documentElement,q="modernizr",r=b.createElement(q),s=r.style,t=({}.toString," -webkit- -moz- -o- -ms- ".split(" ")),u="Webkit Moz O ms",v=u.split(" "),w=u.toLowerCase().split(" "),x={},y=[],z=y.slice,A=function(a,c,d,e){var f,g,h,i,j=b.createElement("div"),k=b.body,l=k||b.createElement("body");if(parseInt(d,10))for(;d--;)h=b.createElement("div"),h.id=e?e[d]:q+(d+1),j.appendChild(h);return f=["&#173;",'<style id="s',q,'">',a,"</style>"].join(""),j.id=q,(k?j:l).innerHTML+=f,l.appendChild(j),k||(l.style.background="",l.style.overflow="hidden",i=p.style.overflow,p.style.overflow="hidden",p.appendChild(l)),g=c(j,a),k?j.parentNode.removeChild(j):(l.parentNode.removeChild(l),p.style.overflow=i),!!g},B={}.hasOwnProperty;l=e(B,"undefined")||e(B.call,"undefined")?function(a,b){return b in a&&e(a.constructor.prototype[b],"undefined")}:function(a,b){return B.call(a,b)},Function.prototype.bind||(Function.prototype.bind=function(a){var b=this;if("function"!=typeof b)throw new TypeError;var c=z.call(arguments,1),d=function(){if(this instanceof d){var e=function(){};e.prototype=b.prototype;var f=new e,g=b.apply(f,c.concat(z.call(arguments)));return Object(g)===g?g:f}return b.apply(a,c.concat(z.call(arguments)))};return d}),x.touch=function(){var c;return"ontouchstart"in a||a.DocumentTouch&&b instanceof DocumentTouch?c=!0:A(["@media (",t.join("touch-enabled),("),q,")","{#modernizr{top:9px;position:absolute}}"].join(""),function(a){c=9===a.offsetTop}),c},x.cssanimations=function(){return i("animationName")},x.csstransforms=function(){return!!i("transform")},x.csstransforms3d=function(){var a=!!i("perspective");return a&&"webkitPerspective"in p.style&&A("@media (transform-3d),(-webkit-transform-3d){#modernizr{left:9px;position:absolute;height:3px;}}",function(b){a=9===b.offsetLeft&&3===b.offsetHeight}),a},x.csstransitions=function(){return i("transition")};for(var C in x)l(x,C)&&(k=C.toLowerCase(),n[k]=x[C](),y.push((n[k]?"":"no-")+k));return n.addTest=function(a,b){if("object"==typeof a)for(var d in a)l(a,d)&&n.addTest(d,a[d]);else{if(a=a.toLowerCase(),n[a]!==c)return n;b="function"==typeof b?b():b,"undefined"!=typeof o&&o&&(p.className+=" flexry-lb-"+(b?"":"no-")+a),n[a]=b}return n},d(""),r=j=null,n._version=m,n._prefixes=t,n._domPrefixes=w,n._cssomPrefixes=v,n.testProp=function(a){return g([a])},n.testAllProps=i,n.testStyles=A,p.className=p.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(o?" flexry-lb-js flexry-lb-"+y.join(" flexry-lb-"):""),n}(this,this.document),function(a){function b(b,c){function d(){return s.gallery&&i()["1"]?(a(".gallery-arrows",t).on("click",function(b){b.stopPropagation(),b.preventDefault();var c=i();a(this).hasClass("prev")?h(c[p-1]||c[q]):h(c[p+1]||c[0])}),s.galleryMarkers&&(a.each(i(),function(b,c){a.when(f(c.src_thumb)).done(function(b){var d=e(b,s.galleryMarkersThumb),f=a('<div class="m" data-cache="'+c.index+'"><span class="t"><span class="arrow"></span></span></div>');a("span.t",f).css({left:-(b.width*d/2+3)}).append(b),t.$_markersInner.append(f)})}),t.$_markersInner.on("click",function(b){b.stopPropagation(),b.preventDefault(),a(b.target).hasClass("m")&&h(i()[b.target.getAttribute("data-cache")])})),void 0):(t.removeClass("arrows markers"),void 0)}function e(a,b){var c=b||s.galleryMarkersThumb,d=a.width<=c.w?a.width:c.w,e=a.height<=c.h?a.height:c.h,f=[d/a.width,e/a.height];return Math.min.apply(Math,f)}function f(b){return o[b]||(o[b]=a.Deferred(function(a){a.notify();var c=new Image;c.onload=function(){a.resolve(c)},c.src=b}).promise()),o[b]}function g(b){return a.Deferred(function(a){setTimeout(function(){a.resolve()},b||+s.transitionDuration)}).promise()}function h(b){u||(u=!0,p=b.index,t.setStatus(k),a.when(f(b.src_full),g()).done(function(){var c=a('<img src="'+b.src_full+'" class="primary-img" />');a("img.primary-img",t).replaceWith(c),s.captions&&(t.$_captionContainer.css({maxWidth:c[0].clientWidth,height:c[0].clientHeight}),t.$_caption1.text(b.title||"Untitled"),t.$_caption2.text(b.descr||"No Description")),u=!1,t.setStatus(l)}))}function i(c){return r&&c!==!0||(r={},a(s.itemTargets,b).each(function(b,c){c.setAttribute("data-order",b),r[b]={index:b,title:a(".title",c).text()||"",descr:a(".descr",c).text()||"",src_thumb:a("img",c).attr("src"),src_full:c.getAttribute("data-src-full")},q=b})),r}var j=this,k=!1,l=!0,m=200,n=!0,o={},p=null,q=0,r=!1,s=a.extend(!0,{},{maskColor:"#2a2a2a",maskOpacity:.85,maskFadeSpeed:250,closeOnClick:!0,itemTargets:".lightbox-item",transitionEffect:"",transitionDuration:m,captions:!0,gallery:n,galleryMarkers:!0,galleryMarkersThumb:{w:160,h:100}},c),t=function(){function c(){if(+s.transitionDuration!==m){var b=["-webkit-","-moz-","-o-","-ms-",""],c=s.transitionDuration/1e3,d=c/2;a(".modal-container, .content",g).attr("style",b.join("transition-duration: "+c+"s;")),a(".loader-container",g).attr("style",b.join("transition-duration: "+d+"s;"))}}function e(){return f||(f=a.Deferred(function(b){g.attr("id","flexryLightbox-"+(new Date).getTime()),g.appendTo("body"),a(".masker",g).css({background:s.maskColor,opacity:s.maskOpacity});var e=s.closeOnClick?g:a(".closer",g);e.on("click",function(){g.close()}),c(),d(),b.resolve()}).promise()),f}var f,g=a("<div />",{"class":["flexry-lightbox",s.transitionEffect,s.captions?"captions":"",s.gallery?"arrows":"",s.galleryMarkers?"markers":""].join(" "),html:'<div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div>'});return g.open=function(){return a.Deferred(function(c){e().done(function(){a("html").addClass("flexry-box"),g.setStatus(k).fadeIn(s.maskFadeSpeed,function(){c.resolve(),b.trigger("flexry_lightbox_open")})})}).promise()},g.close=function(){return a("html").removeClass("flexry-box"),g.setStatus(k).fadeOut(s.maskFadeSpeed,function(){b.trigger("flexry_lightbox_close")})},g.setStatus=function(a){return g.toggleClass("loaded",a===l),g},g.$_content=a(".content",g),g.$_captionContainer=a(".caption-container",g),g.$_caption1=a(".title span",g),g.$_caption2=a(".descr span",g),g.$_markersInner=a(".m-inner",g),g}(),u=!1;return b.on("click",s.itemTargets,function(){var a=i(),b=this.getAttribute("data-order");t.open().then(function(){h(a[b])})}),{listCache:i,$container:function(){return t},settings:function(){return s},currentIndex:function(){return p},rescanItems:function(){return i(!0)},listDataLength:function(){return q},instance:j}}a.fn.flexryLightbox=function(c){return this.each(function(d,e){var f=a(e),g=new b(f,c);f.data("flexryLightbox",g)})}}(jQuery);
+/* Modernizr 2.7.1 (Custom Build) | MIT & BSD
+ * Build: http://modernizr.com/download/#-cssanimations-csstransforms-csstransforms3d-csstransitions-touch-cssclasses-teststyles-testprop-testallprops-prefixes-domprefixes-cssclassprefix:flexry!lb!
+ */
+;window.Modernizr=function(a,b,c){function z(a){j.cssText=a}function A(a,b){return z(m.join(a+";")+(b||""))}function B(a,b){return typeof a===b}function C(a,b){return!!~(""+a).indexOf(b)}function D(a,b){for(var d in a){var e=a[d];if(!C(e,"-")&&j[e]!==c)return b=="pfx"?e:!0}return!1}function E(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:B(f,"function")?f.bind(d||b):f}return!1}function F(a,b,c){var d=a.charAt(0).toUpperCase()+a.slice(1),e=(a+" "+o.join(d+" ")+d).split(" ");return B(b,"string")||B(b,"undefined")?D(e,b):(e=(a+" "+p.join(d+" ")+d).split(" "),E(e,b,c))}var d="2.7.1",e={},f=!0,g=b.documentElement,h="modernizr",i=b.createElement(h),j=i.style,k,l={}.toString,m=" -webkit- -moz- -o- -ms- ".split(" "),n="Webkit Moz O ms",o=n.split(" "),p=n.toLowerCase().split(" "),q={},r={},s={},t=[],u=t.slice,v,w=function(a,c,d,e){var f,i,j,k,l=b.createElement("div"),m=b.body,n=m||b.createElement("body");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:h+(d+1),l.appendChild(j);return f=["&#173;",'<style id="s',h,'">',a,"</style>"].join(""),l.id=h,(m?l:n).innerHTML+=f,n.appendChild(l),m||(n.style.background="",n.style.overflow="hidden",k=g.style.overflow,g.style.overflow="hidden",g.appendChild(n)),i=c(l,a),m?l.parentNode.removeChild(l):(n.parentNode.removeChild(n),g.style.overflow=k),!!i},x={}.hasOwnProperty,y;!B(x,"undefined")&&!B(x.call,"undefined")?y=function(a,b){return x.call(a,b)}:y=function(a,b){return b in a&&B(a.constructor.prototype[b],"undefined")},Function.prototype.bind||(Function.prototype.bind=function(b){var c=this;if(typeof c!="function")throw new TypeError;var d=u.call(arguments,1),e=function(){if(this instanceof e){var a=function(){};a.prototype=c.prototype;var f=new a,g=c.apply(f,d.concat(u.call(arguments)));return Object(g)===g?g:f}return c.apply(b,d.concat(u.call(arguments)))};return e}),q.touch=function(){var c;return"ontouchstart"in a||a.DocumentTouch&&b instanceof DocumentTouch?c=!0:w(["@media (",m.join("touch-enabled),("),h,")","{#modernizr{top:9px;position:absolute}}"].join(""),function(a){c=a.offsetTop===9}),c},q.cssanimations=function(){return F("animationName")},q.csstransforms=function(){return!!F("transform")},q.csstransforms3d=function(){var a=!!F("perspective");return a&&"webkitPerspective"in g.style&&w("@media (transform-3d),(-webkit-transform-3d){#modernizr{left:9px;position:absolute;height:3px;}}",function(b,c){a=b.offsetLeft===9&&b.offsetHeight===3}),a},q.csstransitions=function(){return F("transition")};for(var G in q)y(q,G)&&(v=G.toLowerCase(),e[v]=q[G](),t.push((e[v]?"":"no-")+v));return e.addTest=function(a,b){if(typeof a=="object")for(var d in a)y(a,d)&&e.addTest(d,a[d]);else{a=a.toLowerCase();if(e[a]!==c)return e;b=typeof b=="function"?b():b,typeof f!="undefined"&&f&&(g.className+=" flexry-lb-"+(b?"":"no-")+a),e[a]=b}return e},z(""),i=k=null,e._version=d,e._prefixes=m,e._domPrefixes=p,e._cssomPrefixes=o,e.testProp=function(a){return D([a])},e.testAllProps=F,e.testStyles=w,g.className=g.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(f?" flexry-lb-js flexry-lb-"+t.join(" flexry-lb-"):""),e}(this,this.document);
+
+/**
+ * FlexryLightbox : fully responsive, mobile-first Lightbox gallery with CSS transitions
+ * and graceful fallback to sh*tty browsers.
+ * @author Jonathan Hartman | Focus43, LLC.
+ * @param $selector
+ * @param _settings
+ * @returns {{}}
+ * @constructor
+ */
+(function( $ ){
+
+    function FlexryLightbox( $selector, _settings ){
+
+            // _self = *this* instance of FlexryLightbox
+        var _self               = this,
+            status_loaded_false = false,
+            status_loaded_true  = true,
+            _transitionDuration = 200, // .2 seconds
+            _galleryDefault     = true,
+            _imagePromiseCache  = {},
+            _currentIndexCache  = null,
+            _listDataLength     = 0,
+            _listDataCache      = false,
+            // merge passed options w/ the defaults
+            config = $.extend(true, {}, {
+                maskColor           : '#2a2a2a',
+                maskOpacity         : .85,
+                maskFadeSpeed       : 250,
+                closeOnClick        : true,
+                itemTargets         : '.lightbox-item',
+                transitionEffect    : '',
+                transitionDuration  : _transitionDuration,
+                captions            : true,
+                gallery             : _galleryDefault,
+                galleryMarkers      : true,
+                galleryMarkersThumb : {w: 160, h: 100}
+            }, _settings);
+
+
+        /**
+         * Create <div class="flexry-lightbox" /> container, and bind helper methods
+         * open / close/ setStatus.
+         */
+        var $container = (function(){
+            var buildPromise,
+                $element = $('<div />', {
+                    class : ['flexry-lightbox', config.transitionEffect, (config.captions ? 'captions' : ''), (config.gallery ? 'arrows' : ''), (config.galleryMarkers ? 'markers' : '')].join(' '),
+                    html  : '<div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div>'
+                });
+
+            // Set transition durations, if not the default 200
+            function setCssTransitionDuration(){
+                if( +(config.transitionDuration) !== _transitionDuration ){
+                    var vendors = ['-webkit-', '-moz-', '-o-', '-ms-', ''],
+                        time1   = (config.transitionDuration/1000),
+                        time2   = time1/2;
+                    $('.modal-container, .content', $element).attr('style', vendors.join('transition-duration: '+time1+'s;'));
+                    $('.loader-container', $element).attr('style', vendors.join('transition-duration: '+time2+'s;'));
+                }
+            }
+
+            // append to the DOM and setup event bindings
+            function _build(){
+                if( ! buildPromise ){
+                    buildPromise = $.Deferred(function( _task ){
+                        // set ID here so timestamp is always at time of initialize
+                        $element.attr('id', 'flexryLightbox-' + ((new Date()).getTime()) );
+                        // add to body
+                        $element.appendTo('body');
+                        // update masker settings
+                        $('.masker', $element).css({background:config.maskColor,opacity:config.maskOpacity});
+                        // bind close settings
+                        var $closeTarget = config.closeOnClick ? $element : $('.closer', $element);
+                        $closeTarget.on('click', function(){ $element.close(); });
+                        // set transition duration, if not default 200
+                        setCssTransitionDuration();
+                        // build gallery stuff, or if only one image in listData(), hide
+                        buildGallery();
+                        // resolve the _build() task done
+                        _task.resolve();
+                    }).promise();
+                }
+                return buildPromise;
+            }
+
+            // add an open() method to the jQuery $container
+            $element.open = function(){
+                return $.Deferred(function( _openTask ){
+                    _build().done(function(){
+                        $('html').addClass('flexry-box');
+                        $element.setStatus(status_loaded_false).fadeIn(config.maskFadeSpeed, function(){
+                            _openTask.resolve();
+                            // emit an event on the $selector indicating open
+                            $selector.trigger('flexry_lightbox_open');
+                        });
+                    });
+                }).promise();
+            }
+
+            // add a close() method
+            $element.close = function(){
+                $('html').removeClass('flexry-box');
+                return $element.setStatus(status_loaded_false).fadeOut(config.maskFadeSpeed, function(){
+                    // emit an event on the $selector indicating close
+                    $selector.trigger('flexry_lightbox_close');
+                });
+            }
+
+            // convenience "set status" message (swap classes)
+            $element.setStatus = function( _to ){
+                $element.toggleClass('loaded', _to === status_loaded_true);
+                return $element;
+            }
+
+            // cache commonly used selectors
+            $element.$_content          = $('.content', $element);
+            $element.$_captionContainer = $('.caption-container', $element);
+            $element.$_caption1         = $('.title span', $element);
+            $element.$_caption2         = $('.descr span', $element);
+            $element.$_markersInner     = $('.m-inner', $element);
+
+            return $element;
+        })();
+
+
+        /**
+         * Build gallery navigation and bind events.
+         */
+        function buildGallery(){
+            // is the gallery either: disabled, or is there not an object at _listCache() index 1?
+            if( !(config.gallery) || !(_listCache()['1']) ){
+                $container.removeClass('arrows markers');
+                return;
+            }
+
+            // bind previous/next actions
+            $('.gallery-arrows', $container).on('click', function( _clickEv ){
+                _clickEv.stopPropagation(); _clickEv.preventDefault();
+                var itemList = _listCache();
+                if( $(this).hasClass('prev') ){
+                    _displayImage( itemList[_currentIndexCache-1] || itemList[_listDataLength] );
+                }else{
+                    _displayImage( itemList[_currentIndexCache+1] || itemList[0] );
+                }
+            });
+
+            // create gallery markers?
+            if( config.galleryMarkers ){
+                // loop through every item in the listCache and compose a marker
+                $.each( _listCache(), function(_index, dataObj){
+                    $.when( _getImage(dataObj['src_thumb']) ).done(function( _img ){
+                        var _ratio  = _scaleRatio( _img, config.galleryMarkersThumb ),
+                            $marker = $('<div class="m" data-cache="'+dataObj['index']+'"><span class="t"><span class="arrow"></span></span></div>');
+                        $('span.t', $marker).css({left:-((_img.width*_ratio/2)+3)}).append(_img);
+                        $container.$_markersInner.append($marker);
+                    });
+                });
+
+                // bind click event to the markers
+                $container.$_markersInner.on('click', function( _clickEv ){
+                    _clickEv.stopPropagation(); _clickEv.preventDefault();
+                    if( $(_clickEv.target).hasClass('m') ){
+                        _displayImage( _listCache()[_clickEv.target.getAttribute('data-cache')] );
+                    }
+                });
+            }
+        }
+
+
+        /**
+         * Pass in an image object, and get the ratio by which the width/height are
+         * scaled so that image doesn't exceed max % of window.
+         * @param image _img : javascript image object
+         * @param obj {w:int,h:int} : optionally, pass max width/height in object
+         * @return {number}
+         */
+        function _scaleRatio( _img, max_w_h ){
+            var _maxes   = max_w_h || config.galleryMarkersThumb,
+                _scaledW = _img.width <= _maxes.w ? _img.width : _maxes.w,
+                _scaledH = _img.height <= _maxes.h ? _img.height : _maxes.h,
+                _ratios  = [(_scaledW / _img.width), (_scaledH / _img.height)];
+            return Math.min.apply(Math, _ratios);
+        }
+
+
+        /**
+         * Image loader : create or get existing $.promise() objects representing
+         * state of the image.
+         * @param string _src
+         * @returns $.promise()
+         */
+        function _getImage( _src ){
+            if( ! _imagePromiseCache[_src] ){
+                _imagePromiseCache[_src] = $.Deferred(function( _defer ){
+                    _defer.notify();
+                    var _image    = new Image();
+                    _image.onload = function(){ _defer.resolve(_image); }
+                    _image.src    = _src;
+                }).promise();
+            }
+            return _imagePromiseCache[_src];
+        }
+
+
+        /**
+         * Get a delayer : used (for example) when displaying an image - if the
+         * image is already cached and resolves immediately, we want to make sure
+         * the animation has time to complete (the CSS animation). Defaults to
+         * use the config.transitionDuration.
+         * @param int _time
+         * @returns {*|promise}
+         */
+        function _delayer( _time ){
+            return $.Deferred(function( _task ){
+                setTimeout(function(){ _task.resolve(); }, _time || +(config.transitionDuration) );
+            }).promise();
+        }
+
+
+        /**
+         * Digest the data object passed in, and take care of kicking off switching
+         * the currently displayed image. The _statusWorking variable prevents request
+         * queueing if the user were to sit there and click faster than a mutha fucka.
+         * @param dataObj : {title: string, description: string, srcThumb: string, srcFull: string}
+         */
+        var _displayImageWorking = false;
+        function _displayImage( _obj ){
+            if( ! _displayImageWorking ){
+                _displayImageWorking = true;
+                // cache the index of item being displayed, of all items
+                _currentIndexCache = _obj['index'];
+                // set container status to working
+                $container.setStatus(status_loaded_false);
+                // kickoff the getImage and the delayer simultaneously
+                $.when( _getImage(_obj['src_full']), _delayer() ).done(function(){
+                    // create a *new* image element here, as the _getImage cache sometimes
+                    // returns nullified pointers
+                    var $newImage = $('<img src="'+_obj['src_full']+'" class="primary-img" />');
+                    $('img.primary-img', $container).replaceWith( $newImage );
+                    // if captions are enabled...
+                    if( config.captions ){
+                        $container.$_captionContainer.css({maxWidth:$newImage[0].clientWidth, height:$newImage[0].clientHeight});
+                        $container.$_caption1.text(_obj.title || 'Untitled');
+                        $container.$_caption2.text(_obj.descr || 'No Description');
+                    }
+                    // update statuses
+                    _displayImageWorking = false;
+                    $container.setStatus(status_loaded_true);
+                });
+            }
+        }
+
+
+        /**
+         * On initialization (either by click or something else), this will
+         * look at all available DOM elements (i.e. siblings of the item
+         * clicked first) and cache the image data.
+         * @returns {}
+         */
+        function _listCache( _rescan ){
+            if( !_listDataCache || _rescan === true ){
+                _listDataCache  = {};
+                $(config.itemTargets, $selector).each(function(index, element){
+                    element.setAttribute('data-order', index);
+                    _listDataCache[index] = {
+                        index     : index,
+                        title     : $('.title', element).text() || '',
+                        descr     : $('.descr', element).text() || '',
+                        src_thumb : $('img', element).attr('src'),
+                        src_full  : element.getAttribute('data-src-full')
+                    };
+                    _listDataLength = index;
+                });
+            }
+            return _listDataCache;
+        }
+
+
+        /**
+         * Bind click event to launch the whole kit and kaboodle.
+         */
+        $selector.on('click', config.itemTargets, function(){
+            var itemList     = _listCache(),
+                clickedIndex = this.getAttribute('data-order');
+            $container.open().then(function(){
+                _displayImage( itemList[clickedIndex] );
+            });
+        });
+
+
+        // public instance methods
+        return {
+            listCache       : _listCache,
+            $container      : function(){ return $container; },
+            settings        : function(){ return config; },
+            currentIndex    : function(){ return _currentIndexCache; },
+            rescanItems     : function(){ return _listCache(true); },
+            listDataLength  : function(){ return _listDataLength; },
+            instance        : _self
+        }
+    }
+
+
+    /**
+     * This is the actual function visible to jQuery. Below, we create a new instace
+     * of FlexryLightbox, bind it to the selector's data attribute, then return
+     * for chaining.
+     * @param {} _settings
+     * @returns jQuery
+     */
+    $.fn.flexryLightbox = function( _settings ){
+        return this.each(function(idx, _element){
+            var $selector = $(_element),
+                _instance = new FlexryLightbox( $selector, _settings );
+            $selector.data('flexryLightbox', _instance);
+        });
+    }
+
+})( jQuery );

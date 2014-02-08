@@ -66,6 +66,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-strip');
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-newer');
 
   require('../web/packages/flexry/grunt_settings.js').extraConfigs(grunt, _initConfigs);
 

@@ -8,7 +8,9 @@
 <div id="<?php echo $selectorID; ?>" class="flexry-dicer">
     <?php foreach($imageList AS $index => $flexryFile): /** @var FlexryFile $flexryFile */ ?>
         <div class="flexry-dicer-item <?php if($index === 0){echo 'current';} ?>">
-            <img src="<?php echo $flexryFile->thumbnailImgSrc(); ?>" alt="<?php echo $flexryFile->getTitle(); ?>" />
+            <div class="inner">
+                <img src="<?php echo $flexryFile->thumbnailImgSrc(); ?>" alt="<?php echo $flexryFile->getTitle(); ?>" />
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
