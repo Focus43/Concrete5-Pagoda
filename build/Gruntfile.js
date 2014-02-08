@@ -2,19 +2,19 @@
 module.exports = function(grunt) {
 
   // Project configuration.
-  grunt.initConfig({
+  var _initConfigs = {
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>)\n',
     filename: '<%= pkg.name %>',
     concat: {
-      options: {
-        banner: '<%= banner %>',
-        stripBanners: true
-      },
-      dist: {
-        src:  [],
-        dest: ''
-      }
+//      options: {
+//        banner: '<%= banner %>',
+//        stripBanners: true
+//      },
+//      dist: {
+//        src:  [],
+//        dest: ''
+//      }
     },
     strip: {
       main : {
@@ -55,21 +55,8 @@ module.exports = function(grunt) {
         files: {}
       }
     },
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint','concat']
-      },
-      sassy_pants: {
-        files: '',
-        tasks: ['sass:build', 'bump:minor']
-      }
-    }
-  });
+    watch: {}
+  };
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -80,9 +67,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-strip');
   grunt.loadNpmTasks('grunt-bump');
 
+  require('../web/packages/flexry/grunt_settings.js').extraConfigs(grunt, _initConfigs);
+
+  grunt.initConfig(_initConfigs);
+
   // Default task.
-  grunt.registerTask('default', ['concat', 'sass:dev', 'bump:minor']);
-  grunt.registerTask('build', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:minor']);
-  grunt.registerTask('release', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:major']);
+  grunt.registerTask('default', []);
+  //grunt.registerTask('build', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:minor']);
+  //grunt.registerTask('release', ['jshint', 'concat', 'strip', 'uglify', 'sass:build', 'bump:major']);
 
 };

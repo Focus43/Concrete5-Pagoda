@@ -1,0 +1,6 @@
+.flexry-dicer {
+  .flexry-dicer-item {display:none;position:absolute;
+    img {max-width:100%;}
+    &.current {display:block;position:relative;}
+  }
+}

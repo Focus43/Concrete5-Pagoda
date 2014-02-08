@@ -10,27 +10,73 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         return _pkgPath.replace('%s', _path);
     }
 
-    // Javascript
+
+    /////////////////////////////// CONCAT FILES ///////////////////////////////
+    _currentConfigs.concat.flexry = { files: {} };
+
+    // concat auto.js
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/auto.js') ] = [
+        pkgPath('js/libs/jscolor.js'),
+        pkgPath('blocks/flexry_gallery/dev/auto.dev.js')
+    ];
+
+    // concat inline_script.js.txt
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/inline_script.js.txt') ] = [
+        pkgPath('blocks/flexry_gallery/dev/inline_script.dev.js')
+    ];
+
+    // concat dicer template
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/dicer/view.js') ] = [
+        pkgPath('js/libs/greensock/uncompressed/TimelineMax.js'),
+        pkgPath('js/libs/greensock/uncompressed/TweenMax.js'),
+        pkgPath('js/libs/greensock/uncompressed/easing/*.js'),
+        pkgPath('js/libs/greensock/uncompressed/plugins/*.js'),
+        pkgPath('js/libs/greensock/uncompressed/utils/*.js'),
+        pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.dev.js')
+    ];
+
+    // concat grid template
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/grid/view.js') ] = [
+        pkgPath('js/libs/masonry-3.1.4.js'),
+        pkgPath('blocks/flexry_gallery/templates/grid/dev/view.dev.js')
+    ];
+
+    // concat rotating_list template
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/rotating_list/view.js') ] = [
+        pkgPath('blocks/flexry_gallery/templates/rotating_list/dev/view.dev.js')
+    ];
+
+    // concat flexry lightbox
+    _currentConfigs.concat.flexry.files[ pkgPath('js/flexry-lightbox.js') ] = [
+        pkgPath('js/libs/modernizr.js'),
+        pkgPath('js/dev/flexry-lightbox.dev.js')
+    ];
+
+
+    /////////////////////////////// UGLIFY FILES ///////////////////////////////
     _currentConfigs.uglify.flexry = {
         options: {
-            banner: ''
+            banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>) */\n',
+            expand: true
         },
-        files : [
-            // flexry_gallery block auto.js
-            {src: [pkgPath('blocks/flexry_gallery/dev/auto.dev.js')], dest: pkgPath('blocks/flexry_gallery/auto.js')},
-            {src: [pkgPath('blocks/flexry_gallery/dev/inline_script.dev.js')], dest: pkgPath('blocks/flexry_gallery/inline_script.js.txt')},
-            // lightbox
-            {src: [pkgPath('js/dev/flexry-lightbox.dev.js')], dest: pkgPath('js/flexry-lightbox.min.js')},
-            // rotating list
-            {src: [pkgPath('blocks/flexry_gallery/templates/rotating_list/dev/view.dev.js')], dest: pkgPath('blocks/flexry_gallery/templates/rotating_list/view.js')},
-            // slider
-            {src: [pkgPath('blocks/flexry_gallery/templates/slider/dev/view.dev.js')], dest: pkgPath('blocks/flexry_gallery/templates/slider/view.js')},
-            // grid
-            {src: [pkgPath('blocks/flexry_gallery/templates/grid/dev/view.dev.js')], dest: pkgPath('blocks/flexry_gallery/templates/grid/view.js')}
-        ]
+        files : {}
     };
 
-    // SASS
+    var _uglifyTargets = [
+        pkgPath('blocks/flexry_gallery/auto.js'),
+        pkgPath('blocks/flexry_gallery/inline_script.js.txt'),
+        pkgPath('js/flexry-lightbox.js'),
+        pkgPath('blocks/flexry_gallery/templates/rotating_list/view.js'),
+        pkgPath('blocks/flexry_gallery/templates/dicer/view.js'),
+        pkgPath('blocks/flexry_gallery/templates/grid/view.js')
+    ];
+
+    for( var i = 0; i < _uglifyTargets.length; i++ ){
+        _currentConfigs.uglify.flexry.files[ _uglifyTargets[i] ] = _uglifyTargets[i];
+    };
+
+
+    /////////////////////////////// SASS BUILDS ///////////////////////////////
     _currentConfigs.sass.flexry = {
         options  : {
             style: 'compressed',
@@ -43,17 +89,27 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
             {src: [pkgPath('blocks/flexry_gallery/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/view.css')},
             // rotating list
             {src: [pkgPath('blocks/flexry_gallery/templates/rotating_list/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/rotating_list/view.css')},
-            // slider
-            {src: [pkgPath('blocks/flexry_gallery/templates/slider/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/slider/view.css')},
+            // slidebox
+            {src: [pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/dicer/view.css')},
             // grid
             {src: [pkgPath('blocks/flexry_gallery/templates/grid/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/grid/view.css')}
         ]
     }
 
-    // Watch
-    _currentConfigs.watch.flexry = {
+    // Watch Tasks
+    _currentConfigs.watch.flexry_all = {
         files : [pkgPath('**/*.dev.js'), pkgPath('**/*.scss')],
-        tasks : ['uglify:flexry', 'sass_style_uncompressed', 'sass:flexry']
+        tasks : ['concat:flexry', 'sass_style_uncompressed', 'sass:flexry']
+    }
+
+    _currentConfigs.watch.flexry_js = {
+        files : [pkgPath('**/*.dev.js')],
+        tasks : ['concat:flexry']
+    }
+
+    _currentConfigs.watch.flexry_sass = {
+        files : [pkgPath('**/*.scss')],
+        tasks : ['sass_style_uncompressed', 'sass:flexry']
     }
 
     // During watch tasks, change the sass output style to expanded
@@ -62,7 +118,7 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
     });
 
     // Register the flexry task to dev all ($: grunt flexry)
-    grunt.registerTask('flexry', ['uglify:flexry', 'sass:flexry']);
+    grunt.registerTask('flexry_build', ['concat:flexry', 'uglify:flexry', 'sass:flexry']);
 
 
 }

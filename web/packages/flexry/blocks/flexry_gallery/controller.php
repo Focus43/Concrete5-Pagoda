@@ -165,9 +165,9 @@
             if( (bool) $this->lightboxEnable ){
                 $this->addHeaderItem( $this->getHelper('html')->css('flexry-lightbox.min.css', 'flexry') );
                 if( (bool) $this->autoIncludeJsInFooter ){
-                    $this->addFooterItem( $this->getHelper('html')->javascript('flexry-lightbox.min.js', 'flexry') );
+                    $this->addFooterItem( $this->getHelper('html')->javascript('flexry-lightbox.js', 'flexry') );
                 }else{
-                    $this->addHeaderItem( $this->getHelper('html')->javascript('flexry-lightbox.min.js', 'flexry') );
+                    $this->addHeaderItem( $this->getHelper('html')->javascript('flexry-lightbox.js', 'flexry') );
                 }
             }
             // output function to execute deferreds
