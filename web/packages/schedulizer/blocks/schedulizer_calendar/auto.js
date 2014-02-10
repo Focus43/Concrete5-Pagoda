@@ -88,5 +88,5 @@ $(function(){
             $( $this.attr('data-target')).addClass('active').siblings('.tab-pane').removeClass('active');
         }
     });
-	
+
 });
