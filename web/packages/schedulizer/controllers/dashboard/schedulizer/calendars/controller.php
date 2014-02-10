@@ -96,10 +96,6 @@
          * @param null $id
          */
         public function save_event( $id = null ){
-            if( (bool)$_REQUEST['event']['isAlias'] ){
-                print_r($_REQUEST);exit;
-            }
-
             try {
                 $saveEventProcessor = new SchedulizerSaveEventProcessor( SchedulizerEvent::getByID($id), $_POST );
 
@@ -112,6 +108,32 @@
                     'title'     => $saveEventProcessor->getEventObj()->getTitle()
                 ));
 
+            }catch(Exception $e){
+                $this->formResponder(false, $e->getMessage());
+            }
+        }
+
+
+        /**
+         * Delete an event.
+         * @todo test all recurring methods and database stuff
+         * gets cleaned up ok.
+         * @todo output the name of the event that was just
+         * deleted.
+         * @param int|null $id
+         */
+        public function delete_event( $id = null ){
+            try {
+                if( ! ((int)$id >= 1) ){
+                    throw new Exception('Event ID empty; delete failed.');
+                }
+
+                // proceed
+                $eventObj   = SchedulizerEvent::getByID($id);
+                $eventTitle = $eventObj->getTitle();
+                $eventObj->delete();
+
+                $this->formResponder(true, t('Deleted event %s', $eventTitle));
             }catch(Exception $e){
                 $this->formResponder(false, $e->getMessage());
             }

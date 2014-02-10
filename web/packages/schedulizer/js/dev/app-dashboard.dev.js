@@ -66,6 +66,46 @@
             });
 
 
+            function editEventDialog( calEvent ){
+                $.fn.dialog.closeTop();
+                $.fn.dialog.open({
+                    width: calEvent.isAlias === 1 ? 430 : 650,
+                    height: calEvent.isAlias === 1 ? 110 : 550,
+                    title: 'Editing Event: ' + calEvent.title,
+                    href: _toolsURI + 'dashboard/events/edit?' + $.param({
+                        eventID: calEvent.id,
+                        isAlias: calEvent.isAlias//,
+                        //eventCalendarStart: calEvent.start.toISOString()
+                    })
+                });
+            }
+
+
+            $(document).on('click', '#btnEditOriginal', function(){
+                var $button  = $(this);
+                editEventDialog({
+                    id    : $button.attr('data-id'),
+                    title : $button.attr('data-title')
+                });
+            });
+
+
+            $(document).on('submit', '#frmDeleteEvent', function( _event ){
+                _event.preventDefault();
+                var $form = $(this),
+                    _url =  $form.attr('action');
+                if( confirm('Delete this event (and all events in series if this is a repeating event)?') ){
+                    $.post(_url, function(resp){
+                        $form.hide();
+                        $('#eventSetupForm').empty().append('<h3 style="text-align:center;">'+resp.messages[0]+'</h3>');
+                        closeTopDialog(1800, function(){
+                            $('#schedulizerCalendar').fullCalendar('refetchEvents');
+                        });
+                    }, 'json');
+                }
+            });
+
+
             /**
              * Listen for on_show from the custom tab click handler (emits tab.show event),
              * and init the calendar. This runs *once* only, hence the .one() method.
@@ -103,7 +143,7 @@
                         // launch the dialog and pass appropriate data
                         $.fn.dialog.open({
                             width:650,
-                            height:525,
+                            height:550,
                             title: 'New Event: ' + date.toLocaleDateString(),
                             href: _toolsURI + 'dashboard/events/new?' + _data
                         });
@@ -111,16 +151,7 @@
 
                     // open a dialog to edit an existing event
                     eventClick: function(calEvent, jsEvent, view){
-                        $.fn.dialog.open({
-                            width:650,
-                            height:525,
-                            title: 'Editing Event: ' + calEvent.title,
-                            href: _toolsURI + 'dashboard/events/edit?' + $.param({
-                                eventID: calEvent.id,
-                                isAlias: calEvent.isAlias,
-                                eventCalendarStart: calEvent.start.toISOString()
-                            })
-                        });
+                        editEventDialog(calEvent);
                     },
 
                     eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
