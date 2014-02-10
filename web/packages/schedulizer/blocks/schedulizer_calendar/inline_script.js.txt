@@ -1,0 +1,2 @@
+/*! concrete5_project - Build v0.0.6 (2014-02-10) */
+try{jQuery&&jQuery(function(){if(window._schedulizers)for(var a=0;a<_schedulizers.length;a++)_schedulizers[a].call()})}catch(err){console.log(err)}

@@ -8,8 +8,8 @@
          */
         public function view(){
             parent::on_start();
-            $this->addHeaderItem($this->getHelper('html')->css('dashboard/app.css', self::PACKAGE_HANDLE));
-            $this->addFooterItem($this->getHelper('html')->javascript('dashboard/app.js', self::PACKAGE_HANDLE));
+            $this->addHeaderItem($this->getHelper('html')->css('app-dashboard.css', self::PACKAGE_HANDLE));
+            $this->addFooterItem($this->getHelper('html')->javascript('app-dashboard.js', self::PACKAGE_HANDLE));
             $this->set('listObject', $this->calendarListObj());
             $this->set('listResults', $this->calendarListObj()->getPage());
             $this->setupSearchInstance();

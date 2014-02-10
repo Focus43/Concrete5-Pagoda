@@ -4,14 +4,8 @@
 
         public function on_start(){
             parent::on_start();
-            // css (header)
-            $this->addHeaderItem($this->getHelper('html')->css('dashboard/app.css', self::PACKAGE_HANDLE));
-            $this->addHeaderItem($this->getHelper('html')->css('fullcalendar-1.6.1/fullcalendar.css', self::PACKAGE_HANDLE));
-
-            // js (footer)
-            $this->addFooterItem($this->getHelper('html')->javascript('fullcalendar-1.6.1/fullcalendar.min.js', self::PACKAGE_HANDLE));
-            $this->addFooterItem($this->getHelper('html')->javascript('ajaxify.form.js', self::PACKAGE_HANDLE));
-            $this->addFooterItem($this->getHelper('html')->javascript('dashboard/app.js', self::PACKAGE_HANDLE));
+            $this->addHeaderItem($this->getHelper('html')->css('app-dashboard.css', self::PACKAGE_HANDLE));
+            $this->addFooterItem($this->getHelper('html')->javascript('app-dashboard.js', self::PACKAGE_HANDLE));
         }
 
         /**

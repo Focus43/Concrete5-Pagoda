@@ -19,10 +19,16 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         pkgPath('blocks/schedulizer_calendar/dev/auto.dev.js')
     ];
 
+    // concat schedulizer_calendar/view.js
+    _currentConfigs.concat.schedulizer.files[ pkgPath('blocks/schedulizer_calendar/view.js') ] = [
+        pkgPath('js/libs/fullcalendar-1.6.1/fullcalendar.js'),
+        pkgPath('blocks/schedulizer_calendar/dev/view.dev.js')
+    ];
+
     // concat inline_script.js.txt
-//    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/inline_script.js.txt') ] = [
-//        pkgPath('blocks/flexry_gallery/dev/inline_script.dev.js')
-//    ];
+    _currentConfigs.concat.schedulizer.files[ pkgPath('blocks/schedulizer_calendar/inline_script.js.txt') ] = [
+        pkgPath('blocks/schedulizer_calendar/dev/inline_script.dev.js')
+    ];
 
     // concat dicer template
     _currentConfigs.concat.schedulizer.files[ pkgPath('js/app-dashboard.js') ] = [
@@ -43,7 +49,8 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
 
     var _uglifyTargets = [
         pkgPath('blocks/schedulizer_calendar/auto.js'),
-        //pkgPath('blocks/flexry_gallery/inline_script.js.txt'),
+        pkgPath('blocks/schedulizer_calendar/view.js'),
+        pkgPath('blocks/schedulizer_calendar/inline_script.js.txt'),
         pkgPath('js/app-dashboard.js')
     ];
 
@@ -59,6 +66,8 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
             compass: true
         },
         files    : [
+            // schedulizer_calendar/view.css
+            {src: [pkgPath('blocks/schedulizer_calendar/dev/view.scss')], dest: pkgPath('blocks/schedulizer_calendar/view.css')},
             // dashboard shit
             {src: [pkgPath('css/dev/app-dashboard.scss')], dest: pkgPath('css/app-dashboard.css')}
         ]

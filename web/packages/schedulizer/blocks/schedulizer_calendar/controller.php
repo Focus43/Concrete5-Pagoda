@@ -34,9 +34,8 @@
 
 
         public function on_page_view(){
-            $this->addHeaderItem(Loader::helper('html')->css('fullcalendar-1.6.1/fullcalendar.css', 'schedulizer'));
-            $this->addFooterItem(Loader::helper('html')->javascript('fullcalendar-1.6.1/fullcalendar.min.js', 'schedulizer'));
-            $this->addFooterItem(Loader::helper('html')->javascript('block_footer.js', 'schedulizer'));
+            // output function to execute deferreds
+            $this->addFooterItem('<script type="text/javascript">'.Loader::helper('file')->getContents(DIR_PACKAGES . '/schedulizer/' . DIRNAME_BLOCKS . '/schedulizer_calendar/inline_script.js.txt').'</script>');
         }
 
 
