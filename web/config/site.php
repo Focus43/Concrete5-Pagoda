@@ -46,7 +46,7 @@
             $_SERVER['DB1_HOST'] = 'localhost';
             $_SERVER['DB1_USER'] = 'root';
             $_SERVER['DB1_PASS'] = 'root';
-            $_SERVER['DB1_NAME'] = 'concrete5_site';
+            $_SERVER['DB1_NAME'] = 'schedulizer_dev';
 
             // enable all url rewriting
             define('URL_REWRITING_ALL', true);
