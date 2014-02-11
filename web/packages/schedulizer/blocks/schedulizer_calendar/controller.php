@@ -33,6 +33,27 @@
 		}
 
 
+        /**
+         * Override the core BlockController method so we can allow outputting the view.js file
+         * in the footer (for example, for projects that might include jquery in the footer only).
+         * If its not enabled, the default inclusion method will be used.
+         */
+        public function outputAutoHeaderItems() {
+            // if we get here, we're outputting the view.js javascript file in the footer
+            $bvt = new BlockViewTemplate( $this->getBlockObject() );
+            $headers = $bvt->getTemplateHeaderItems();
+            if (count($headers) > 0) {
+                foreach($headers as $h) {
+                    if( $h instanceof JavaScriptOutputObject ){
+                        $this->addFooterItem($h);
+                    }else{
+                        $this->addHeaderItem($h);
+                    }
+                }
+            }
+        }
+
+
         public function on_page_view(){
             // output function to execute deferreds
             $this->addFooterItem('<script type="text/javascript">'.Loader::helper('file')->getContents(DIR_PACKAGES . '/schedulizer/' . DIRNAME_BLOCKS . '/schedulizer_calendar/inline_script.js.txt').'</script>');
