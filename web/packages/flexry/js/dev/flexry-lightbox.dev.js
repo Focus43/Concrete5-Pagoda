@@ -11,7 +11,6 @@
 
     function FlexryLightbox( $selector, _settings ){
 
-            // _self = *this* instance of FlexryLightbox
         var _self               = this,
             status_loaded_false = false,
             status_loaded_true  = true,
@@ -232,16 +231,31 @@
                 // set container status to working
                 $container.setStatus(status_loaded_false);
                 // kickoff the getImage and the delayer simultaneously
-                $.when( _getImage(_obj['src_full']), _delayer() ).done(function(){
+                $.when( _getImage(_obj['src_full']), _delayer(0) ).done(function(){
                     // create a *new* image element here, as the _getImage cache sometimes
                     // returns nullified pointers
-                    var $newImage = $('<img src="'+_obj['src_full']+'" class="primary-img" />');
-                    $('img.primary-img', $container).replaceWith( $newImage );
+                    var imageElement  = new Image();
+                    imageElement.src = _obj['src_full'];
+                    imageElement.className = 'primary-img';
+                    $('img.primary-img', $container.$_content).replaceWith( imageElement );
                     // if captions are enabled...
                     if( config.captions ){
-                        $container.$_captionContainer.css({maxWidth:$newImage[0].clientWidth, height:$newImage[0].clientHeight});
+                        $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
                         $container.$_caption1.text(_obj.title || 'Untitled');
                         $container.$_caption2.text(_obj.descr || 'No Description');
+                        // @NOTE: this is a hack *specifically* for Chrome on iOS, where *.clientWidth/Height aren't calc'd immediately.
+                        // Hopefully should be able to remove this bullshit someday :(
+                        if( imageElement.clientHeight === 0 ){
+                            (function captionFix(){
+                                setTimeout(function(){
+                                    if( imageElement.clientHeight >= 1 ){
+                                        $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
+                                        return;
+                                    }
+                                    captionFix();
+                                }, 100);
+                            })();
+                        }
                     }
                     // update statuses
                     _displayImageWorking = false;
