@@ -7,8 +7,7 @@
     // get the time distance between start and end
     $interval = $eventObj->getStartDateTimeObj(false)->diff( $eventObj->getEndDateTimeObj(false) );
 
-    // if days are resized (ie. event spans multiple days), can be positive *or*
-    // negative
+    // if days are resized (ie. event spans multiple days), can be positive *or* negative
     if( (int) $_REQUEST['dayDelta'] !== 0 ){
         // first update the start utc property
         $eventObj->setPropertiesFromArray(array(
@@ -17,6 +16,11 @@
         // *then* update the end utc property
         $eventObj->setPropertiesFromArray(array(
             'endUTC'   => $eventObj->getStartDateTimeObj(false)->add($interval)->format( SchedulizerPackage::TIMESTAMP_FORMAT )
+        ));
+        // no matter what (even if its not marked as a repeating event *yet*), adjust the
+        // repeatEndUTC by the day delta
+        $eventObj->setPropertiesFromArray(array(
+            'repeatEndUTC' => $eventObj->getRepeatEndDateTimeObj(false)->modify( $_REQUEST['dayDelta'] . ' days' )->format( SchedulizerPackage::TIMESTAMP_FORMAT )
         ));
         $eventObj->save();
     }

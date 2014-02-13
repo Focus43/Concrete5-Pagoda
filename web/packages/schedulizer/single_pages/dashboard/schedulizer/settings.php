@@ -33,9 +33,3 @@
 </div>
 
 <?php echo Loader::helper('concrete/dashboard')->getDashboardPaneFooterWrapper(false); ?>
-
-<script type="text/javascript">
-    $(function(){
-        $('form[data-method="ajax"]').ajaxifyForm();
-    });
-</script>
