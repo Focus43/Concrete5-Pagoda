@@ -310,7 +310,7 @@
          * @return array
          */
         protected function templatesSelectList(){
-            $selectList = array('' => 'Default');
+            $selectList = array('' => 'Default (Vertical List)');
             foreach( $this->templateAndDirectoryList() AS $fileSystemHandle => $path ){
                 if( strpos($fileSystemHandle, '.') !== false ){
                     $selectList[ $fileSystemHandle ] = substr($this->getHelper('text')->unhandle($fileSystemHandle), 0, strrpos($fileSystemHandle, '.'));
