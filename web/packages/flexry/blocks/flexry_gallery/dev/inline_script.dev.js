@@ -5,12 +5,9 @@
  * page where a flexry_gallery block is included.
  */
 try {
-    if( jQuery ){
-        jQuery(function(){
-            if( ! window._flexry ){ return; }
-            for(var _i = 0; _i < _flexry.length; _i++){
-                _flexry[_i].call();
-            }
-        });
-    }
-}catch(err){ console.log(err); }
+    (function(_stack){
+        for( var i = 0; i < _stack.length; i++ ){
+            _stack[i].call();
+        }
+    })( window._flexry || [] );
+}catch(err){/* fail gracefully */};

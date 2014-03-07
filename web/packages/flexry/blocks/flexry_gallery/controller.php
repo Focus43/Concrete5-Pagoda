@@ -6,7 +6,8 @@
 	 */
 	class FlexryGalleryBlockController extends BlockController {
 
-        const CROP_FALSE                        = 0,
+        const TEMPLATE_DEFAULT_HANDLE           = '_default',
+              CROP_FALSE                        = 0,
               CROP_TRUE                         = 1,
               FULL_USE_ORIGINAL_FALSE           = 0,
               FULL_USE_ORIGINAL_TRUE            = 1,
@@ -59,6 +60,10 @@
             return array_combine(range(150, 1000, 50), range(.15, 1, .05));
         }
 
+        public static function templateDefaultPath(){
+            return DIR_PACKAGES . '/flexry/' . DIRNAME_BLOCKS . '/flexry_gallery/';
+        }
+
 
         /**
          * @todo: RESET BLOCK CACHE SETTINGS TO TRUE!
@@ -101,6 +106,7 @@
 
         // json'ified string (needs transforming before use, so dont make publicly accessible)
         protected $templateData = null;
+
 
         /**
          * @return string
@@ -232,9 +238,13 @@
          */
         public function getTemplateHelper(){
             if( $this->_flexryTemplateHelper === null ){
-                $templatesList  = $this->templateAndDirectoryList();
-                $templatePath   = $templatesList[ $this->currentTemplateHandle() ];
-                $this->_flexryTemplateHelper = FlexryBlockTemplateOptions::setup( $this->currentTemplateHandle(), $templatePath, $this->parsedTemplateData() );
+                $templateHandle = $this->currentTemplateHandle();
+                if( empty($templateHandle) ){
+                    $this->_flexryTemplateHelper = FlexryBlockTemplateOptions::setup(self::TEMPLATE_DEFAULT_HANDLE, self::templateDefaultPath(), $this->parsedTemplateData() );
+                }else{
+                    $templatesList = $this->templateAndDirectoryList();
+                    $this->_flexryTemplateHelper = FlexryBlockTemplateOptions::setup($templateHandle, $templatesList[$templateHandle], $this->parsedTemplateData() );
+                }
             }
             return $this->_flexryTemplateHelper;
         }

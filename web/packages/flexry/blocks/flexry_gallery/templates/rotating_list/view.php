@@ -3,8 +3,7 @@
     // templace-specific settings
     $selectorID = t('flexryRtl-%s', $this->controller->bID);
     $itemCount  = ((int) $templateHelper->value('itemCount') >= 1) ? (int) $templateHelper->value('itemCount') : 3;
-    $rotateTime = ((int) $templateHelper->value('rotateTime') >= 850) ? (int) $templateHelper->value('rotateTime') : 1500;
-    $randomize  = ((bool) $templateHelper->value('randomize')) ? 'true' : 'false';
+    $rotateTime = ((int) $templateHelper->value('rotateTime') >= 1000) ? (int) $templateHelper->value('rotateTime') : 1500;
     /** @var FlexryFileList $fileListObj */
     $imageList  = $fileListObj->get();
     $chunkd     = array_chunk($imageList, count($imageList)/$itemCount);
@@ -16,6 +15,9 @@
                 <?php foreach($group AS $index => $flexryFile){ /** @var FlexryFile $flexryFile */ ?>
                     <div class="flexry-rtl-item<?php echo $index === 0 ? ' current' : ''; ?>" data-src-full="<?php echo $flexryFile->fullImgSrc(); ?>">
                         <img class="rtl-image" src="<?php echo $flexryFile->thumbnailImgSrc(); ?>" alt="<?php echo $flexryFile->getTitle(); ?>" />
+                        <!-- spans hidden; but present for lightbox data -->
+                        <span class="title"><?php echo $flexryFile->getTitle(); ?></span>
+                        <span class="descr"><?php echo $flexryFile->getDescription(); ?></span>
                     </div>
                 <?php } ?>
             </div>
@@ -26,8 +28,7 @@
     (function( _stack ){
         _stack.push(function(){
             $('#<?php echo $selectorID; ?>').flexryRtl({
-                rotateTime  : <?php echo $rotateTime; ?>,
-                randomize   : <?php echo $randomize . "\n"; ?>
+                rotateTime  : <?php echo $rotateTime; ?>
             });
             <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.flexry-rtl-item')->initOutput(); ?>
         });

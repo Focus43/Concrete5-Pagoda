@@ -9,5 +9,6 @@ $transitionTime : .5s;
     &:first-child {position:relative;}
     &.current {visibility:visible;opacity:1;z-index:2;}
     img.rtl-image {height:auto;width:auto;max-width:100%;margin:0 auto;display:inline-block;}
+    span {display:none;}
   }
 }

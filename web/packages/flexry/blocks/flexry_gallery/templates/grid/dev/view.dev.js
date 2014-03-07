@@ -132,7 +132,7 @@
 
 
         /**
-         * Using quickly-iterating setInterval is more performant than running function on
+         * Using a quickly-iterating setInterval is more performant than running function on
          * *every* scroll.flexry_grid trigger.
          * http://ejohn.org/blog/learning-from-twitter/
          */

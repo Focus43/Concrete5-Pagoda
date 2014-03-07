@@ -15,7 +15,6 @@
             status_loaded_false = false,
             status_loaded_true  = true,
             _transitionDuration = 200, // .2 seconds
-            _galleryDefault     = true,
             _imagePromiseCache  = {},
             _currentIndexCache  = null,
             _listDataLength     = 0,
@@ -30,11 +29,10 @@
                 transitionEffect    : '',
                 transitionDuration  : _transitionDuration,
                 captions            : true,
-                gallery             : _galleryDefault,
+                gallery             : true,
                 galleryMarkers      : true,
                 galleryMarkersThumb : {w: 160, h: 100}
             }, _settings);
-
 
         /**
          * Create <div class="flexry-lightbox" /> container, and bind helper methods
@@ -68,9 +66,12 @@
                         $element.appendTo('body');
                         // update masker settings
                         $('.masker', $element).css({background:config.maskColor,opacity:config.maskOpacity});
-                        // bind close settings
+                        // bind close target (add check so if img-primary, don't close)
                         var $closeTarget = config.closeOnClick ? $element : $('.closer', $element);
-                        $closeTarget.on('click', function(){ $element.close(); });
+                        $closeTarget.on('click', function(_ev){
+                            if($(_ev.target).hasClass('primary-img')){return;}
+                            $element.close();
+                        });
                         // set transition duration, if not default 200
                         setCssTransitionDuration();
                         // build gallery stuff, or if only one image in listData(), hide
@@ -241,8 +242,8 @@
                     // if captions are enabled...
                     if( config.captions ){
                         $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
-                        $container.$_caption1.text(_obj.title || 'Untitled');
-                        $container.$_caption2.text(_obj.descr || 'No Description');
+                        $container.$_caption1.text(_obj.title);
+                        $container.$_caption2.text(_obj.descr);
                         // @NOTE: this is a hack *specifically* for Chrome on iOS, where *.clientWidth/Height aren't calc'd immediately.
                         // Hopefully should be able to remove this bullshit someday :(
                         if( imageElement.clientHeight === 0 ){
@@ -305,12 +306,12 @@
         // public instance methods
         return {
             listCache       : _listCache,
+            instance        : _self,
             $container      : function(){ return $container; },
             settings        : function(){ return config; },
             currentIndex    : function(){ return _currentIndexCache; },
             rescanItems     : function(){ return _listCache(true); },
-            listDataLength  : function(){ return _listDataLength; },
-            instance        : _self
+            listDataLength  : function(){ return _listDataLength; }
         }
     }
 

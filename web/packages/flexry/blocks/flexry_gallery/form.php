@@ -186,9 +186,8 @@
                     <h3>Template Settings</h3>
                     <p>Configure different settings for different block templates.</p>
                     <?php echo $formHelper->select('flexryTemplateHandle', $templateSelectList, $currentTemplateHandle, array('class' => 'input-block-level')); ?>
-                    <div class="template-form <?php if( empty($currentTemplateHandle) ){ echo 'active'; } ?>" data-tmpl="selected">
-                        <!-- "Default"; has no options -->
-                        <p>This template has no editable options.</p>
+                    <div class="template-form <?php if( empty($currentTemplateHandle) ){ echo 'active'; } ?>" data-tmpl="">
+                        <?php FlexryBlockTemplateOptions::setup(FlexryGalleryBlockController::TEMPLATE_DEFAULT_HANDLE, FlexryGalleryBlockController::templateDefaultPath(), $templateData)->renderForm(); ?>
                     </div>
                     <?php foreach($templateDirList AS $handle => $templatePath): ?>
                         <div class="template-form <?php if( $currentTemplateHandle == $handle ){ echo 'active'; } ?>" data-tmpl="<?php echo $handle; ?>">
@@ -196,7 +195,7 @@
                             if( is_dir($templatePath) && file_exists($templatePath . '/settings.php') ){
                                 FlexryBlockTemplateOptions::setup( $handle, $templatePath, $templateData )->renderForm();
                             }else{
-                                echo '<p>This template has no editable options.</p>';
+                                echo '<p>'.t('This template has no editable options').'.</p>';
                             }
                             ?>
                         </div>

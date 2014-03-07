@@ -14,9 +14,9 @@ $columnCounts: 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
     // meta default (same as &.meta-hide .meta)
     .meta {display:none;padding:8px;
-      .poz {max-height:100%;/* placeholder for extra positioning control */}
-      span {display:block;font-size:90%;line-height:1.3em;padding:1px 0;
-        &.title {font-size:130%;}
+      .poz {max-width:100%;max-height:100%;/* placeholder for extra positioning control */}
+      span {display:block;font-size:90%;line-height:1.3em;padding:1px 0;@include box-sizing(border-box);
+        &.title {text-transform:capitalize;font-size:130%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
         &:empty {display:none;}
       }
     }

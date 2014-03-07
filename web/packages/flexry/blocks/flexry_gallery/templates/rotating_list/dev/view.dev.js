@@ -10,8 +10,7 @@
             config = $.extend(true, {}, {
                 itemPadding : 5,
                 rotateTime  : 1500,
-                animateTime : 750, // fixed for now
-                randomize   : false
+                animateTime : 750 // fixed for now
             }, _settings);
 
 
@@ -24,7 +23,7 @@
          */
         function _group( _index ){
             if( ! _groupCache[_index] ){
-                _groupCache[_index]               = $( $groups[_index] );
+                _groupCache[_index] = $( $groups[_index] );
                 _groupCache[_index]._currentIndex = 0;
                 _groupCache[_index]._childItems   = $('.flexry-rtl-item', _groupCache[_index]);
                 _groupCache[_index]._childLength  = _groupCache[_index]._childItems.length;

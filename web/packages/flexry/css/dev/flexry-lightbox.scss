@@ -53,7 +53,9 @@ html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
    */
   .caption-container {display:none;z-index:1;@include centerize;
     .caption {position:absolute;left:0;display:none;width:100%;z-index:2;color:#fff;@include box-sizing(border-box);
-      span {position:relative;display:inline-block;padding:6px 15px;margin:0 auto;background:rgba(0,0,0,.75);}
+      span {position:relative;display:inline-block;padding:6px 15px;margin:0 auto;background:rgba(0,0,0,.75);
+        &:empty {display:none;}
+      }
       &.title {top:0;}
       &.descr {bottom:0;}
     }
@@ -84,6 +86,14 @@ html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
 
 
   /**
+   * Close button
+   */
+  .closer {cursor:pointer;display:block;text-decoration:none;position:fixed;top:0;right:0;color:#2d2d2d;background:#C6E746;z-index:1001;
+    span {display:block;padding:10px;text-transform:uppercase;}
+  }
+
+
+  /**
    * TOGGLE-ABLE CLASSES TO SHOW EITHER WORKING OR LOADED
    */
   &.loaded {
@@ -96,9 +106,7 @@ html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
 /////////////////// HEIGHTS BASED ON DIFFERENT MODULES ///////////////////
 @media screen and (min-width:$screen-sm-mid){
   .flexry-lightbox {
-    .closer {cursor:pointer;display:block;text-decoration:none;position:fixed;top:0;right:0;color:#2d2d2d;background:#C6E746;z-index:1001;
-      span {display:block;padding:10px;text-transform:uppercase;}
-    }
+
   }
 }
 

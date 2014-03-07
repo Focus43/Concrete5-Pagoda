@@ -13,9 +13,7 @@
             <td><strong>Show</strong></td>
             <td><?php echo $formHelper->select( $templateHelper->field('itemCount'), array_combine(range(1,6,1), range(1,6,1)), $templateHelper->value('itemCount'), array('style' => 'width:80px') ); ?> at a time</td>
             <td><strong>Rotate Every</strong></td>
-            <td><?php echo $formHelper->text( $templateHelper->field('rotateTime'), $templateHelper->value('rotateTime'), array('class' => 'span1', 'placeholder' => '2000') ); ?> ms</td>
-            <td><strong>Randomize</strong></td>
-            <td><?php echo $formHelper->checkbox( $templateHelper->field('randomize'), 1, (int) $templateHelper->value('randomize') ); ?></td>
+            <td><?php echo $formHelper->text( $templateHelper->field('rotateTime'), $templateHelper->value('rotateTime'), array('class' => 'span1', 'placeholder' => '2000') ); ?> ms (minimum of 1000)</td>
         </tr>
     </table>
 

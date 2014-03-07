@@ -1,11 +1,19 @@
 @import '../../../css/dev/variables-mixins';
 
-$spacing: 10px;
-
 .flexry-default {text-align:center;line-height:1;
-  .flexry-default-row {padding:$spacing;}
-  .flexry-default-item {background:#fff;padding:$spacing $spacing 0;display:inline-block;margin:0 auto;@include box-shadow(0 0 $spacing rgba(0,0,0,.35));@include box-sizing(border-box);
+  .flexry-default-row {
+    &:first-child {margin-top:0;}
+  }
+  .flexry-default-item {display:inline-block;margin:0 auto;
     img {display:block;max-width:100%;width:auto;height:auto;margin:0 auto;}
-    span {display:block;line-height:1em;padding:$spacing;overflow:hidden;max-width:100%;@include box-sizing(border-box);}
+    span {display:none;padding:.2em 0 .25em;line-height:1;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;@include box-sizing(border-box);
+      &.visible {display:block;}
+      &.title {text-transform:capitalize;}
+      &:empty {display:none;}
+    }
+  }
+
+  &.shadows {
+    .flexry-default-item {@include box-shadow(0 0 6px rgba(0,0,0,.35));}
   }
 }
