@@ -33,7 +33,7 @@
 <script type="text/javascript">
     (function( _stack ){
         _stack.push(function(){
-            <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.flexry-default-item')->initOutput(); ?>
+            <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.flexry-default-item')->initOutput(); ?>
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

@@ -28,7 +28,7 @@
             $('#<?php echo $selectorID; ?>').flexryRtl({
                 rotateTime  : <?php echo (int)((float)$templateHelper->value('rotateTime')*1000); ?>
             });
-            <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.flexry-rtl-item')->initOutput(); ?>
+            <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.flexry-rtl-item')->initOutput(); ?>
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

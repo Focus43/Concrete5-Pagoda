@@ -7,34 +7,14 @@
     function FlexryCamera( $selector, _settings ){
 
         var config = $.extend(true, {}, {
-            imagePath   : '/packages/flexry/images/camera/',
-            pagination  : true,
-            cols        : Math.floor(Math.random()*(8-3+1)+3), // randomize
-            rows        : Math.floor(Math.random()*(6-2+1)+2)  // randomize
+            cols : Math.floor(Math.random()*(8-3+1)+3), // randomize
+            rows : Math.floor(Math.random()*(6-2+1)+2)  // randomize
         }, _settings);
 
-
+        /**
+         * Initialize the camera plugin; aaaaaand thats about it for meow.
+         */
         $selector.camera(config);
-
-        /*$selector.camera({
-            alignment   : 'center',
-            imagePath   : '/packages/flexry/images/camera/',
-            //autoAdvance : false,
-            loaderPadding: 0,
-            loaderStroke : 10,
-            // loader bar
-            barPosition : 'top',
-            //barDirection : 'TopToBottom',
-            loader      : 'bar',
-            fx          : 'random',
-            transPeriod : 500,
-            time : 1000,
-            thumbnails  : true,
-            //height      : '450px',
-            cols        : 15,
-            rows        : 2
-        });*/
-
 
         return {
             $element : $selector,

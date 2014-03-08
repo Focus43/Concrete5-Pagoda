@@ -19,6 +19,7 @@
 	
 	    public function on_start(){
 	        define('FLEXRY_TOOLS_URL', REL_DIR_FILES_TOOLS_PACKAGES . '/' . $this->pkgHandle . '/');
+            define('FLEXRY_IMAGE_PATH', DIR_REL . '/packages/' . $this->pkgHandle . '/images/');
             define('FLEXRY_JS_URL', DIR_REL . '/packages/' . $this->pkgHandle . '/js/');
 			
 			Loader::registerAutoload(array(

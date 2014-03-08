@@ -87,7 +87,7 @@
             $element.open = function(){
                 return $.Deferred(function( _openTask ){
                     _build().done(function(){
-                        $('html').addClass('flexry-box');
+                        $('html').addClass('flexry-lb-active');
                         $element.setStatus(status_loaded_false).fadeIn(config.maskFadeSpeed, function(){
                             _openTask.resolve();
                             // emit an event on the $selector indicating open
@@ -99,7 +99,7 @@
 
             // add a close() method
             $element.close = function(){
-                $('html').removeClass('flexry-box');
+                $('html').removeClass('flexry-lb-active');
                 return $element.setStatus(status_loaded_false).fadeOut(config.maskFadeSpeed, function(){
                     // emit an event on the $selector indicating close
                     $selector.trigger('flexry_lightbox_close');

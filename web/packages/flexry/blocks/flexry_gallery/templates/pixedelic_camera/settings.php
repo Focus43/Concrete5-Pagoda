@@ -172,6 +172,8 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
 
 ?>
 
+<p><strong>Note:</strong> Lightboxes are purposely not supported by this template, even if enabled in the <i>Settings</i> tab.</p>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -204,12 +206,14 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
             <td><?php echo $formHelper->select($templateHelper->field('portrait'), $portrait, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('portrait'), 'false')); ?></td>
         </tr>
         <tr>
-            <td colspan="2">Show Thumbnails</td>
-            <td colspan="2">Height <span class="muted">(px, %, or 'auto')</span></td>
+            <td>Show Thumbnails</td>
+            <td>Pagination</td>
+            <td colspan="2">Height <span class="muted">(optional)</span></td>
         </tr>
         <tr>
-            <td colspan="2"><?php echo $formHelper->select($templateHelper->field('thumbnails'), $thumbnails, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('thumbnails'), 'true')); ?></td>
-            <td colspan="2"><?php echo $formHelper->text($templateHelper->field('height'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('height'), 'auto')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('thumbnails'), $thumbnails, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('thumbnails'), 'true')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('pagination'), $pagination, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('pagination'), 'true')); ?></td>
+            <td colspan="2"><?php echo $formHelper->text($templateHelper->field('height'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('height'), ''), array('placeholder' => 'in pixels')); ?></td>
         </tr>
     </tbody>
 </table>
@@ -217,7 +221,7 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th colspan="6">Timing &amp; Animation</th>
+            <th colspan="4">Timing &amp; Animation</th>
         </tr>
     </thead>
     <tbody>
@@ -228,10 +232,10 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
             <td>Easing</td>
         </tr>
         <tr>
-            <td><?php echo $formHelper->select($templateHelper->field('time'), $time, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('time'), '4'), array('style' => 'width:75px;')); ?></td>
-            <td><?php echo $formHelper->select($templateHelper->field('transPeriod'), $transPeriod, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('transPeriod'), '0.5'), array('style' => 'width:75px;')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('time'), $time, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('time'), '4')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('transPeriod'), $transPeriod, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('transPeriod'), '0.5')); ?></td>
             <td><?php echo $formHelper->select($templateHelper->field('fx'), $fx, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('fx'), 'random'), array('style' => 'width:160px;')); ?></td>
-            <td><?php echo $formHelper->select($templateHelper->field('easing'), $easing, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('easing'), 'easeInOutExpo'), array('style' => 'width:100%;')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('easing'), $easing, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('easing'), 'easeInOutExpo')); ?></td>
         </tr>
     </tbody>
 </table>

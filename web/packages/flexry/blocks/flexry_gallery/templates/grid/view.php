@@ -45,7 +45,7 @@
                 flexryToolsPath    : '<?php echo FLEXRY_TOOLS_URL; ?>',
                 paginationMethod   : '<?php echo $paginationMethod; ?>'
             });
-            <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.grid-item')->initOutput(); ?>
+            <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.grid-item')->initOutput(); ?>
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

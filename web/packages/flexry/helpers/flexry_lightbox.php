@@ -52,21 +52,17 @@
          * @return string
          */
         protected function keyValuePairs(){
-            $settings = array(
-                'itemTargets'        => t("'%s'", $this->_itemTargets),
-                'maskColor'          => t("'#%s'", $this->_controller->lbMaskColor),
+            return Loader::helper('json')->encode((object)array(
+                'itemTargets'        => sprintf('%s', $this->_itemTargets),
+                'maskColor'          => sprintf('#%s', $this->_controller->lbMaskColor),
                 'maskOpacity'        => (float) $this->_controller->lbMaskOpacity,
                 'maskFadeSpeed'      => (int) $this->_controller->lbMaskFadeSpeed,
-                'closeOnClick'       => ((bool)$this->_controller->lbCloseOnClick) ? 'true' : 'false',
-                'transitionEffect'   => t("'%s'", $this->_controller->lbTransitionEffect),
-                'transitionDuration' => (int)$this->_controller->lbTransitionDuration,
-                'captions'           => ((bool)$this->_controller->lbCaptions) ? 'true' : 'false',
-                'galleryMarkers'     => ((bool)$this->_controller->lbGalleryMarkers) ? 'true' : 'false',
-            );
-
-            return implode(',', array_map(function($v, $k){
-                return $k . ':' . $v;
-            }, $settings, array_keys($settings)));
+                'closeOnClick'       => (bool) ((bool) $this->_controller->lbCloseOnClick),
+                'transitionEffect'   => sprintf('%s', $this->_controller->lbTransitionEffect),
+                'transitionDuration' => (int) $this->_controller->lbTransitionDuration,
+                'captions'           => (bool) ((bool) $this->_controller->lbCaptions),
+                'galleryMarkers'     => (bool) ((bool) $this->_controller->lbGalleryMarkers)
+            ));
         }
 
 
@@ -77,7 +73,7 @@
          */
         public function initOutput(){
             if( $this->_controller->lightboxEnable && is_string($this->_parentSelector) && is_string($this->_itemTargets) ){
-                return t("$('%s').flexryLightbox({%s});\n", $this->_parentSelector, $this->keyValuePairs());
+                return sprintf("$('#%s').flexryLightbox(%s);\n", $this->_parentSelector, $this->keyValuePairs());
             }
             return "\n";
         }

@@ -177,6 +177,7 @@
                 }
             }
             // output function to execute deferreds
+            $this->addHeaderItem( $this->getHelper('html')->javascript('libs/modernizr.js', 'flexry') );
             $this->addFooterItem('<script type="text/javascript">'.$this->getHelper('file')->getContents(DIR_PACKAGES . '/flexry/' . DIRNAME_BLOCKS . '/flexry_gallery/inline_script.js.txt').'</script>');
         }
 

@@ -55,7 +55,7 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
 
     // concat flexry lightbox
     _currentConfigs.concat.flexry.files[ pkgPath('js/flexry-lightbox.js') ] = [
-        pkgPath('js/libs/modernizr.js'),
+        //pkgPath('js/libs/modernizr.js'),
         pkgPath('js/dev/flexry-lightbox.dev.js')
     ];
 

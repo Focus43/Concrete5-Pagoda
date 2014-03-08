@@ -17,7 +17,7 @@ $defaultMask    : rgba(0,0,0,.8);
 /**
  * Make the html/body tags at least 100% in height
  */
-html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
+html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:100%;}
 
 
 /**
@@ -128,7 +128,7 @@ html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
 }
 
 @media screen and (min-height: $screen-sm-mid) and (min-width: $screen-sm){
-  html.flexry-lb-no-touch {
+  html.flexry-no-touch {
     .flexry-lightbox {
       &.markers {
         .modal-container {height:100%;
@@ -142,7 +142,7 @@ html.flexry-box, html.flexry-box body {overflow-x:hidden;min-height:100%;}
 
 // If viewing the modal and user clicks print, print *just* the image
 @media print {
-  html.flexry-box {max-height:100%;height:100%;margin:0 !important;
+  html.flexry-lb-active {max-height:100%;height:100%;margin:0 !important;
     body {max-height:100%;height:100%;margin:0 !important;
       * {visibility: hidden;display: none;}
     }
