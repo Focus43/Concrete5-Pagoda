@@ -104,6 +104,19 @@
 
 
         /**
+         * To help with setting default options, use this method and pass in a value (usually
+         * the result from the value() method above), and a default. If the passed $value
+         * is empty, it'll return the default.
+         * @param $value
+         * @param $default
+         * @return mixed
+         */
+        public static function valueOrDefault( $value, $default ){
+            return (!empty($value) || (is_string($value) && $value === '0')) ? $value : $default;
+        }
+
+
+        /**
          * Run the include() function in an independent function to keep scope limited.
          * @param FlexryBlockTemplateOptions $templateHelper
          * @return void

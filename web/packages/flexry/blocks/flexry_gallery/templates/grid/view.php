@@ -8,7 +8,7 @@
     $meta             = ((string) $templateHelper->value('meta')) ? $templateHelper->value('meta') : '';
     $paginationMethod = ((string) $templateHelper->value('paginationMethod') != '') ? $templateHelper->value('paginationMethod') : 'click';
     /** @var FlexryFileList $fileListObj */
-    $fileListObj->setItemsPerPage( ((int)$templateHelper->value('itemsPerPage')) ? (int)$templateHelper->value('itemsPerPage') : 15 );
+    $fileListObj->setItemsPerPage( ((int)$templateHelper->value('itemsPerPage')) ? (int)$templateHelper->value('itemsPerPage') : 10 );
     $imageList = $fileListObj->getPage();
 ?>
 

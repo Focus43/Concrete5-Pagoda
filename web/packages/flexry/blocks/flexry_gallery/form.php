@@ -11,16 +11,17 @@
         #flexryGallery .well h3 {margin:0;padding-bottom:5px;line-height:1em;}
         #flexryGallery .well p:last-child {margin:0;}
         #flexryGallery .well p.muted {font-size:11px;}
-        #flexryGallery label {display:inline-block;font-weight:inherit;margin-bottom:0;padding-top:0;}
+        #flexryGallery label {display:inline-block;font-weight:inherit;margin-bottom:0;padding-top:0;min-height:0;}
         #flexryGallery table.table {vertical-align:middle;margin-bottom:8px;background:#fff;border-spacing:0;border-collapse:collapse;}
         #flexryGallery table.table:last-child {margin-bottom:0;}
+        #flexryGallery table tbody {border:0;}
         #flexryGallery table.table th,
         #flexryGallery table.table td {white-space:nowrap;vertical-align:inherit;background:#fff;}
-        #flexryGallery table.table tr td:last-child {width:98%;}
+        /*#flexryGallery table.table tr td:last-child {width:98%;}*/
         #flexryGallery table.table.table-bordered thead tr th {white-space:nowrap;border-bottom-width:0 !important;}
-        #flexryGallery input[type="text"] {padding:5px;height:auto;}
+        #flexryGallery input[type="text"] {padding:5px;width:100%;height:auto;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
         #flexryGallery input[type="checkbox"] {position:relative;top:-1px;}
-        #flexryGallery select {padding:5px;height:27px;}
+        #flexryGallery select {padding:5px;width:100%;min-width:68px;height:27px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
         /* duplicates warning */
         #tabPaneImages .alert {display:none;}
         #tabPaneImages.dups .alert {display:block;}
@@ -101,19 +102,19 @@
                             <tr>
                                 <th></th>
                                 <th>Thumbnail Size</th>
-                                <th><label class="checkbox"><?php echo $formHelper->checkbox('fullUseOriginal', FlexryGalleryBlockController::FULL_USE_ORIGINAL_TRUE, $this->controller->fullUseOriginal); ?> Full Size: Use Original Image?</label></th>
+                                <th><label class="checkbox"><?php echo $formHelper->checkbox('fullUseOriginal', FlexryGalleryBlockController::FULL_USE_ORIGINAL_TRUE, $this->controller->fullUseOriginal); ?> Use Original Image As Full Size?</label></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Max Width</strong></td>
-                                <td><?php echo $formHelper->text('thumbWidth', $this->controller->thumbWidth, array('class' => 'span1', 'placeholder' => '250')); ?> px</td>
-                                <td><?php echo $formHelper->text('fullWidth', ($this->controller->fullWidth >= 1 ? $this->controller->fullWidth : ''), array('class' => 'span1', 'placeholder' => '900')); ?> px</td>
+                                <td><strong>Max Width (px)</strong></td>
+                                <td><?php echo $formHelper->text('thumbWidth', $this->controller->thumbWidth, array('placeholder' => '250')); ?></td>
+                                <td><?php echo $formHelper->text('fullWidth', ($this->controller->fullWidth >= 1 ? $this->controller->fullWidth : ''), array('placeholder' => '900')); ?></td>
                             </tr>
                             <tr>
-                                <td><strong>Max Height</strong></td>
-                                <td><?php echo $formHelper->text('thumbHeight', $this->controller->thumbHeight, array('class' => 'span1', 'placeholder' => '250')); ?> px</td>
-                                <td><?php echo $formHelper->text('fullHeight', ($this->controller->fullHeight >= 1 ? $this->controller->fullHeight : ''), array('class' => 'span1', 'placeholder' => '750')); ?> px</td>
+                                <td><strong>Max Height (px)</strong></td>
+                                <td><?php echo $formHelper->text('thumbHeight', $this->controller->thumbHeight, array('placeholder' => '250')); ?></td>
+                                <td><?php echo $formHelper->text('fullHeight', ($this->controller->fullHeight >= 1 ? $this->controller->fullHeight : ''), array('placeholder' => '750')); ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Crop To Fit?</strong></td>
@@ -138,24 +139,24 @@
                             <tr>
                                 <td rowspan="2"><strong>Mask</strong></td>
                                 <td>Color</td>
-                                <td>Opacity</td>
-                                <td>Fade Speed</td>
+                                <td>Opacity (&#37;)</td>
+                                <td>Fade Speed (sec)</td>
                                 <td>Click __ To Close</td>
                             </tr>
                             <tr>
                                 <td><?php echo $formHelper->text('lightbox[maskColor]', $this->controller->lbMaskColor, array('class' => 'span2 color-choose', 'placeholder' => '2d2d2d') ); ?></td>
-                                <td><?php echo $formHelper->select('lightbox[maskOpacity]', FlexryGalleryBlockController::lightboxMaskOpacities(), $this->controller->lbMaskOpacity, array('style' => 'width:55px;') ); ?> &#37;</td>
-                                <td><?php echo $formHelper->select('lightbox[maskFadeSpeed]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbMaskFadeSpeed, array('style' => 'width:65px;') ); ?> sec</td>
-                                <td><?php echo $formHelper->select('lightbox[closeOnClick]', FlexryGalleryBlockController::$lightboxCloseMethods, $this->controller->lbCloseOnClick, array('style' => 'width:110px;') ); ?></td>
+                                <td><?php echo $formHelper->select('lightbox[maskOpacity]', FlexryGalleryBlockController::lightboxMaskOpacities(), $this->controller->lbMaskOpacity); ?></td>
+                                <td><?php echo $formHelper->select('lightbox[maskFadeSpeed]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbMaskFadeSpeed); ?></td>
+                                <td><?php echo $formHelper->select('lightbox[closeOnClick]', FlexryGalleryBlockController::$lightboxCloseMethods, $this->controller->lbCloseOnClick); ?></td>
                             </tr>
                             <tr>
                                 <td rowspan="2"><strong>Animation</strong></td>
-                                <td>Transition</td>
-                                <td colspan="3">Duration</td>
+                                <td>Transition Effect</td>
+                                <td colspan="3">Duration (sec)</td>
                             </tr>
                             <tr>
-                                <td><?php echo $formHelper->select('lightbox[transitionEffect]', FlexryGalleryBlockController::$lightboxTransitions, $this->controller->lbTransitionEffect, array('style' => 'width:138px;') ); ?></td>
-                                <td colspan="3"><?php echo $formHelper->select('lightbox[transitionDuration]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbTransitionDuration, array('style' => 'width:65px;') ); ?> sec</td>
+                                <td><?php echo $formHelper->select('lightbox[transitionEffect]', FlexryGalleryBlockController::$lightboxTransitions, $this->controller->lbTransitionEffect); ?></td>
+                                <td colspan="3"><?php echo $formHelper->select('lightbox[transitionDuration]', FlexryGalleryBlockController::lightboxAnimationsTiming(), $this->controller->lbTransitionDuration); ?></td>
                             </tr>
                             <tr>
                                 <td rowspan="2"><strong>Display</strong></td>
@@ -163,8 +164,8 @@
                                 <td colspan="3">Thumbnail Markers <i class="icon-info-sign show-popover" title="Hover-to-see Preview" data-content="Visible only on: non-touch devices >= 568px height and 768px wide."></i></td>
                             </tr>
                             <tr>
-                                <td><?php echo $formHelper->select('lightbox[captions]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbCaptions, array('style' => 'width:80px;') ); ?></td>
-                                <td colspan="3"><?php echo $formHelper->select('lightbox[galleryMarkers]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbGalleryMarkers, array('style' => 'width:80px;') ); ?></td>
+                                <td><?php echo $formHelper->select('lightbox[captions]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbCaptions); ?></td>
+                                <td colspan="3"><?php echo $formHelper->select('lightbox[galleryMarkers]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbGalleryMarkers); ?></td>
                             </tr>
                         </tbody>
                     </table>

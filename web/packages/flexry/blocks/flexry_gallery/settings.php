@@ -1,38 +1,43 @@
 <?php
-    $templateHelper; /** @var BlockTemplateHelper $templateHelper */
-    $formHelper = Loader::helper('form'); /** @var FormHelper $formHelper */
+$templateHelper; /** @var BlockTemplateHelper $templateHelper */
+$formHelper = Loader::helper('form'); /** @var FormHelper $formHelper */
+
+// options
+$titleDisplay = array(
+    'hidden'  => 'Hidden',
+    'visible' => 'Visible'
+);
+$descriptionDisplay = array(
+    'hidden'  => 'Hidden',
+    'visible' => 'Visible'
+);
+$shadow = array(
+    'none' => 'None',
+    'yes' => 'Yes'
+);
 ?>
 
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th colspan="4">Caption Settings</th>
+            <th colspan="2">Captions</th>
+            <th colspan="3">Styles</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><strong>Title</strong></td>
-            <td><?php echo $formHelper->select($templateHelper->field('titleDisplay'), array('hidden' => 'Hidden', 'visible' => 'Visible'), $templateHelper->value('titleDisplay'), array('style' => 'width:140px;') ); ?></td>
-            <td><strong>Description</strong></td>
-            <td><?php echo $formHelper->select($templateHelper->field('descriptionDisplay'), array('hidden' => 'Hidden', 'visible' => 'Visible'), $templateHelper->value('descriptionDisplay'), array('style' => 'width:140px;') ); ?></td>
+            <td>Title</td>
+            <td>Description</td>
+            <td>Padding (px)</td>
+            <td>Vertical Spacing (px)</td>
+            <td>Shadow</td>
         </tr>
-    </tbody>
-</table>
-
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th colspan="4">Spacing &amp; Style</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td><strong>Padding</strong></td>
-        <td><?php echo $formHelper->text($templateHelper->field('padding'), $templateHelper->value('padding'), array('class' => 'span1', 'placeholder' => '3') ); ?> px</td>
-        <td><strong>Vertical Spacing</strong></td>
-        <td><?php echo $formHelper->text($templateHelper->field('margin'), $templateHelper->value('margin'), array('class' => 'span1', 'placeholder' => '5') ); ?> px</td>
-        <td><strong>Shadow</strong></td>
-        <td><?php echo $formHelper->select($templateHelper->field('shadow'), array('none' => 'None', 'yes' => 'Yes'), $templateHelper->value('shadow'), array('style' => 'width:140px;') ); ?></td>
-    </tr>
+        <tr>
+            <td><?php echo $formHelper->select($templateHelper->field('titleDisplay'), $titleDisplay, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('titleDisplay'), 'hidden'), array('style' => 'width:100px;')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('descriptionDisplay'), $descriptionDisplay, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('descriptionDisplay'), 'hidden'), array('style' => 'width:100px;')); ?></td>
+            <td><?php echo $formHelper->text($templateHelper->field('padding'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('padding'), 5), array('class' => 'span1', 'placeholder' => '5')); ?></td>
+            <td><?php echo $formHelper->text($templateHelper->field('margin'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('margin'), 5), array('class' => 'span1', 'placeholder' => '5')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('shadow'), $shadow, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('shadow'), 'none')); ?></td>
+        </tr>
     </tbody>
 </table>

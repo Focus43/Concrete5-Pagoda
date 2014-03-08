@@ -2,11 +2,9 @@
     /** @var BlockTemplateHelper $templateHelper */
     // templace-specific settings
     $selectorID = t('flexryRtl-%s', $this->controller->bID);
-    $itemCount  = ((int) $templateHelper->value('itemCount') >= 1) ? (int) $templateHelper->value('itemCount') : 3;
-    $rotateTime = ((int) $templateHelper->value('rotateTime') >= 1000) ? (int) $templateHelper->value('rotateTime') : 1500;
     /** @var FlexryFileList $fileListObj */
-    $imageList  = $fileListObj->get();
-    $chunkd     = array_chunk($imageList, count($imageList)/$itemCount);
+    $imageList = $fileListObj->get();
+    $chunkd    = array_chunk($imageList, (int)$templateHelper->value('itemCount'));
 ?>
 
     <div id="<?php echo $selectorID; ?>" class="flexryRtl">
@@ -28,7 +26,7 @@
     (function( _stack ){
         _stack.push(function(){
             $('#<?php echo $selectorID; ?>').flexryRtl({
-                rotateTime  : <?php echo $rotateTime; ?>
+                rotateTime  : <?php echo (int)((float)$templateHelper->value('rotateTime')*1000); ?>
             });
             <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.flexry-rtl-item')->initOutput(); ?>
         });

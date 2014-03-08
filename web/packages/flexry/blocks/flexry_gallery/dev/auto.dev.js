@@ -67,7 +67,7 @@ $(function(){
     /**
      * Popovers
      */
-    $('.show-popover').popover({animation:false,placement:'top'});
+    $('.show-popover').popover({animation:false, placement:'top'});
 
 
     /**

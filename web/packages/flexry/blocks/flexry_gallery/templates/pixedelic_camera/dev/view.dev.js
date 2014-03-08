@@ -7,16 +7,33 @@
     function FlexryCamera( $selector, _settings ){
 
         var config = $.extend(true, {}, {
-
+            imagePath   : '/packages/flexry/images/camera/',
+            pagination  : false,
+            cols        : Math.floor(Math.random()*(8-3+1)+3), // randomize
+            rows        : Math.floor(Math.random()*(6-2+1)+2)  // randomize
         }, _settings);
 
 
-        $selector.camera({
-            fx          : 'stampede',
-            transPeriod : 550,
+        $selector.camera(config);
+
+        /*$selector.camera({
+            alignment   : 'center',
+            imagePath   : '/packages/flexry/images/camera/',
+            //autoAdvance : false,
+            loaderPadding: 0,
+            loaderStroke : 10,
+            // loader bar
+            barPosition : 'top',
+            //barDirection : 'TopToBottom',
+            loader      : 'bar',
+            fx          : 'random',
+            transPeriod : 500,
+            time : 1000,
             thumbnails  : true,
-            height      : '300px'
-        });
+            //height      : '450px',
+            cols        : 15,
+            rows        : 2
+        });*/
 
 
         return {

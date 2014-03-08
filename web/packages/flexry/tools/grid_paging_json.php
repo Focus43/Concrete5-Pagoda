@@ -16,9 +16,9 @@
         // Get the instance
         $blockInstance = $blockObj->getInstance();
 
-        // Get the template helper, and find the itemsPerPage value, or default to 15
+        // Get the template helper, and find the itemsPerPage value, or default to 10
         $templateHelper = $blockInstance->getTemplateHelper();
-        $itemsPerPage   = ((int) $templateHelper->value('itemsPerPage')) ? (int) $templateHelper->value('itemsPerPage') : 15;
+        $itemsPerPage   = ((int) $templateHelper->value('itemsPerPage')) ? (int) $templateHelper->value('itemsPerPage') : 10;
 
         // Set the items per page
         $blockInstance->fileListObj()->setItemsPerPage($itemsPerPage);
