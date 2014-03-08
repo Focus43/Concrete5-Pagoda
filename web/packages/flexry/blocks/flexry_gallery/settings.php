@@ -35,9 +35,9 @@ $shadow = array(
         <tr>
             <td><?php echo $formHelper->select($templateHelper->field('titleDisplay'), $titleDisplay, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('titleDisplay'), 'hidden'), array('style' => 'width:100px;')); ?></td>
             <td><?php echo $formHelper->select($templateHelper->field('descriptionDisplay'), $descriptionDisplay, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('descriptionDisplay'), 'hidden'), array('style' => 'width:100px;')); ?></td>
-            <td><?php echo $formHelper->text($templateHelper->field('padding'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('padding'), 5), array('class' => 'span1', 'placeholder' => '5')); ?></td>
-            <td><?php echo $formHelper->text($templateHelper->field('margin'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('margin'), 5), array('class' => 'span1', 'placeholder' => '5')); ?></td>
-            <td><?php echo $formHelper->select($templateHelper->field('shadow'), $shadow, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('shadow'), 'none')); ?></td>
+            <td><?php echo $formHelper->text($templateHelper->field('padding'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('padding'), 10), array('class' => 'span1', 'placeholder' => '5')); ?></td>
+            <td><?php echo $formHelper->text($templateHelper->field('margin'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('margin'), 15), array('class' => 'span1', 'placeholder' => '5')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('shadow'), $shadow, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('shadow'), 'yes')); ?></td>
         </tr>
     </tbody>
 </table>

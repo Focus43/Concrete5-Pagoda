@@ -8,7 +8,7 @@
 
         var config = $.extend(true, {}, {
             imagePath   : '/packages/flexry/images/camera/',
-            pagination  : false,
+            pagination  : true,
             cols        : Math.floor(Math.random()*(8-3+1)+3), // randomize
             rows        : Math.floor(Math.random()*(6-2+1)+2)  // randomize
         }, _settings);

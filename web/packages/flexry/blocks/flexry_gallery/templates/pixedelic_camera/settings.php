@@ -192,12 +192,24 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
             <td><?php echo $formHelper->select($templateHelper->field('pauseOnClick'), $pauseOnClick, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('pauseOnClick'), 'false')); ?></td>
         </tr>
         <tr>
-            <td colspan="2">Photo Alignment</td>
-            <td colspan="2">Allow Portrait?</td>
+            <td>Photo Alignment</td>
+            <td>Navigation Buttons</td>
+            <td>Navigation On Hover</td>
+            <td>Allow Portrait</td>
         </tr>
         <tr>
-            <td colspan="2"><?php echo $formHelper->select($templateHelper->field('alignment'), $alignment, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('alignment'), 'center')); ?></td>
-            <td colspan="2"><?php echo $formHelper->select($templateHelper->field('portrait'), $portrait, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('portrait'), 'false')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('alignment'), $alignment, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('alignment'), 'center')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('navigation'), $navigation, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('navigation'), 'true')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('navigationHover'), $navigationHover, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('navigationHover'), 'true')); ?></td>
+            <td><?php echo $formHelper->select($templateHelper->field('portrait'), $portrait, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('portrait'), 'false')); ?></td>
+        </tr>
+        <tr>
+            <td colspan="2">Show Thumbnails</td>
+            <td colspan="2">Height <span class="muted">(px, %, or 'auto')</span></td>
+        </tr>
+        <tr>
+            <td colspan="2"><?php echo $formHelper->select($templateHelper->field('thumbnails'), $thumbnails, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('thumbnails'), 'true')); ?></td>
+            <td colspan="2"><?php echo $formHelper->text($templateHelper->field('height'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('height'), 'auto')); ?></td>
         </tr>
     </tbody>
 </table>

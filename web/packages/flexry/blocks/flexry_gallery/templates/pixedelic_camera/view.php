@@ -6,13 +6,18 @@
     $imageList = $fileListObj->get();
     ?>
 
-    <div id="<?php echo $selectorID; ?>" class="flexryCamera camera_wrap">
-        <?php foreach($imageList AS $flexryFile): /** @var FlexryFile $flexryFile */ ?>
-            <div class="flexry-camera-item" data-src="<?php echo $flexryFile->fullImgSrc(); ?>" data-thumb="<?php echo $flexryFile->thumbnailImgSrc(); ?>">
-                <div class="camera_caption"><?php echo $flexryFile->getDescription(); ?></div>
-            </div>
-        <?php endforeach; ?>
+    <div style="height:220px;position:relative;">
+        <div id="<?php echo $selectorID; ?>" class="flexryCamera camera_wrap">
+            <?php foreach($imageList AS $flexryFile): /** @var FlexryFile $flexryFile */ ?>
+                <div class="flexry-camera-item" data-src="<?php echo $flexryFile->fullImgSrc(); ?>" data-thumb="<?php echo $flexryFile->thumbnailImgSrc(); ?>">
+                    <?php $descr = $flexryFile->getDescription(); if( !empty($descr) ): ?>
+                        <div class="camera_caption"><?php echo $descr; ?></div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
+
 
     <script type="text/javascript">
         (function( _stack ){
@@ -20,6 +25,13 @@
                 $('#<?php echo $selectorID; ?>').flexryCamera({
                     fx              : '<?php echo $templateHelper->value('fx'); ?>',
                     easing          : '<?php echo $templateHelper->value('easing'); ?>',
+                    autoAdvance     : <?php echo $templateHelper->value('autoAdvance'); ?>,
+                    playPause       : <?php echo $templateHelper->value('playPause'); ?>,
+                    hover           : <?php echo $templateHelper->value('hover'); ?>,
+                    pauseOnClick    : <?php echo $templateHelper->value('pauseOnClick'); ?>,
+                    thumbnails      : <?php echo $templateHelper->value('thumbnails'); ?>,
+                    height: '100%',
+                    //height          : '', //'<?php echo $templateHelper->value('height'); ?>',
                     time            : <?php echo (int)((float)$templateHelper->value('time')*1000); ?>,
                     transPeriod     : <?php echo (int)((float)$templateHelper->value('transPeriod')*1000); ?>,
                     alignment       : '<?php echo $templateHelper->value('alignment'); ?>',
