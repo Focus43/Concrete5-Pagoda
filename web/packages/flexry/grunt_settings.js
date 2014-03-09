@@ -42,6 +42,12 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/dev/view.dev.js')
     ];
 
+    // owl slider
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/owl_slider/view.js') ] = [
+        pkgPath('js/libs/owl.carousel.js'),
+        pkgPath('blocks/flexry_gallery/templates/owl_slider/dev/view.dev.js')
+    ];
+
     // concat grid template
     _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/grid/view.js') ] = [
         pkgPath('js/libs/masonry-3.1.4.js'),
@@ -55,7 +61,6 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
 
     // concat flexry lightbox
     _currentConfigs.concat.flexry.files[ pkgPath('js/flexry-lightbox.js') ] = [
-        //pkgPath('js/libs/modernizr.js'),
         pkgPath('js/dev/flexry-lightbox.dev.js')
     ];
 
@@ -76,7 +81,8 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         pkgPath('blocks/flexry_gallery/templates/rotating_list/view.js'),
         pkgPath('blocks/flexry_gallery/templates/dicer/view.js'),
         pkgPath('blocks/flexry_gallery/templates/grid/view.js'),
-        pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.js')
+        pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.js'),
+        pkgPath('blocks/flexry_gallery/templates/owl_slider/view.js')
     ];
 
     for( var i = 0; i < _uglifyTargets.length; i++ ){
@@ -99,8 +105,10 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
             {src: [pkgPath('blocks/flexry_gallery/templates/rotating_list/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/rotating_list/view.css')},
             // dicer
             {src: [pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/dicer/view.css')},
-            // dicer
+            // pixedelic camera
             {src: [pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.css')},
+            // owl slider
+            {src: [pkgPath('blocks/flexry_gallery/templates/owl_slider/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/owl_slider/view.css')},
             // grid
             {src: [pkgPath('blocks/flexry_gallery/templates/grid/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/grid/view.css')}
         ]
@@ -118,7 +126,7 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
     });
 
     // Register the flexry task to dev all ($: grunt flexry)
-    grunt.registerTask('flexry_build', ['concat:flexry', 'uglify:flexry', 'sass:flexry']);
+    grunt.registerTask('build_flexry', ['concat:flexry', 'uglify:flexry', 'sass:flexry']);
 
 
 }

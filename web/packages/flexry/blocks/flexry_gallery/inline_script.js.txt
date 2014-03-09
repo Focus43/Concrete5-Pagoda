@@ -1,2 +1,2 @@
-/*! concrete5_project - Build v0.0.6 (2014-03-07) */
-try{!function(a){for(var b=0;b<a.length;b++)a[b].call()}(window._flexry||[])}catch(err){}
+/*! concrete5_project - Build v0.0.6 (2014-03-09) */
+try{jQuery(function(a){for(var b=0;b<a.length;b++)a[b].call()}(window._flexry||[]))}catch(err){}

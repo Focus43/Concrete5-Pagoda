@@ -7,8 +7,9 @@
     $cellPadding      = ((int) $templateHelper->value('cellPadding') >= 1) ? (int) $templateHelper->value('cellPadding') : false;
     $meta             = ((string) $templateHelper->value('meta')) ? $templateHelper->value('meta') : '';
     $paginationMethod = ((string) $templateHelper->value('paginationMethod') != '') ? $templateHelper->value('paginationMethod') : 'click';
+    $itemsPerPage     = ((int)$templateHelper->value('itemsPerPage')) ? (int)$templateHelper->value('itemsPerPage') : 10;
     /** @var FlexryFileList $fileListObj */
-    $fileListObj->setItemsPerPage( ((int)$templateHelper->value('itemsPerPage')) ? (int)$templateHelper->value('itemsPerPage') : 10 );
+    $fileListObj->setItemsPerPage($itemsPerPage);
     $imageList = $fileListObj->getPage();
 ?>
 
@@ -33,7 +34,9 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if( !(count($imageList) < $itemsPerPage) ): ?>
         <div class="loader"><span><?php echo $paginationMethod == 'click' ? 'Load More' : 'Scroll Or Click To Load More'; ?></span></div>
+        <?php endif; ?>
     </div>
 
 <script type="text/javascript">

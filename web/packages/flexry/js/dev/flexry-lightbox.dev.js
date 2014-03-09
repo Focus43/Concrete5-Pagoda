@@ -69,7 +69,8 @@
                         // bind close target (add check so if img-primary, don't close)
                         var $closeTarget = config.closeOnClick ? $element : $('.closer', $element);
                         $closeTarget.on('click', function(_ev){
-                            if($(_ev.target).hasClass('primary-img')){return;}
+                            var $targ = $(_ev.target);
+                            if($targ.hasClass('primary-img') || $targ.hasClass('caption-container')){return;}
                             $element.close();
                         });
                         // set transition duration, if not default 200
@@ -149,9 +150,8 @@
                 // loop through every item in the listCache and compose a marker
                 $.each( _listCache(), function(_index, dataObj){
                     $.when( _getImage(dataObj['src_thumb']) ).done(function( _img ){
-                        var _ratio  = _scaleRatio( _img, config.galleryMarkersThumb ),
-                            $marker = $('<div class="m" data-cache="'+dataObj['index']+'"><span class="t"><span class="arrow"></span></span></div>');
-                        $('span.t', $marker).css({left:-((_img.width*_ratio/2)+3)}).append(_img);
+                        var $marker = $('<div class="m" data-cache="'+dataObj['index']+'"><div class="t"></div></div>');
+                        $('.t', $marker).append(_img);
                         $container.$_markersInner.append($marker);
                     });
                 });
@@ -276,7 +276,7 @@
             if( !_listDataCache || _rescan === true ){
                 _listDataCache  = {};
                 $(config.itemTargets, $selector).each(function(index, element){
-                    element.setAttribute('data-order', index);
+                    element.setAttribute('data-flexrylb', index);
                     _listDataCache[index] = {
                         index     : index,
                         title     : $('.title', element).text() || '',
@@ -296,7 +296,7 @@
          */
         $selector.on('click', config.itemTargets, function(){
             var itemList     = _listCache(),
-                clickedIndex = this.getAttribute('data-order');
+                clickedIndex = this.getAttribute('data-flexrylb');
             $container.open().then(function(){
                 _displayImage( itemList[clickedIndex] );
             });
