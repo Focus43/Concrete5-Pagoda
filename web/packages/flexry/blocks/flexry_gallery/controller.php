@@ -39,7 +39,8 @@
             'fx-slide-in-right'  => 'Slide From Right',
             'fx-slide-in-left'   => 'Slide From Left',
             'fx-side-fall'       => 'Fall From Side',
-            'fx-slit'            => 'Slit In'
+            'fx-slit'            => 'Slit In',
+            'randomize'          => 'Randomize'
         );
 
         public static $lightboxCloseMethods = array(
@@ -96,10 +97,10 @@
                 $lbMaskOpacity          = .75,
                 $lbMaskFadeSpeed        = 250,
                 $lbCloseOnClick         = self::LIGHTBOX_CLOSE_CLICK_TRUE,
-                $lbTransitionEffect     = '',
+                $lbTransitionEffect     = 'randomize',
                 $lbTransitionDuration   = 200,
                 $lbCaptions             = self::LIGHTBOX_CAPTIONS_MARKERS_TRUE,
-                $lbGalleryMarkers       = self::LIGHTBOX_CAPTIONS_MARKERS_FALSE;
+                $lbGalleryMarkers       = self::LIGHTBOX_CAPTIONS_MARKERS_TRUE;
 
         // modify the auto-including of the view.js file (even in templates) to output in footer?
         public $autoIncludeJsInFooter = self::JS_IN_FOOTER_FALSE;

@@ -2,7 +2,7 @@
 
     function FlexryDicer( $selector, _settings ){
 
-        var _self       = this,
+        var $images     = $('img', $selector),
             _timeline   = new gsTimeline(),
             _tweens     = [],
             config = $.extend(true, {}, {
@@ -33,8 +33,9 @@
         }
 
 
-        batchLoadImages( $('img', $selector) ).done(function(){
-            var $items = $('.flexry-dicer-item', $selector),
+        batchLoadImages( $images ).done(function(){
+
+            /*var $items = $('.flexry-dicer-item', $selector),
                 length = $items.length;
             $items.each(function(_index, element){
                     _tweens.push( gsTween.to(element, .35, {
@@ -45,7 +46,18 @@
                         delay:   .35
                     }));
             });
-            _timeline.add(_tweens, '+=0', 'normal',.1);
+            _timeline.add(_tweens, '+=0', 'normal',.1);*/
+            console.log($images.length, Math.floor($images.length/2));
+            $images.eq(Math.floor($images.length/2)).addClass('current');
+
+            var _maxHeight = (function(images){
+                var _max = 1;
+                $.each(images, function(idx,el){
+                    _max = (el.clientHeight > _max) ? el.clientHeight : _max;
+                });
+                return _max;
+            })($images);
+            console.log(_maxHeight)
         });
 
 
@@ -61,7 +73,7 @@
     }
 
     /**
-     * This is the actual function visible to jQuery. Below, we create a new instace
+     * This is the actual function visible to jQuery. Below, we create a new instance
      * of FlexryDicer, bind it to the selector's data attribute, then return
      * for chaining.
      * @param {} _settings

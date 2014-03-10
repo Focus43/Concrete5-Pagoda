@@ -1,39 +1,21 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 /** @var BlockTemplateHelper $templateHelper */
-// templace-specific settings
-$selectorID = t('flexryOwl-%s', $this->controller->bID);
 /** @var FlexryFileList $fileListObj */
-$imageList = $fileListObj->get();
 
-$jsonSettings = array(
-    /*'fx'            => (string)$templateHelper->value('fx'),
-    'easing'        => (string)$templateHelper->value('easing'),
-    'autoAdvance'   => (bool)($templateHelper->value('autoAdvance') === 'true'),
-    'playPause'     => (bool)($templateHelper->value('playPause') === 'true'),
-    'hover'         => (bool)($templateHelper->value('hover') === 'true'),
-    'pauseOnClick'  => (bool)($templateHelper->value('pauseOnClick') === 'true'),
-    'thumbnails'    => (bool)($templateHelper->value('thumbnails') === 'true'),
-    'pagination'    => (bool)($templateHelper->value('pagination') === 'true'),
-    'time'          => (int)((float)$templateHelper->value('time')*1000),
-    'transPeriod'   => (int)((float)$templateHelper->value('transPeriod')*1000),
-    'alignment'     => (string)$templateHelper->value('alignment'),
-    'portrait'      => (bool)($templateHelper->value('portrait') === 'true'),
-    'loader'        => (string)$templateHelper->value('loader'),
-    'loaderColor'   => "#{$templateHelper->value('loaderColor')}",
-    'loaderBgColor' => "#{$templateHelper->value('loaderBgColor')}",
-    'loaderOpacity' => (float)$templateHelper->value('loaderOpacity'),
-    'loaderPadding' => (int)$templateHelper->value('loaderPadding'),
-    'loaderStroke'  => (int)$templateHelper->value('loaderStroke'),
-    'pieDiameter'   => (int)$templateHelper->value('pieDiameter'),
-    'piePosition'   => (string)$templateHelper->value('piePosition'),
-    'barDirection'  => (string)$templateHelper->value('barDirection'),
-    'barPosition'   => (string)$templateHelper->value('barPosition'),
-    'imagePath'     => FLEXRY_IMAGE_PATH . 'camera/'*/
+$selectorID = sprintf('flexryOwl-%s', $this->controller->bID);
+$imageList  = $fileListObj->get();
+
+$settingsData = (object) array(
+    'singleItem'        => (bool)($templateHelper->value('singleItem') === 'true'),
+    'items'             => (int)$templateHelper->value('items'),
+    'navigation'        => (bool)($templateHelper->value('navigation') === 'true'),
+    'pagination'        => (bool)($templateHelper->value('pagination') === 'true'),
+    'scrollPerPage'     => (bool)($templateHelper->value('scrollPerPage') === 'true'),
+    'slideSpeed'        => (int)((float)$templateHelper->value('slideSpeed')*1000),
+    'paginationSpeed'   => (int)((float)$templateHelper->value('slideSpeed')*1000),
+    'autoPlay'          => (bool)($templateHelper->value('autoPlay') === 'true'),
+    'stopOnHover'       => (bool)($templateHelper->value('stopOnHover') === 'true')
 );
-
-//if((int)$templateHelper->value('height') >= 1):
-//    $jsonSettings['height'] = (int)$templateHelper->value('height') . 'px';
-//endif;
 ?>
 
 <div class="flexryOwl meta-hover">
@@ -57,7 +39,7 @@ $jsonSettings = array(
 <script type="text/javascript">
     (function( _stack ){
         _stack.push(function(){
-            $('#<?php echo $selectorID; ?>').flexryOwl(<?php echo Loader::helper('json')->encode((object)$jsonSettings); ?>);
+            $('#<?php echo $selectorID; ?>').flexryOwl(<?php echo Loader::helper('json')->encode($settingsData); ?>);
             <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.flexry-owl-item')->initOutput(); ?>
         });
         window._flexry = _stack;

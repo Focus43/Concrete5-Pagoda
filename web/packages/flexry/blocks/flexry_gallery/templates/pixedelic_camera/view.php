@@ -1,11 +1,11 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
 /** @var BlockTemplateHelper $templateHelper */
-// templace-specific settings
-$selectorID = t('flexryCamera-%s', $this->controller->bID);
 /** @var FlexryFileList $fileListObj */
-$imageList = $fileListObj->get();
 
-$jsonSettings = array(
+$selectorID = sprintf('flexryCamera-%s', $this->controller->bID);
+$imageList  = $fileListObj->get();
+
+$settingsData = (object) array(
     'fx'            => (string)$templateHelper->value('fx'),
     'easing'        => (string)$templateHelper->value('easing'),
     'autoAdvance'   => (bool)($templateHelper->value('autoAdvance') === 'true'),
@@ -32,7 +32,7 @@ $jsonSettings = array(
 );
 
 if((int)$templateHelper->value('height') >= 1):
-    $jsonSettings['height'] = (int)$templateHelper->value('height') . 'px';
+    $settingsData->height = (int)$templateHelper->value('height') . 'px';
 endif;
 ?>
 
@@ -51,7 +51,7 @@ endif;
 <script type="text/javascript">
     (function( _stack ){
         _stack.push(function(){
-            $('#<?php echo $selectorID; ?>').flexryCamera(<?php echo Loader::helper('json')->encode((object)$jsonSettings); ?>);
+            $('#<?php echo $selectorID; ?>').flexryCamera(<?php echo Loader::helper('json')->encode($settingsData); ?>);
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

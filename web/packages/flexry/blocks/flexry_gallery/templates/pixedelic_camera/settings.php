@@ -165,8 +165,6 @@ $thumbnails = array(
     'true'  => 'True',
     'false' => 'False'
 );
-// time?
-// transPeriod?
 $time = array_combine(range(1,12,.5), range(1,12,.5));
 $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
 

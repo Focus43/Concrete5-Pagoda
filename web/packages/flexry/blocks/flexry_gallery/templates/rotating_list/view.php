@@ -1,10 +1,15 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
-    /** @var BlockTemplateHelper $templateHelper */
-    // templace-specific settings
-    $selectorID = t('flexryRtl-%s', $this->controller->bID);
-    /** @var FlexryFileList $fileListObj */
-    $imageList = $fileListObj->get();
-    $chunkd    = array_chunk($imageList, (int)$templateHelper->value('itemCount'));
+/** @var BlockTemplateHelper $templateHelper */
+/** @var FlexryFileList $fileListObj */
+
+$selectorID    = sprintf('flexryRtl-%s', $this->controller->bID);
+$imageList     = $fileListObj->get();
+$itemsPerChunk = count($imageList)/(int)$templateHelper->value('itemCount');
+$chunkd        = array_chunk($imageList, (is_float($itemsPerChunk) ? $itemsPerChunk + 1 : $itemsPerChunk));
+
+$settingsData  = (object) array(
+    'rotateTime' => (int)((float)$templateHelper->value('rotateTime')*1000)
+);
 ?>
 
     <div id="<?php echo $selectorID; ?>" class="flexryRtl">
@@ -25,10 +30,8 @@
 <script type="text/javascript">
     (function( _stack ){
         _stack.push(function(){
-            $('#<?php echo $selectorID; ?>').flexryRtl({
-                rotateTime  : <?php echo (int)((float)$templateHelper->value('rotateTime')*1000); ?>
-            });
-            <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.flexry-rtl-item')->initOutput(); ?>
+            $('#<?php echo $selectorID; ?>').flexryRtl(<?php echo Loader::helper('json')->encode($settingsData); ?>);
+            <?php echo $lightboxHelper->bindTo($selectorID)->itemTargets('.flexry-rtl-item')->setDelegateTarget('.rtl-image')->initOutput(); ?>
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

@@ -24,14 +24,15 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
  * Lightbox styles (heights are handled below, based on touch enabled devices)
  */
 .flexry-lightbox {font-size:14px;text-align:center;display:none;z-index:999;@include fixedFull;
+  [data-transition] {width:100%;height:100%;}
   .masker {background:$defaultMask;@include fixedFull;}
   div, span {text-align:inherit !important;}
 
   /**
    * MAIN CONTENT AREA - HIDDEN BY DEFAULT, UNTIL THE LOADER IS SWAPPED
    */
-  .modal-container {visibility:hidden;opacity:0;height:95%;@include centerize;@include transition(all $transitionTime ease-out);
-    .content {height:100%;margin:0;display:block;position:relative;@include transition(all $transitionTime ease-out);@include backface-visibility(hidden);
+  .modal-container {visibility:hidden;opacity:0;height:95%;@include centerize;@include transition(all $transitionTime ease-out);@include perspective(1300px);
+    .content {height:100%;margin:0;display:block;position:relative;@include transition(all $transitionTime ease-out);@include backface-visibility(hidden);@include transform-style(preserve-3d);
       img.primary-img {width:auto;height:auto;max-height:100%;max-width:100%;position:absolute;top:50%;left:50%;@include box-shadow(0 0 25px rgba(0,0,0,.75));@include transform(translateY(-50%) translateX(-50%));}
     }
   }
@@ -77,12 +78,12 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
     $markerMargin: 3px;
     .m-inner {display:table-cell;vertical-align:middle;@include perspective(800px);}
     .m {cursor:pointer;position:relative;display:inline-block;margin:$markerMargin;background-color:#fff;width:15px;height:15px; @include border-radius(50%);@include box-shadow(0 0 4px #000);@include transition(background .25s ease);
-      .t {position:absolute;margin-bottom:7px;width:200px;left:-(100px-($markerMargin*2));opacity:0;display:block;bottom:100%;z-index:-1;@include transform-style(preserve-3d);@include transform-origin(0 50%);@include transform(rotateX(90deg) translateZ(-55px));@include transition(all .15s ease);
+      .t {position:absolute;margin-bottom:12px;width:200px;left:-(100px-($markerMargin*2));opacity:0;display:block;bottom:100%;z-index:-1;visibility:hidden;@include transform-style(preserve-3d);@include transform-origin(0 50%);@include transform(rotateX(20deg) translateZ(-55px));@include transition(all .15s ease);
         img {padding:3px;background:#fff;display:block;margin:0 auto;max-width:160px;max-height:100px;width:auto; @include box-shadow(0 0 6px #000);}
       }
       // transition-to state
       &:hover {background-color:#9ca8aa;
-        .t {opacity:1;z-index:1001;@include transform(rotateX(0) translateZ(0));}
+        .t {opacity:1;z-index:1001;visibility:visible;@include transform(rotateX(0) translateZ(0));}
       }
     }
   }
@@ -169,80 +170,68 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
 
 
 ////////////////////////////////// EFFECTS //////////////////////////////////
-// Spin in effect
-.flexry-lightbox.fx-spin {
-  .modal-container .content {@include transform(scale(0) rotate(720deg));}
-  &.loaded {
+.flexry-lightbox {
+  // Spin in effect
+  .fx-spin {
+    .modal-container .content {@include transform(scale(0) rotate(720deg));}
+  }
+  &.loaded .fx-spin {
     .modal-container .content {@include transform(scale(1) rotate(0deg));}
   }
-}
 
-// Fall effect
-.flexry-lightbox.fx-fall {
-  .modal-container {@include perspective(1300px);
-    .content {@include transform(translateZ(600px) rotateX(50deg));@include transform-style(preserve-3d);}
+  // Fall effect
+  .fx-fall {
+    .modal-container .content {@include transform(translateZ(600px) rotateX(50deg));}
   }
-  &.loaded {
+  &.loaded .fx-fall {
     .modal-container .content {@include transform(translateZ(0px) rotateX(0deg));}
   }
-}
 
-// 3D-flip vertical
-.flexry-lightbox.fx-flip-vertical {
-  .modal-container {@include perspective(1300px);
-    .content {@include transform(rotateX(-80deg));@include transform-style(preserve-3d);}
+  // 3D-flip vertical
+  .fx-flip-vertical {
+    .modal-container .content {@include transform(rotateX(-80deg));}
   }
-  &.loaded {
+  &.loaded .fx-flip-vertical {
     .modal-container .content {@include transform(rotateX(0deg));}
   }
-}
 
-// 3D-flip horizontal
-.flexry-lightbox.fx-flip-horizontal {
-  .modal-container {@include perspective(1300px);
-    .content {@include transform(rotateY(-80deg));@include transform-style(preserve-3d);}
+  // 3D-flip horizontal
+  .fx-flip-horizontal {
+    .modal-container .content {@include transform(rotateY(-80deg));}
   }
-  &.loaded {
+  &.loaded .fx-flip-horizontal {
     .modal-container .content {@include transform(rotateY(0deg));}
   }
-}
 
-// Slide in right
-.flexry-lightbox.fx-slide-in-right {
-  .modal-container {
-    .content {@include transform(translateX(30%));}
+  // Slide in right
+  .fx-slide-in-right {
+    .modal-container .content {@include transform(translateX(30%));}
   }
-  &.loaded {
+  &.loaded .fx-slide-in-right {
     .modal-container .content {@include transform(translateX(0));}
   }
-}
 
-// Slide in left
-.flexry-lightbox.fx-slide-in-left {
-  .modal-container {
-    .content {@include transform(translateX(-30%));}
+  // Slide in left
+  .fx-slide-in-left {
+    .modal-container .content {@include transform(translateX(-30%));}
   }
-  &.loaded {
+  &.loaded .fx-slide-in-left {
     .modal-container .content {@include transform(translateX(0));}
   }
-}
 
-// Slide in left
-.flexry-lightbox.fx-side-fall {
-  .modal-container {@include perspective(1300px);
-    .content {@include transform(translate(30%) translateZ(600px) rotate(20deg));@include transform-style(preserve-3d);}
+  // Fall from the side
+  .fx-side-fall {
+    .modal-container .content {@include transform(translate(30%) translateZ(600px) rotate(20deg));}
   }
-  &.loaded {
+  &.loaded .fx-side-fall {
     .modal-container .content {@include transform(translate(0%) translateZ(0) rotate(0deg));}
   }
-}
 
-// 3D-slit
-.flexry-lightbox.fx-slit {
-  .modal-container {@include perspective(1300px);
-    .content {opacity:0;@include transform(translateZ(-3000px) rotateY(90deg));@include transform-style(preserve-3d);}
+  // 3D-slit
+  .fx-slit {
+    .modal-container .content {opacity:0;@include transform(translateZ(-3000px) rotateY(90deg));}
   }
-  &.loaded {
+  &.loaded .fx-slit {
     .modal-container .content {@include animation(slit .7s forwards ease-out);}
   }
 }

@@ -12,13 +12,15 @@
     function FlexryLightbox( $selector, _settings ){
 
         var _self               = this,
-            status_loaded_false = false,
             status_loaded_true  = true,
-            _transitionDuration = 200, // .2 seconds
+            status_loaded_false = false,
+            _transitionDuration = 200,
             _imagePromiseCache  = {},
             _currentIndexCache  = null,
             _listDataLength     = 0,
             _listDataCache      = false,
+            _fxRandomized       = false, // determined in the build method (set internally)
+            _fxList             = ['', 'fx-spin', 'fx-fall', 'fx-flip-vertical', 'fx-flip-horizontal', 'fx-slide-in-right', 'fx-slide-in-left', 'fx-side-fall', 'fx-slit'],
             // merge passed options w/ the defaults
             config = $.extend(true, {}, {
                 maskColor           : '#2a2a2a',
@@ -26,12 +28,12 @@
                 maskFadeSpeed       : 250,
                 closeOnClick        : true,
                 itemTargets         : '.lightbox-item',
+                delegateTarget      : false,
                 transitionEffect    : '',
                 transitionDuration  : _transitionDuration,
                 captions            : true,
                 gallery             : true,
-                galleryMarkers      : true,
-                galleryMarkersThumb : {w: 160, h: 100}
+                galleryMarkers      : true
             }, _settings);
 
         /**
@@ -41,9 +43,12 @@
         var $container = (function(){
             var buildPromise,
                 $element = $('<div />', {
-                    class : ['flexry-lightbox', config.transitionEffect, (config.captions ? 'captions' : ''), (config.gallery ? 'arrows' : ''), (config.galleryMarkers ? 'markers' : '')].join(' '),
-                    html  : '<div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div>'
+                    class : ['flexry-lightbox', (config.captions ? 'captions' : ''), (config.gallery ? 'arrows' : ''), (config.galleryMarkers ? 'markers' : '')].join(' '),
+                    html  : '<div data-transition class="'+config.transitionEffect+'"><div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div></div>'
                 });
+
+            // determine whether to enable randomizing the effects
+            _fxRandomized = (config.transitionEffect === 'randomize');
 
             // Set transition durations, if not the default 200
             function setCssTransitionDuration(){
@@ -76,7 +81,7 @@
                         // set transition duration, if not default 200
                         setCssTransitionDuration();
                         // build gallery stuff, or if only one image in listData(), hide
-                        buildGallery();
+                        createGalleryElements();
                         // resolve the _build() task done
                         _task.resolve();
                     }).promise();
@@ -114,6 +119,7 @@
             }
 
             // cache commonly used selectors
+            $element.$_transition       = $('[data-transition]', $element);
             $element.$_content          = $('.content', $element);
             $element.$_captionContainer = $('.caption-container', $element);
             $element.$_caption1         = $('.title span', $element);
@@ -127,40 +133,31 @@
         /**
          * Build gallery navigation and bind events.
          */
-        function buildGallery(){
+        function createGalleryElements(){
             // is the gallery either: disabled, or is there not an object at _listCache() index 1?
             if( !(config.gallery) || !(_listCache()['1']) ){
-                $container.removeClass('arrows markers');
-                return;
+                $container.removeClass('arrows markers'); return;
             }
 
             // bind previous/next actions
             $('.gallery-arrows', $container).on('click', function( _clickEv ){
                 _clickEv.stopPropagation(); _clickEv.preventDefault();
-                var itemList = _listCache();
-                if( $(this).hasClass('prev') ){
-                    _displayImage( itemList[_currentIndexCache-1] || itemList[_listDataLength] );
-                }else{
-                    _displayImage( itemList[_currentIndexCache+1] || itemList[0] );
+                if( $(this).hasClass('next') ){
+                    navigateNext(); return;
                 }
+                navigatePrev();
             });
 
             // create gallery markers?
             if( config.galleryMarkers ){
-                // loop through every item in the listCache and compose a marker
-                $.each( _listCache(), function(_index, dataObj){
-                    $.when( _getImage(dataObj['src_thumb']) ).done(function( _img ){
-                        var $marker = $('<div class="m" data-cache="'+dataObj['index']+'"><div class="t"></div></div>');
-                        $('.t', $marker).append(_img);
-                        $container.$_markersInner.append($marker);
-                    });
-                });
-
-                // bind click event to the markers
+                // create html elements
+                buildGalleryMarkers();
+                // bind click event to the markerContainer (but not specific markers), so we can
+                // cancel the event propagation and not close the window if user clicks off by an inch
                 $container.$_markersInner.on('click', function( _clickEv ){
                     _clickEv.stopPropagation(); _clickEv.preventDefault();
                     if( $(_clickEv.target).hasClass('m') ){
-                        _displayImage( _listCache()[_clickEv.target.getAttribute('data-cache')] );
+                        navigateToIndex(_clickEv.target.getAttribute('data-cache'));
                     }
                 });
             }
@@ -168,18 +165,48 @@
 
 
         /**
-         * Pass in an image object, and get the ratio by which the width/height are
-         * scaled so that image doesn't exceed max % of window.
-         * @param image _img : javascript image object
-         * @param obj {w:int,h:int} : optionally, pass max width/height in object
-         * @return {number}
+         * Navigate to the next image in the gallery.
+         * @return void
          */
-        function _scaleRatio( _img, max_w_h ){
-            var _maxes   = max_w_h || config.galleryMarkersThumb,
-                _scaledW = _img.width <= _maxes.w ? _img.width : _maxes.w,
-                _scaledH = _img.height <= _maxes.h ? _img.height : _maxes.h,
-                _ratios  = [(_scaledW / _img.width), (_scaledH / _img.height)];
-            return Math.min.apply(Math, _ratios);
+        function navigateNext(){
+            _displayImage( _listCache()[_currentIndexCache+1] || _listCache()[0] );
+        }
+
+
+        /**
+         * Navigate to the previous image...
+         * @return void
+         */
+        function navigatePrev(){
+            _displayImage( _listCache()[_currentIndexCache-1] || _listCache()[_listDataLength] );
+        }
+
+
+        /**
+         * Navigate to a specific (by index) image in the gallery.
+         * @param int _to
+         * @return void
+         */
+        function navigateToIndex( _to ){
+            _displayImage( _listCache()[_to] );
+        }
+
+
+        /**
+         * Loop through every item in the _listCache data, and compose the HTML for a marker.
+         * @return void
+         */
+        function buildGalleryMarkers(){
+            // test here again in case this is being called by the rescanItems public method
+            if( config.galleryMarkers ){
+                $container.$_markersInner.empty().append(function(){
+                    var _html = '';
+                    for(var _key in _listCache()){
+                        _html += '<div class="m" data-cache="'+_listCache()[_key].index+'"><div class="t"><img src="'+_listCache()[_key].src_thumb+'" /></div></div>';
+                    }
+                    return _html;
+                });
+            }
         }
 
 
@@ -212,7 +239,7 @@
          */
         function _delayer( _time ){
             return $.Deferred(function( _task ){
-                setTimeout(function(){ _task.resolve(); }, _time || +(config.transitionDuration) );
+                setTimeout(function(){ _task.resolve(); }, +(_time || config.transitionDuration) );
             }).promise();
         }
 
@@ -226,13 +253,18 @@
         var _displayImageWorking = false;
         function _displayImage( _obj ){
             if( ! _displayImageWorking ){
+                // block super-fast clicks...
                 _displayImageWorking = true;
                 // cache the index of item being displayed, of all items
                 _currentIndexCache = _obj['index'];
                 // set container status to working
                 $container.setStatus(status_loaded_false);
+                // handle random transitions, if applicable
+                if( _fxRandomized === true ){
+                    $container.$_transition[0].className = _fxList[Math.floor(Math.random() * _fxList.length)];
+                }
                 // kickoff the getImage and the delayer simultaneously
-                $.when( _getImage(_obj['src_full']), _delayer(0) ).done(function(){
+                $.when( _getImage(_obj['src_full']), _delayer() ).done(function(){
                     // create a *new* image element here, as the _getImage cache sometimes
                     // returns nullified pointers
                     var imageElement  = new Image();
@@ -244,24 +276,32 @@
                         $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
                         $container.$_caption1.text(_obj.title);
                         $container.$_caption2.text(_obj.descr);
-                        // @NOTE: this is a hack *specifically* for Chrome on iOS, where *.clientWidth/Height aren't calc'd immediately.
-                        // Hopefully should be able to remove this bullshit someday :(
-                        if( imageElement.clientHeight === 0 ){
-                            (function captionFix(){
-                                setTimeout(function(){
-                                    if( imageElement.clientHeight >= 1 ){
-                                        $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
-                                        return;
-                                    }
-                                    captionFix();
-                                }, 100);
-                            })();
-                        }
+                        captionHack(imageElement); // aim to remove!
                     }
                     // update statuses
                     _displayImageWorking = false;
                     $container.setStatus(status_loaded_true);
                 });
+            }
+        }
+
+
+        /**
+         * this is a hack *specifically* for Chrome on iOS, where *.clientWidth/Height aren't calc'd immediately.
+         * @todo: see if this bullshit can be further debugged and removed!
+         * @param imageElement
+         */
+        function captionHack(imageElement){
+            if( imageElement.clientHeight === 0 ){
+                (function captionFix(){
+                    setTimeout(function(){
+                        if( imageElement.clientHeight >= 1 ){
+                            $container.$_captionContainer.css({maxWidth:imageElement.clientWidth, height:imageElement.clientHeight});
+                            return;
+                        }
+                        captionFix();
+                    }, 100);
+                })();
             }
         }
 
@@ -292,9 +332,15 @@
 
 
         /**
-         * Bind click event to launch the whole kit and kaboodle.
+         * Bind click event to launch the whole kit and kaboodle. A delegateTarget
+         * can be passed in as an option, which will restrict launching unless
+         * that element is the exact target that was clicked (first test).
          */
-        $selector.on('click', config.itemTargets, function(){
+        $selector.on('click', config.itemTargets, function(_ev){
+            if( config.delegateTarget && !($(_ev.target).is(config.delegateTarget)) ){
+                return;
+            }
+            // if we're here, launch this bitch...
             var itemList     = _listCache(),
                 clickedIndex = this.getAttribute('data-flexrylb');
             $container.open().then(function(){
@@ -303,15 +349,25 @@
         });
 
 
-        // public instance methods
+        /**
+         * @public instance methods
+         * {}
+         */
         return {
             listCache       : _listCache,
             instance        : _self,
             $container      : function(){ return $container; },
             settings        : function(){ return config; },
             currentIndex    : function(){ return _currentIndexCache; },
-            rescanItems     : function(){ return _listCache(true); },
-            listDataLength  : function(){ return _listDataLength; }
+            listDataLength  : function(){ return _listDataLength; },
+            rescanItems     : function(){
+                // bust the previous listCache by passing true
+                var _updated = _listCache(true);
+                // rebuild gallery markers, if applicable
+                buildGalleryMarkers();
+                // return the updated cache data
+                return _updated;
+            }
         }
     }
 

@@ -7,8 +7,10 @@
     function FlexryOwl( $selector, _settings ){
 
         var config = $.extend(true, {}, {
-            items: 7,
-            singleItem: false
+            items: 4,
+            singleItem: false,
+            pagination: false,
+            navigation: true
         }, _settings);
 
         /**

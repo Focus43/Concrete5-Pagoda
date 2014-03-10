@@ -6,20 +6,20 @@
 ?>
 
 <div id="<?php echo $selectorID; ?>" class="flexry-dicer">
-    <?php foreach($imageList AS $index => $flexryFile): /** @var FlexryFile $flexryFile */ ?>
-        <div class="flexry-dicer-item <?php if($index === 0){echo 'current';} ?>">
-            <div class="inner">
+    <div class="inner-l1">
+        <div class="inner-l2">
+            <?php foreach($imageList AS $index => $flexryFile): /** @var FlexryFile $flexryFile */ ?>
                 <img src="<?php echo $flexryFile->thumbnailImgSrc(); ?>" alt="<?php echo $flexryFile->getTitle(); ?>" />
-            </div>
+            <?php endforeach; ?>
         </div>
-    <?php endforeach; ?>
+    </div>
 </div>
 
 <script type="text/javascript">
     (function( _stack ){
         _stack.push(function(){
             $('#<?php echo $selectorID; ?>').flexryDicer();
-            <?php echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.slicebox-item')->initOutput(); ?>
+            <?php //echo $lightboxHelper->bindTo("#{$selectorID}")->itemTargets('.slicebox-item')->initOutput(); ?>
         });
         window._flexry = _stack;
     }( window._flexry || [] ));

@@ -8,13 +8,14 @@
     class FlexryLightboxHelper {
 
         protected $_controller, $_parentSelector, $_itemTargets;
+        protected $_delegateTarget = false;
 
         /**
          * @param string|null $selector
          * @return FlexryLightboxHelper
          */
-        public function bindTo( $selector = null ){
-            if( ! is_null($selector) ){
+        public function bindTo( $selector = false ){
+            if( is_string($selector) ){
                 $this->_parentSelector = $selector;
             }
             return $this;
@@ -25,9 +26,21 @@
          * @param string|null $selector
          * @return FlexryLightboxHelper
          */
-        public function itemTargets( $selector = null ){
-            if( ! is_null($selector) ){
+        public function itemTargets( $selector = false ){
+            if( is_string($selector) ){
                 $this->_itemTargets = $selector;
+            }
+            return $this;
+        }
+
+
+        /**
+         * @param string|null $selector
+         * @return FlexryLightboxHelper
+         */
+        public function setDelegateTarget( $selector = false ){
+            if( is_string($selector) ){
+                $this->_delegateTarget = $selector;
             }
             return $this;
         }
@@ -54,6 +67,7 @@
         protected function keyValuePairs(){
             return Loader::helper('json')->encode((object)array(
                 'itemTargets'        => sprintf('%s', $this->_itemTargets),
+                'delegateTarget'     => is_string($this->_delegateTarget) ? $this->_delegateTarget : (bool)$this->_delegateTarget,
                 'maskColor'          => sprintf('#%s', $this->_controller->lbMaskColor),
                 'maskOpacity'        => (float) $this->_controller->lbMaskOpacity,
                 'maskFadeSpeed'      => (int) $this->_controller->lbMaskFadeSpeed,

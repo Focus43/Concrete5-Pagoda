@@ -1,11 +1,9 @@
 @import '../../../../../css/dev/variables-mixins';
 
-.flexry-dicer {margin-top:150px;@include perspective(1000px);
-  .flexry-dicer-item {position:absolute;text-align:center;top:0;left:0;width:100%;
-    &.current {position:relative;}
-
-    .inner {display:inline-block;margin:0 auto;
-      img {max-width:100%;}
-    }
+.flexry-dicer {@include perspective(1000px);
+  .inner-l1 {display:table;width:100%;height:100%;text-align:center;vertical-align:middle;}
+  .inner-l2 {display:table-cell;width:100%;height:100%;vertical-align:middle;}
+  img {max-width:100%;max-height:100%;width:auto;position:absolute;z-index:1;
+    &.current {position:relative;z-index:3;}
   }
 }

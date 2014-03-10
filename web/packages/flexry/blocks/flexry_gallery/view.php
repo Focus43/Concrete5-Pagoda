@@ -1,14 +1,15 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
-    /** @var BlockTemplateHelper $templateHelper */
-    /** @var FlexryFileList $fileListObj */
-    $imageList  = $fileListObj->get();
-    // template-specific settings
-    $selectorID         = t('flexryDefault-%s', $this->controller->bID);
-    $titleDisplay       = ((string)$templateHelper->value('titleDisplay') != '') ? $templateHelper->value('titleDisplay') : 'hidden';
-    $descriptionDisplay = ((string)$templateHelper->value('descriptionDisplay') != '') ? $templateHelper->value('descriptionDisplay') : 'hidden';
-    $padding            = (is_numeric($templateHelper->value('padding'))) ? (int)$templateHelper->value('padding') : 3;
-    $margin             = (is_numeric($templateHelper->value('margin'))) ? (int)$templateHelper->value('margin') : 5;
-    $shadow             = ((string)$templateHelper->value('shadow') != '') ? $templateHelper->value('shadow') : 'none';
+/** @var BlockTemplateHelper $templateHelper */
+/** @var FlexryFileList $fileListObj */
+
+$selectorID = sprintf('flexryDefault-%s', $this->controller->bID);
+$imageList  = $fileListObj->get();
+
+$titleDisplay       = ((string)$templateHelper->value('titleDisplay') != '') ? $templateHelper->value('titleDisplay') : 'hidden';
+$descriptionDisplay = ((string)$templateHelper->value('descriptionDisplay') != '') ? $templateHelper->value('descriptionDisplay') : 'hidden';
+$padding            = (is_numeric($templateHelper->value('padding'))) ? (int)$templateHelper->value('padding') : 3;
+$margin             = (is_numeric($templateHelper->value('margin'))) ? (int)$templateHelper->value('margin') : 5;
+$shadow             = ((string)$templateHelper->value('shadow') != '') ? $templateHelper->value('shadow') : 'none';
 ?>
 
     <style type="text/css">
