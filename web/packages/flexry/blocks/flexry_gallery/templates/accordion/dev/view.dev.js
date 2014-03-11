@@ -150,9 +150,10 @@
      */
     $.fn.flexryAccordion = function( _settings ){
         return this.each(function(idx, _element){
-            var $element  = $(_element),
-                _instance = new FlexryAccordion( $element, _settings );
-            $element.data('flexryAccordion', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryAccordion')) ){
+                $selector.data('flexryAccordion', new FlexryAccordion( $selector, _settings ));
+            }
         });
     }
 

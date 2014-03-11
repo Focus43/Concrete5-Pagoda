@@ -103,9 +103,10 @@
      */
     $.fn.flexryRtl = function( _settings ){
         return this.each(function(idx, _element){
-            var $element  = $(_element),
-                _instance = new FlexryRtl( $element, _settings );
-            $element.data('flexryRtl', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryRtl')) ){
+                $selector.data('flexryRtl', new FlexryRtl( $selector, _settings ));
+            }
         });
     }
 

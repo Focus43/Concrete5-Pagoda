@@ -33,9 +33,10 @@
      */
     $.fn.flexryCamera = function( _settings ){
         return this.each(function(idx, _element){
-            var $selector = $(_element),
-                _instance = new FlexryCamera($selector, _settings);
-            $selector.data('flexryCamera', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryCamera')) ){
+                $selector.data('flexryCamera', new FlexryCamera( $selector, _settings ));
+            }
         });
     }
 

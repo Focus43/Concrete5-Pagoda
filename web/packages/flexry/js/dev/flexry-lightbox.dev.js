@@ -323,7 +323,6 @@
                     _listDataCache[index] = config.dataSourceMap(element);
                     // ensure the index property is present on the cached data
                     _listDataCache[index].index = index;
-                    console.log(_listDataCache);
                     // update the list length cache
                     _listDataLength = index;
                 });
@@ -415,9 +414,10 @@
      */
     $.fn.flexryLightbox = function( _settings ){
         return this.each(function(idx, _element){
-            var $selector = $(_element),
-                _instance = new FlexryLightbox( $selector, _settings );
-            $selector.data('flexryLightbox', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryLightbox')) ){
+                $selector.data('flexryLightbox', new FlexryLightbox( $selector, _settings ));
+            }
         });
     }
 

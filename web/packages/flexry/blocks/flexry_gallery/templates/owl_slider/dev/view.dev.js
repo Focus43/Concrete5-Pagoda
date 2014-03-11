@@ -35,9 +35,10 @@
      */
     $.fn.flexryOwl = function( _settings ){
         return this.each(function(idx, _element){
-            var $selector = $(_element),
-                _instance = new FlexryOwl($selector, _settings);
-            $selector.data('flexryOwl', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryOwl')) ){
+                $selector.data('flexryOwl', new FlexryOwl( $selector, _settings ));
+            }
         });
     }
 

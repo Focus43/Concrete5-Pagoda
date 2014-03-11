@@ -237,9 +237,10 @@
      */
     $.fn.flexryGrid = function( _settings ){
         return this.each(function(idx, _element){
-            var $element  = $(_element),
-                _instance = new FlexryGrid( $element, _settings );
-            $element.data('flexryGrid', _instance);
+            var $selector = $(_element);
+            if( ! ($selector.data('flexryGrid')) ){
+                $selector.data('flexryGrid', new FlexryGrid( $selector, _settings ));
+            }
         });
     }
 
