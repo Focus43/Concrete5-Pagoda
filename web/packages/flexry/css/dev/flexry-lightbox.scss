@@ -13,12 +13,10 @@ $defaultMask    : rgba(0,0,0,.8);
   top:0;left:0;right:0;bottom:0;width:100%;height:100%;position:fixed;
 }
 
-
 /**
  * Make the html/body tags at least 100% in height
  */
 html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:100%;}
-
 
 /**
  * Lightbox styles (heights are handled below, based on touch enabled devices)
@@ -37,7 +35,6 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
     }
   }
 
-
   /**
    * GALLERY NAVIGATION ARROWS (HIDDEN BY DEFAULT)
    */
@@ -47,7 +44,6 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
   }
   // .flexry-lightbox.arrows to enable
   &.arrows .gallery-arrows {display:block;}
-
 
   /**
    * CAPTIONS (HIDDEN BY DEFAULT)
@@ -62,14 +58,12 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
     }
   }
 
-
   /**
    * LOADING CONTAINER - VISIBLE BY DEFAULT
    */
   .loader-container {visibility:visible;opacity:1;@include centerize;@include transition(all $transitionTime/2 ease-out);
     .inner {display:inline-block;margin:0 auto;width:$spinnerSize;height:$spinnerSize;background:$spinnerColor;border:3px dashed #fff;@include border-radius(50%);@include animation(spin 2.5s infinite linear);}
   }
-
 
   /**
    * GALLERY MARKERS (HIDDEN BY DEFAULT)
@@ -88,14 +82,12 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
     }
   }
 
-
   /**
    * Close button
    */
   .closer {cursor:pointer;display:block;text-decoration:none;position:fixed;top:0;right:0;color:#2d2d2d;background:#C6E746;z-index:1001;
     span {display:block;padding:10px;text-transform:uppercase;}
   }
-
 
   /**
    * TOGGLE-ABLE CLASSES TO SHOW EITHER WORKING OR LOADED
@@ -185,6 +177,14 @@ html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:
   }
   &.loaded .fx-fall {
     .modal-container .content {@include transform(translateZ(0px) rotateX(0deg));}
+  }
+
+  // Zoom effect
+  .fx-zoom {
+    .modal-container .content {@include transform(scale(.75));}
+  }
+  &.loaded .fx-zoom {
+    .modal-container .content {@include transform(scale(1));}
   }
 
   // 3D-flip vertical

@@ -77,9 +77,9 @@
          * not matter if the Lightbox is in use or declared, its just waiting for events
          * to be emitted.
          */
-        $selector.on('flexry_lightbox_open', function(){
+        $selector.on('flexrylb.open', function(){
             _pause();
-        }).on('flexry_lightbox_close', function(){
+        }).on('flexrylb.close', function(){
             _continue();
         });
 

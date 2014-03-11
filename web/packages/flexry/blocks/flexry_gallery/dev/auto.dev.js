@@ -159,6 +159,22 @@ $(function(){
 
 
     /**
+     * Show "recommend crop to fit" alerts.
+     */
+    var $cropFitAlert = $('.alert-crop-fit', '#flexryGallery'),
+        $cropCheckbox = $('#thumbCrop');
+    // alert message "click here to enable" handler
+    $('.check-crop-fit', '#flexryGallery').on('click', function(){
+        $cropCheckbox.prop('checked', true);
+        $cropFitAlert.hide();
+    });
+    // if the crop checkbox is changed, or unchecked, reshow the alert
+    $cropCheckbox.on('change.ctf', function(){
+        $cropFitAlert.toggle( !this.checked );
+    }).trigger('change.ctf');
+
+
+    /**
      * On init, determine what to run.
      */
     function initHandler(){

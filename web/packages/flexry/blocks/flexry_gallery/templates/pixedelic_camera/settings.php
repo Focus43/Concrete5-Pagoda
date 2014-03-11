@@ -38,12 +38,6 @@ $pauseOnClick = array(
     'true'  => 'True',
     'false' => 'False'
 );
-// mobile auto-advance is the same as regular auto-advance
-//$cols = array_combine(range(2,10), range(2,10));
-// slicedCols? (don't make editable)
-//$rows = array_combine(range(2,10), range(2,10));
-// slicedRows? (don't make editable)
-// slideOn? (don't make editable)
 $easing = array(
     'linear'            => 'Linear',
     'swing'             => 'Swing',
@@ -78,7 +72,6 @@ $easing = array(
     'easeOutBounce'     => 'Ease Out Bounce',
     'easeInOutBounce'   => 'Ease In/Out Bounce'
 );
-// mobile easing is same as regular
 $fx = array(
     'random'                    => 'Random',
     'simpleFade'                => 'Simple Fade',
@@ -110,10 +103,6 @@ $fx = array(
     'scrollBottom'              => 'Scroll Bottom',
     'scrollHorz'                => 'Scroll Horizontal'
 );
-// mobileFx will be same for mobile
-// gridDifference?
-$height = '250px';
-$minHeight = $height;
 $loader = array(
     'pie'  => 'Pie',
     'bar'  => 'Bar',
@@ -151,8 +140,6 @@ $navigationHover = array(
     'true'  => 'True',
     'false' => 'False'
 );
-// mobileNavHover?
-// opacityOnGrid? (don't make an option)
 $overlayer = array(
     'true'  => 'True',
     'false' => 'False'
@@ -170,7 +157,9 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
 
 ?>
 
-<p><strong>Note:</strong> Lightboxes are purposely not supported by this template, even if enabled in the <i>Settings</i> tab.</p>
+<?php Loader::packageElement('alert_crop_fit', 'flexry'); ?>
+
+<p><strong>Note:</strong> Lightboxes are not supported by this template, even if enabled in the <i>Settings</i> tab.</p>
 
 <table class="table table-bordered">
     <thead>
@@ -206,7 +195,7 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
         <tr>
             <td>Show Thumbnails</td>
             <td>Pagination</td>
-            <td colspan="2">Height <span class="muted">(optional)</span></td>
+            <td colspan="2">Force Height (px) <span class="muted">optional</span></td>
         </tr>
         <tr>
             <td><?php echo $formHelper->select($templateHelper->field('thumbnails'), $thumbnails, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('thumbnails'), 'true')); ?></td>
@@ -269,7 +258,7 @@ $transPeriod = array_combine(range(.25,2,.25), range(.25,2,.25));
         </tr>
         <tr>
             <td colspan="2"><?php echo $formHelper->select($templateHelper->field('piePosition'), $piePosition, FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('piePosition'), 'rightTop')); ?></td>
-            <td colspan="4"><?php echo $formHelper->text($templateHelper->field('pieDiameter'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('pieDiameter'), $pieDiameter), array('style' => 'width:40px;')); ?></td>
+            <td colspan="4"><?php echo $formHelper->text($templateHelper->field('pieDiameter'), FlexryBlockTemplateOptions::valueOrDefault($templateHelper->value('pieDiameter'), $pieDiameter), array('placeholder' => $pieDiameter)); ?></td>
         </tr>
     </tbody>
     <tbody data-shape="bar" style="display:none;">

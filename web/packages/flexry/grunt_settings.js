@@ -25,15 +25,15 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         pkgPath('blocks/flexry_gallery/dev/inline_script.dev.js')
     ];
 
-    // concat dicer template
-    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/dicer/view.js') ] = [
+    // concat dicer template : for 1.1 release; but leave build scripts in!
+    /*_currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/dicer/view.js') ] = [
         pkgPath('js/libs/greensock/uncompressed/TimelineMax.js'),
         pkgPath('js/libs/greensock/uncompressed/TweenMax.js'),
         pkgPath('js/libs/greensock/uncompressed/easing/*.js'),
         pkgPath('js/libs/greensock/uncompressed/plugins/*.js'),
         pkgPath('js/libs/greensock/uncompressed/utils/*.js'),
         pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.dev.js')
-    ];
+    ];*/
 
     // concat camera template
     _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.js') ] = [
@@ -46,6 +46,11 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
     _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/owl_slider/view.js') ] = [
         pkgPath('js/libs/owl.carousel.js'),
         pkgPath('blocks/flexry_gallery/templates/owl_slider/dev/view.dev.js')
+    ];
+
+    // concat accordion template
+    _currentConfigs.concat.flexry.files[ pkgPath('blocks/flexry_gallery/templates/accordion/view.js') ] = [
+        pkgPath('blocks/flexry_gallery/templates/accordion/dev/view.dev.js')
     ];
 
     // concat grid template
@@ -68,7 +73,7 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
     /////////////////////////////// UGLIFY FILES ///////////////////////////////
     _currentConfigs.uglify.flexry = {
         options: {
-            banner: '/*! <%= pkg.project %> - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>) */\n',
+            banner: '/*! FLEXRY - Build v<%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd") %>) */\n',
             expand: true
         },
         files : {}
@@ -79,7 +84,8 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
         pkgPath('blocks/flexry_gallery/inline_script.js.txt'),
         pkgPath('js/flexry-lightbox.js'),
         pkgPath('blocks/flexry_gallery/templates/rotating_list/view.js'),
-        pkgPath('blocks/flexry_gallery/templates/dicer/view.js'),
+        //pkgPath('blocks/flexry_gallery/templates/dicer/view.js'),
+        pkgPath('blocks/flexry_gallery/templates/accordion/view.js'),
         pkgPath('blocks/flexry_gallery/templates/grid/view.js'),
         pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.js'),
         pkgPath('blocks/flexry_gallery/templates/owl_slider/view.js')
@@ -104,11 +110,13 @@ module.exports.extraConfigs = function( grunt, _currentConfigs ){
             // rotating list
             {src: [pkgPath('blocks/flexry_gallery/templates/rotating_list/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/rotating_list/view.css')},
             // dicer
-            {src: [pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/dicer/view.css')},
+            //{src: [pkgPath('blocks/flexry_gallery/templates/dicer/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/dicer/view.css')},
             // pixedelic camera
             {src: [pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/pixedelic_camera/view.css')},
             // owl slider
             {src: [pkgPath('blocks/flexry_gallery/templates/owl_slider/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/owl_slider/view.css')},
+            // grid
+            {src: [pkgPath('blocks/flexry_gallery/templates/accordion/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/accordion/view.css')},
             // grid
             {src: [pkgPath('blocks/flexry_gallery/templates/grid/dev/view.scss')], dest: pkgPath('blocks/flexry_gallery/templates/grid/view.css')}
         ]

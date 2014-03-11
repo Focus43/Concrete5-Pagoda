@@ -33,6 +33,7 @@ $settingsData = (object) array(
                                 <span class="descr"><?php echo $flexryFile->getDescription(); ?></span>
                             </div>
                         </div>
+                        <input type="hidden" data-title="Something!" data-descr="else goes here!" value="this be it" />
                     </div>
                 </div>
             <?php endforeach; ?>

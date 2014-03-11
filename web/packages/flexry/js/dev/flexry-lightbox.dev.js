@@ -12,6 +12,7 @@
     function FlexryLightbox( $selector, _settings ){
 
         var _self               = this,
+            _supported          = $('html').hasClass('flexry-csstransforms'),
             status_loaded_true  = true,
             status_loaded_false = false,
             _transitionDuration = 200,
@@ -20,7 +21,7 @@
             _listDataLength     = 0,
             _listDataCache      = false,
             _fxRandomized       = false, // determined in the build method (set internally)
-            _fxList             = ['', 'fx-spin', 'fx-fall', 'fx-flip-vertical', 'fx-flip-horizontal', 'fx-slide-in-right', 'fx-slide-in-left', 'fx-side-fall', 'fx-slit'],
+            _fxList             = ['', 'fx-spin', 'fx-fall', 'fx-zoom', 'fx-flip-vertical', 'fx-flip-horizontal', 'fx-slide-in-right', 'fx-slide-in-left', 'fx-side-fall', 'fx-slit'],
             // merge passed options w/ the defaults
             config = $.extend(true, {}, {
                 maskColor           : '#2a2a2a',
@@ -33,7 +34,8 @@
                 transitionDuration  : _transitionDuration,
                 captions            : true,
                 gallery             : true,
-                galleryMarkers      : true
+                galleryMarkers      : true,
+                dataSourceMap       : _dataSourceMap
             }, _settings);
 
         /**
@@ -43,8 +45,8 @@
         var $container = (function(){
             var buildPromise,
                 $element = $('<div />', {
-                    class : ['flexry-lightbox', (config.captions ? 'captions' : ''), (config.gallery ? 'arrows' : ''), (config.galleryMarkers ? 'markers' : '')].join(' '),
-                    html  : '<div data-transition class="'+config.transitionEffect+'"><div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div></div>'
+                    'class' : ['flexry-lightbox', (config.captions ? 'captions' : ''), (config.gallery ? 'arrows' : ''), (config.galleryMarkers ? 'markers' : '')].join(' '),
+                    'html'  : '<div data-transition class="'+config.transitionEffect+'"><div class="masker"></div><div class="modal-container"><div class="content"><a class="gallery-arrows prev"></a><a class="gallery-arrows next"></a><div class="caption-container"><div class="caption title"><span></span></div><div class="caption descr"><span></span></div></div><img class="primary-img" /></div></div><div class="loader-container"><div class="inner"></div></div><a class="closer"><span>Close</span></a><div class="gallery-markers"><div class="m-inner"></div></div></div>'
                 });
 
             // determine whether to enable randomizing the effects
@@ -65,7 +67,7 @@
             function _build(){
                 if( ! buildPromise ){
                     buildPromise = $.Deferred(function( _task ){
-                        // set ID here so timestamp is always at time of initialize
+                        // set ID here so timestamp is always at time of first launch
                         $element.attr('id', 'flexryLightbox-' + ((new Date()).getTime()) );
                         // add to body
                         $element.appendTo('body');
@@ -97,7 +99,7 @@
                         $element.setStatus(status_loaded_false).fadeIn(config.maskFadeSpeed, function(){
                             _openTask.resolve();
                             // emit an event on the $selector indicating open
-                            $selector.trigger('flexry_lightbox_open');
+                            $selector.trigger('flexrylb.open');
                         });
                     });
                 }).promise();
@@ -108,7 +110,7 @@
                 $('html').removeClass('flexry-lb-active');
                 return $element.setStatus(status_loaded_false).fadeOut(config.maskFadeSpeed, function(){
                     // emit an event on the $selector indicating close
-                    $selector.trigger('flexry_lightbox_close');
+                    $selector.trigger('flexrylb.close');
                 });
             }
 
@@ -317,13 +319,11 @@
                 _listDataCache  = {};
                 $(config.itemTargets, $selector).each(function(index, element){
                     element.setAttribute('data-flexrylb', index);
-                    _listDataCache[index] = {
-                        index     : index,
-                        title     : $('.title', element).text() || '',
-                        descr     : $('.descr', element).text() || '',
-                        src_thumb : $('img', element).attr('src'),
-                        src_full  : element.getAttribute('data-src-full')
-                    };
+                    // pass the element to the (overridable!) dataSourceMap function
+                    _listDataCache[index] = config.dataSourceMap(element);
+                    // ensure the index property is present on the cached data
+                    _listDataCache[index].index = index;
+                    // update the list length cache
                     _listDataLength = index;
                 });
             }
@@ -332,20 +332,45 @@
 
 
         /**
+         * This is the function that returns objects to the listCache; broken out into a
+         * separate function so it can be overridden in the configs.
+         * @param int index
+         * @param HTML element element
+         * @returns {{index: *, title: *, descr: *, src_thumb: (*|attr|attr|attr), src_full: string}}
+         * @private
+         */
+        function _dataSourceMap(element){
+            return {
+                title     : $('[data-title]', element).attr('data-title'),
+                descr     : $('[data-descr]', element).attr('data-descr'),
+                src_thumb : $('img', element).eq(0).attr('src'),
+                src_full  : element.getAttribute('data-src-full')
+            };
+        }
+
+
+        /**
          * Bind click event to launch the whole kit and kaboodle. A delegateTarget
          * can be passed in as an option, which will restrict launching unless
          * that element is the exact target that was clicked (first test).
          */
-        $selector.on('click', config.itemTargets, function(_ev){
+        $selector.on('click.lb', config.itemTargets, function(_ev){
+            // are we restricting to a delegate target?
             if( config.delegateTarget && !($(_ev.target).is(config.delegateTarget)) ){
                 return;
             }
-            // if we're here, launch this bitch...
-            var itemList     = _listCache(),
-                clickedIndex = this.getAttribute('data-flexrylb');
-            $container.open().then(function(){
-                _displayImage( itemList[clickedIndex] );
-            });
+            // browser support ok? proceed...
+            if( _supported ){
+                // if we're here, launch this bitch...
+                var itemList     = _listCache(),
+                    clickedIndex = this.getAttribute('data-flexrylb');
+                $container.open().then(function(){
+                    _displayImage( itemList[clickedIndex] );
+                });
+                return;
+            }
+            // if we get here, show unsupported!
+            alert('Sorry, your browser does not support viewing this image in large format. Please consider upgrading!');
         });
 
 
@@ -360,6 +385,14 @@
             settings        : function(){ return config; },
             currentIndex    : function(){ return _currentIndexCache; },
             listDataLength  : function(){ return _listDataLength; },
+            config          : function(_prop, _value){
+                // no _value? just return the current config value
+                if( !_value ){ return config[_prop]; }
+                // otherwise, set the value
+                config[_prop] = _value;
+                // and return this for chaining
+                return this;
+            },
             rescanItems     : function(){
                 // bust the previous listCache by passing true
                 var _updated = _listCache(true);

@@ -1,6 +1,7 @@
 <?php defined('C5_EXECUTE') or die("Access Denied.");
-    /** @var BlockView $this */
-    /** @var FormHelper $formHelper */
+/** @var BlockView $this */
+/** @var FormHelper $formHelper */
+/** @var TooltipsHelper $tooltips */
 ?>
 
 	<style type="text/css">
@@ -96,7 +97,7 @@
             <div id="tabPaneSettings" class="tab-pane">
                 <div class="well">
                     <h3>Image Size Settings</h3>
-                    <p>Configure image size settings for thumbnails, and the full image size (if applicable).</p>
+                    <p>Thumbnails are generally used to display on the page, while the full size image may be shown after a user-triggered event (ie. click to view full size in a lightbox).</p>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -123,7 +124,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="muted">Images will be scaled to the maximum width/height, while maintaining the aspect ratio to not be blurry.</p>
+                    <p class="muted">Images will be scaled to the maximum width/height, while maintaining the aspect ratio so as not to appear blurry.</p>
                 </div>
 
                 <div class="well">
@@ -160,8 +161,8 @@
                             </tr>
                             <tr>
                                 <td rowspan="2"><strong>Display</strong></td>
-                                <td>Captions <i class="icon-info-sign show-popover" title="Title/Description" data-content="Hidden by default; Title visible on devices >= 460px; Description visible on devices >= 568px."></i></td>
-                                <td colspan="3">Thumbnail Markers <i class="icon-info-sign show-popover" title="Hover-to-see Preview" data-content="Visible only on: non-touch devices >= 568px height and 768px wide."></i></td>
+                                <td>Captions <?php echo $tooltips->generate('Title/Description', 'Responsive presets will trigger hiding on smaller devices.'); ?></td>
+                                <td colspan="3">Thumbnail Markers <?php echo $tooltips->generate('Image Gallery', 'Displays circle icons (ie. pagination) to enable quick navigation of full gallery.') ?></td>
                             </tr>
                             <tr>
                                 <td><?php echo $formHelper->select('lightbox[captions]', FlexryGalleryBlockController::$lightboxCaptionsAndMarkers, $this->controller->lbCaptions); ?></td>

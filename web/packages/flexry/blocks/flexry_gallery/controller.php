@@ -34,6 +34,7 @@
             ''                   => 'Fade (Default)',
             'fx-spin'            => 'Spin',
             'fx-fall'            => 'Fall',
+            'fx-zoom'            => 'Zoom',
             'fx-flip-vertical'   => 'Flip Vertical',
             'fx-flip-horizontal' => 'Flip Horizontal',
             'fx-slide-in-right'  => 'Slide From Right',
@@ -86,7 +87,7 @@
                 $fileSetIDs         = null,
                 $thumbWidth         = 250,
                 $thumbHeight        = 250,
-                $thumbCrop          = self::CROP_FALSE,
+                $thumbCrop          = self::CROP_TRUE,
                 $fullUseOriginal    = self::FULL_USE_ORIGINAL_TRUE,
                 $fullWidth,  // no default
                 $fullHeight, // no default
@@ -97,7 +98,7 @@
                 $lbMaskOpacity          = .75,
                 $lbMaskFadeSpeed        = 250,
                 $lbCloseOnClick         = self::LIGHTBOX_CLOSE_CLICK_TRUE,
-                $lbTransitionEffect     = 'randomize',
+                $lbTransitionEffect     = 'fx-zoom',
                 $lbTransitionDuration   = 200,
                 $lbCaptions             = self::LIGHTBOX_CAPTIONS_MARKERS_TRUE,
                 $lbGalleryMarkers       = self::LIGHTBOX_CAPTIONS_MARKERS_TRUE;
@@ -218,6 +219,7 @@
          * @return void
          */
         public function edit(){
+            $this->set('tooltips', $this->getHelper('tooltips', 'flexry'));
             $this->set('formHelper', $this->getHelper('form'));
             $this->set('imageList', $this->fileListObj()->forceCustomResults()->get());
             $this->set('availableFileSets', $this->availableFileSets());
