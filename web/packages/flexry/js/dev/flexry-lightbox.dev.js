@@ -323,6 +323,7 @@
                     _listDataCache[index] = config.dataSourceMap(element);
                     // ensure the index property is present on the cached data
                     _listDataCache[index].index = index;
+                    console.log(_listDataCache);
                     // update the list length cache
                     _listDataLength = index;
                 });
@@ -341,8 +342,8 @@
          */
         function _dataSourceMap(element){
             return {
-                title     : $('[data-title]', element).attr('data-title'),
-                descr     : $('[data-descr]', element).attr('data-descr'),
+                title     : $('.title', element).text() || '',
+                descr     : $('.descr', element).text() || '',
                 src_thumb : $('img', element).eq(0).attr('src'),
                 src_full  : element.getAttribute('data-src-full')
             };

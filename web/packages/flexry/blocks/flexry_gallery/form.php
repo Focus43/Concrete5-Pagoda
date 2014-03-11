@@ -5,6 +5,7 @@
 ?>
 
 	<style type="text/css">
+        #flexryGallery .nav-tabs {margin-bottom:10px;}
         #flexryGallery .nav-tabs select {width:160px;}
         #flexryGallery .nav-tabs a {cursor:pointer;}
         #flexryGallery .tab-content {overflow:visible;}
@@ -30,7 +31,9 @@
         #tabPaneImages.dups .alert .close {top:1px;}
         #tabPaneImages.dups #imageSelections {top:110px;}
         /* custom gallery builder */
-        #imageSelections {background:#eee;position:absolute;top:58px;right:10px;bottom:10px;left:10px;border:1px dashed #bbb;overflow-y:scroll;overflow-x:hidden;}
+        #selectionsContainer {position:relative;min-height:400px;margin-bottom:10px;}
+        #imageSelections {background:#eee;position:absolute;top:0;right:0;bottom:0;left:0;border:1px dashed #bbb;overflow-y:scroll;overflow-x:hidden;}*/
+        #imageSelections {height:200px;background:#eee;}
         #imageSelections p {position:absolute;z-index:5;width:100%;text-align:center;font-size:11px;color:#777;margin:0;padding:8px 0;}
         #imageSelections p i {position:relative;top:-2px;}
             #flexryClearAll {position:relative;top:-1px;}
@@ -65,15 +68,17 @@
                 <!-- build gallery manually -->
                 <div class="fileSourceMethod <?php if((int)$this->controller->fileSourceMethod === FlexryGalleryBlockController::FILE_SOURCE_METHOD_CUSTOM){ echo 'active'; } ?>" data-method="<?php echo FlexryGalleryBlockController::FILE_SOURCE_METHOD_CUSTOM; ?>">
                     <div class="dups-warning alert alert-warning">The same image was added more than once; duplicates have been removed.  <button type="button" class="close">&times;</button></div>
-                    <div id="imageSelections">
-                        <p>Hover images and: <i class="icon-hand-up"></i> <strong>click</strong> to edit; <i class="icon-move"></i> to reorder; <i class="icon-minus-sign"></i> to remove. <button id="flexryClearAll" class="btn btn-mini btn-warning" type="button">Clear All</button></p>
-                        <div class="inner clearfix">
-                            <?php foreach($imageList AS $fileObj){ /** @var FlexryFile $fileObj */ ?>
-                                <div class="item" style="background-image:url('<?php echo $fileObj->getThumbnail(2, false); ?>');">
-                                    <i class="icon-minus-sign"></i><i class="icon-move"></i>
-                                    <input type="hidden" name="fileIDs[]" value="<?php echo $fileObj->getFileID(); ?>" />
-                                </div>
-                            <?php } ?>
+                    <div id="selectionsContainer">
+                        <div id="imageSelections">
+                            <p>Hover images and: <i class="icon-hand-up"></i> <strong>click</strong> to edit; <i class="icon-move"></i> to reorder; <i class="icon-minus-sign"></i> to remove. <button id="flexryClearAll" class="btn btn-mini btn-warning" type="button">Clear All</button></p>
+                            <div class="inner clearfix">
+                                <?php foreach($imageList AS $fileObj){ /** @var FlexryFile $fileObj */ ?>
+                                    <div class="item" style="background-image:url('<?php echo $fileObj->getThumbnail(2, false); ?>');">
+                                        <i class="icon-minus-sign"></i><i class="icon-move"></i>
+                                        <input type="hidden" name="fileIDs[]" value="<?php echo $fileObj->getFileID(); ?>" />
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>

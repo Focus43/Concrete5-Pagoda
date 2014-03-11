@@ -22,7 +22,7 @@ $shadow             = ((string)$templateHelper->value('shadow') != '') ? $templa
     <div id="<?php echo $selectorID; ?>" class="flexry-default<?php if($shadow === 'yes'){echo ' shadows';} ?>">
     <?php foreach($imageList AS $flexryFile): /** @var FlexryFile $flexryFile */ ?>
         <div class="flexry-default-row">
-            <div class="flexry-default-item" data-src-full="<?php echo $flexryFile->fullImgSrc(); ?>">
+            <div class="flexry-default-item" data-src-full="<?php echo $flexryFile->fullImgSrc(); ?>" style="max-width:<?php echo ($flexryFile->flexryThumbnailObj()->width + ($padding*2)); ?>px;">
                 <span class="title <?php echo $titleDisplay; ?>"><?php echo $flexryFile->getTitle(); ?></span>
                 <img src="<?php echo $flexryFile->thumbnailImgSrc(); ?>" alt="<?php echo $flexryFile->getTitle(); ?>" />
                 <span class="descr <?php echo $descriptionDisplay; ?>"><?php echo $flexryFile->getDescription(); ?></span>

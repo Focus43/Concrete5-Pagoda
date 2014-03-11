@@ -24,7 +24,14 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <?php $a = new Area('Main   '); $a->display($c); ?>
+                <?php $a = new Area('Main'); $a->display($c); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <?php $a = new GlobalArea('Sitewide Footer'); $a->display($c); ?>
+                </div>
             </div>
         </div>
     </div>

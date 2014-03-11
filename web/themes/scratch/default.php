@@ -36,6 +36,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <?php $a = new GlobalArea('Sitewide Footer'); $a->display($c); ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
