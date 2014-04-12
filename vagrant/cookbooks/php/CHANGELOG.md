@@ -2,6 +2,33 @@ php Cookbook CHANGELOG
 ======================
 This file is used to list changes made in each version of the php cookbook.
 
+v1.4.6 (2014-03-19)
+-------------------
+- [COOK-4436] - Test this cookbook, not yum. Also test Fedora 20.
+- [COOK-4427] - Add oracle as supported operating system
+
+
+v1.4.4 (2014-03-12)
+-------------------
+- [COOK-4393] - Fix convergence bug in source install
+
+
+v1.4.2 (2014-02-27)
+-------------------
+[COOK-4300] - Simplified and fixed pear/pecl logic. [Fixes #56 / #57]
+
+
+v1.4.0 (2014-02-27)
+-------------------
+[COOK-3639] - Allow users to specify php.ini source template
+
+
+v1.3.14 (2014-02-21)
+--------------------
+### Bug
+- **[COOK-4186](https://tickets.opscode.com/browse/COOK-4186)** - Upgrade_package concatenates an empty version string when version is not set or is empty.
+
+
 v1.3.12 (2014-01-28)
 --------------------
 Fix github issue 'Cannot find a resource for preferred_state'

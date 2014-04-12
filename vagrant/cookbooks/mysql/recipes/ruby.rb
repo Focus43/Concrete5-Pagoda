@@ -5,7 +5,7 @@
 # Author:: Jesse Howarth (<him@jessehowarth.com>)
 # Author:: Jamie Winsor (<jamie@vialstudios.com>)
 #
-# Copyright 2008-2013, Opscode, Inc.
+# Copyright 2008-2012, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,27 +21,11 @@
 #
 
 node.set['build_essential']['compiletime'] = true
-include_recipe 'build-essential::default'
-include_recipe 'mysql::client'
+include_recipe "build-essential"
+include_recipe "mysql::client"
 
-loaded_recipes = if run_context.respond_to?(:loaded_recipes)
-                   run_context.loaded_recipes
-                 else
-                   node.run_state[:seen_recipes]
-                 end
-
-if loaded_recipes.include?('mysql::percona_repo')
-  case node['platform_family']
-  when 'debian'
-    resources('apt_repository[percona]').run_action(:add)
-  when 'rhel'
-    resources('yum_key[RPM-GPG-KEY-percona]').run_action(:add)
-    resources('yum_repository[percona]').run_action(:add)
-  end
+node['mysql']['client']['packages'].each do |mysql_pack|
+  resources("package[#{mysql_pack}]").run_action(:install)
 end
 
-node['mysql']['client']['packages'].each do |name|
-  resources("package[#{name}]").run_action(:install)
-end
-
-chef_gem 'mysql'
+chef_gem "mysql"
