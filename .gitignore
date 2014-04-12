@@ -51,3 +51,9 @@ error_log
 
 # DO NOT ignore the .htaccess file; track it
 !/web/.htaccess
+
+
+# Since we're not going to be using Concrete5's default Grunt setup in /build, but in the root
+/node_modules
+.sass-cache
+npm-debug.log

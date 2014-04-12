@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
       :db_username => 'root',
       :db_password => 'root',
       :db_server => '127.0.0.1',
-      :pretty_urls => true
+      :pretty_urls => false # DISABLED FOR PAGODABOX QUICKSTART AS WE CHECKIN HTACCESS FILE
   }
 
   # Machine config
