@@ -4,7 +4,7 @@
         ################ FORCE HTTPS EXAMPLES (PAGODABOX SPECIFIC) ################
         #-- redirect anything domains containing "something" to a specific page --#
         #RewriteCond %{HTTP_HOST} ^((.*)something(.*))$ [NC]
-        #RewriteRule ^ http://townofjackson.com/something-url-here [L,R=301]
+        #RewriteRule ^ http://base-domain.com/something-url-here [L,R=301]
 
         #-- REDIRECT ANY DOMAINS THAT ARENT: test.org, lo.cal:**** (vagrant ssl), --#
         #-- or localhost:**** (vagrant normal) to "test.org" --#
