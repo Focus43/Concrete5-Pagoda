@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
 
   # Developer tools
   box_settings[:dev_stack] = {
-      :enable => true,
+      :enable => false,
       :opts => {
           :php_tools => {
               :xdebug => true,
@@ -266,7 +266,15 @@ Vagrant.configure("2") do |config|
 #    config.vm.provision :shell, :path => "shell_scripts/pretty_urls.sh"
 #  end
 
-  # run Concrete5 installation
-  # config.vm.provision :shell, :inline => "echo Running Concrete5 setup via CLI; php /home/vagrant/app/cli_installer.php VAGRANT_VM"
+  # Run Concrete5 installation using custom installer
+  config.vm.provision :shell do |s|
+    s.inline = "echo Installing Concrete5 via custom CLI tools;"
+    s.inline << "php /home/vagrant/app/cli_installer.php VAGRANT_VM " << [
+        box_settings[:concrete5][:db_server],
+        box_settings[:concrete5][:db_username],
+        box_settings[:concrete5][:db_password],
+        box_settings[:concrete5][:db_name]
+    ].map{|setting| "#{setting} " }.join(' ')
+  end
 
 end

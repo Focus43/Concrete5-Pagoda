@@ -73,7 +73,7 @@
 		
 		// start mysql connection test
 		print "Testing MySQL Connection. \n";
-		print "Server: " . DB_SERVER . "Database: " . DB_DATABASE . ", Username: " . DB_USERNAME . ", Password: " . DB_PASSWORD . "\n";
+		print "Server: " . DB_SERVER . ", Database: " . DB_DATABASE . ", Username: " . DB_USERNAME . ", Password: " . DB_PASSWORD . "\n";
 
         // if we're in a dev environment, try and create the database if it doesnt exist
         if( !isset($_SERVER['PAGODA_PRODUCTION']) && !((bool) $_SERVER['PAGODA_PRODUCTION'] === true) ) {
