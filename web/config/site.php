@@ -43,11 +43,6 @@
 
         if( (isset($_SERVER['VAGRANT_VM']) && ((bool) $_SERVER['VAGRANT_VM'] === true)) || in_array('VAGRANT_VM', (array) $argv) ){
 
-            $_SERVER['DB1_HOST'] = 'localhost';
-            $_SERVER['DB1_USER'] = 'root';
-            $_SERVER['DB1_PASS'] = 'root';
-            $_SERVER['DB1_NAME'] = 'concrete5_site';
-
             // enable all url rewriting
             define('URL_REWRITING_ALL', true);
             // connect to Redis cache
@@ -83,8 +78,12 @@
 
 	}
 
-	// server variables are set by Pagoda, or by you in site.local.php
-	define('DB_SERVER',     $_SERVER['DB1_HOST']);
+
+    /**
+     * Database connection settings are passed as environment variables, from
+     * a) Pagodabox; b) Vagrant; c) manually if site.local.php exists
+     */
+    define('DB_SERVER',     $_SERVER['DB1_HOST']);
     define('DB_USERNAME',   $_SERVER['DB1_USER']);
     define('DB_PASSWORD',   $_SERVER['DB1_PASS']);
 	define('DB_DATABASE',   $_SERVER['DB1_NAME']);

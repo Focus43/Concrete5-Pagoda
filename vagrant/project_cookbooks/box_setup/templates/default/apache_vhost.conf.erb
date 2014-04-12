@@ -19,6 +19,12 @@
   # $_SERVER['VAGRANT_VM'] = true
   SetEnv VAGRANT_VM true
 
+  # Set database connection as environment variables
+  SetEnv DB1_NAME <%= node[:box_setup][:concrete5][:db_name] %>
+  SetEnv DB1_HOST <%= node[:box_setup][:concrete5][:db_server] %>
+  SetEnv DB1_USER <%= node[:box_setup][:concrete5][:db_username] %>
+  SetEnv DB1_PASS <%= node[:box_setup][:concrete5][:db_password] %>
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None
