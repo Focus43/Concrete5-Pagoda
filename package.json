@@ -16,17 +16,12 @@
     "devDependencies": {
         "grunt": "latest",
         "grunt-bump": "latest",
-        "grunt-concurrent": "latest",
         "grunt-contrib-concat": "latest",
-        "grunt-contrib-copy": "latest",
         "grunt-contrib-jshint": "latest",
         "grunt-contrib-sass": "latest",
         "grunt-contrib-uglify": "latest",
         "grunt-contrib-watch": "latest",
-        "grunt-ejs": "latest",
-        "grunt-env": "latest",
         "grunt-newer": "latest",
-        "grunt-nodemon": "latest",
         "grunt-strip": "latest",
         "load-grunt-tasks": "latest",
         "time-grunt": "latest"

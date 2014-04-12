@@ -30,9 +30,9 @@ if node[:box_setup][:dev_stack][:enable] && node[:box_setup][:dev_stack][:opts][
   end
 
   # If nodejs enabled, auto-install all dependencies in package.json?
-  if node[:box_setup][:dev_stack][:opts][:nodejs][:auto_npm]
-    execute "Auto-installing all NPM dependencies in build/package.json..." do
-      cwd '/home/vagrant/app/build'
+  if node[:box_setup][:dev_stack][:opts][:nodejs][:npm][:auto_install_packages]
+    execute "Auto-installing all NPM dependencies in package.json..." do
+      cwd node[:box_setup][:dev_stack][:opts][:nodejs][:npm][:package_json_location]
       user 'root'
       command '/usr/local/bin/npm install'
       action :run
