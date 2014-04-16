@@ -36,11 +36,11 @@ Vagrant.configure("2") do |config|
 
   # Developer tools
   box_settings[:dev_stack] = {
-      :enable => false,
+      :enable => true,
       :opts => {
           :php_tools => {
-              :xdebug => true,
-              :phpunit => true
+              :xdebug => false,
+              :phpunit => false
           },
           :redis => true,
           :nodejs => {
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
               :gruntjs => true,
               :bower => true,
               :npm => {
-                :auto_install_packages => true,
+                :auto_install_packages => false,
                 :package_json_location => '/home/vagrant/app' # defaults to ../build
               }
           },
