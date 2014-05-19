@@ -74,7 +74,7 @@
 
 	## Load the database ##
 	Loader::database();
-
+	
 	## User level config ##
 	if (!$config_check_failed) {
 		require($cdir . '/config/app.php');
@@ -82,6 +82,9 @@
 
 	## Startup check ##
 	require($cdir . '/startup/encoding_check.php');
+
+	## Security helpers
+	require($cdir . '/startup/security.php');
 
 	# Startup check, install ##
 	require($cdir . '/startup/config_check_complete.php');
@@ -95,9 +98,6 @@
 	## Localization ##
 	## This MUST be run before packages start - since they check ACTIVE_LOCALE which is defined here ##
 	require($cdir . '/config/localization.php');
-
-	## Security helpers
-	require($cdir . '/startup/security.php');
 
 	## File types ##
 	## Note: these have to come after config/localization.php ##
@@ -223,7 +223,7 @@
 
 		$vp = new Permissions($c->getVersionObject());
 
-		if ($_REQUEST['ccm-disable-controls'] == true || intval($cvID) > 0) {
+		if (isset($_REQUEST['ccm-disable-controls']) && ($_REQUEST['ccm-disable-controls'] == true || $cvID > 0)) {
 			$v = View::getInstance();
 			$v->disableEditing();
 			$v->disableLinks();
@@ -246,6 +246,9 @@
 			}
 		}
 
+		## Fire the on_page_view Eventclass
+		Events::fire('on_page_view', $c, $u);
+
 		## Any custom site-related process
 		if (file_exists(DIR_BASE . '/config/site_process.php')) {
 			require(DIR_BASE . '/config/site_process.php');
@@ -260,9 +263,6 @@
 		if (STATISTICS_TRACK_PAGE_VIEWS == 1) {
 			$u->recordView($c);
 		}
-
-		## Fire the on_page_view Eventclass
-		Events::fire('on_page_view', $c, $u);
 
 		## now we display (provided we've gotten this far)
 

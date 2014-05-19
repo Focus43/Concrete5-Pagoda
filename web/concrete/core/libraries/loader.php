@@ -25,7 +25,7 @@
 		/** 
 		 * Loads a library file, either from the site's files or from Concrete's
 		 */
-		public function library($lib, $pkgHandle = null) {
+		public static function library($lib, $pkgHandle = null) {
 			$env = Environment::get();
 			require_once($env->getPath(DIRNAME_LIBRARIES . '/' . $lib . '.php', $pkgHandle));
 		}
@@ -33,7 +33,7 @@
 		/** 
 		 * Loads a job file, either from the site's files or from Concrete's
 		 */
-		public function job($job, $pkgHandle = null) {
+		public static function job($job, $pkgHandle = null) {
 			$env = Environment::get();
 			require_once($env->getPath(DIRNAME_JOBS . '/' . $job . '.php', $pkgHandle));
 		}
@@ -41,7 +41,7 @@
 		/** 
 		 * Loads a model from either an application, the site, or the core Concrete directory
 		 */
-		public function model($mod, $pkgHandle = null) {
+		public static function model($mod, $pkgHandle = null) {
 			$env = Environment::get();
 			$r = self::legacyModel($mod);
 			if (!$r) {
@@ -49,7 +49,7 @@
 			}
 		}
 		
-		protected function legacyModel($model) {
+		protected static function legacyModel($model) {
 			switch($model) {
 				case 'collection_attributes':
 					self::model('attribute/categories/collection');
@@ -95,7 +95,7 @@
 		 /**
 		 * Loads a tool file from c5 or site
 		 */
-		public function tool($file, $args = null, $pkgHandle= null) {
+		public static function tool($file, $args = null, $pkgHandle= null) {
 		   if (is_array($args)) {
 			   extract($args);
 		   }
@@ -120,8 +120,7 @@
 		}
 		
 		protected static function getFileFromCorePath($found) {
-			$classes = self::$autoloadClasses;
-			$cl = $classes[$found];
+			$cl = array_key_exists($found, self::$autoloadClasses) ? self::$autoloadClasses[$found] : false;
 			if ($cl) {
 				$file = $cl[1];
 			} else {
@@ -144,35 +143,35 @@
 		}
 		
 		public static function autoloadCore($class) {
-			if (stripos($class, $m = 'Concrete5_Model_') === 0) {
+			if (strpos($class, $m = 'Concrete5_Model_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_MODELS . '/' . $file . '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Library_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Library_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_LIBRARIES . '/' . $file . '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Helper_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Helper_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_HELPERS . '/' . $file . '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Controller_Block_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Controller_Block_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_CONTROLLERS . '/' . DIRNAME_BLOCKS . '/' . $file. '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Controller_PageType_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Controller_PageType_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_CONTROLLERS . '/' . DIRNAME_PAGE_TYPES . '/' . $file. '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Controller_AttributeType_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Controller_AttributeType_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_MODELS . '/' . DIRNAME_ATTRIBUTES . '/' . DIRNAME_ATTRIBUTE_TYPES . '/' . $file . '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Controller_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Controller_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_CONTROLLERS . '/' . DIRNAME_PAGES . '/' . $file . '.php');
 			}
-			elseif (stripos($class, $m = 'Concrete5_Job_') === 0) {
+			elseif (strpos($class, $m = 'Concrete5_Job_') === 0) {
 				$file = self::getFileFromCorePath(substr($class, strlen($m)));
 				require_once(DIR_BASE_CORE . '/' . DIRNAME_CORE_CLASSES . '/' . DIRNAME_JOBS . '/' . $file . '.php');
 			}
@@ -185,7 +184,7 @@
 			$classes = self::$autoloadClasses;
 			$cl = $classes[$class];
 			if ($cl) {
-				call_user_func_array(array(__CLASS__, $cl[0]), array($cl[1], $cl[2]));
+				call_user_func_array(array(__CLASS__, $cl[0]), array_slice($cl, 1, 2));
 			} else {
 				/* lets handle some things slightly more dynamically */				
 				if (strpos($class, 'BlockController') > 0) {
@@ -211,7 +210,7 @@
 		 * <?php self::block('autonav'); ?>
 		 * </code>
 		 */
-		public function block($bl) {
+		public static function block($bl) {
 			$db = self::db();
 			$pkgHandle = $db->GetOne('select pkgHandle from Packages left join BlockTypes on BlockTypes.pkgID = Packages.pkgID where BlockTypes.btHandle = ?', array($bl));
 			$env = Environment::get();
@@ -237,8 +236,9 @@
 		 * $db = Loader::db();
 		 * $db->query($sql);
 		 * </code>
+		 * @return ADOConnection
 		 */
-		public function db($server = null, $username = null, $password = null, $database = null, $create = false, $autoconnect = true) {
+		public static function db($server = null, $username = null, $password = null, $database = null, $create = false, $autoconnect = true) {
 			static $_dba;
 			if ((!isset($_dba) || $create) && ($autoconnect)) {
 				if ($server == null && defined('DB_SERVER')) {	
@@ -285,7 +285,7 @@
 		/** 
 		 * Loads a helper file. If the same helper file is contained in both the core concrete directory and the site's directory, it will load the site's first, which could then extend the core.
 		 */
-		public function helper($file, $pkgHandle = false) {
+		public static function helper($file, $pkgHandle = false) {
 		
 			static $instances = array();
 
@@ -377,7 +377,7 @@
 		/** 
 		 * Loads a controller for either a page or view
 		 */
-		public function controller($item) {
+		public static function controller($item) {
 			
 			$include = false;
 			

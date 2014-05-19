@@ -35,7 +35,7 @@ class Concrete5_Controller_Dashboard_Users_Add extends Controller {
 				}
 				
 				if (strlen($username) < USER_USERNAME_MINIMUM) {
-					$this->error->add(t('A username must be between at least %s characters long.',USER_USERNAME_MINIMUM));
+					$this->error->add(t('A username must be at least %s characters long.',USER_USERNAME_MINIMUM));
 				}
 			
 				if (strlen($username) > USER_USERNAME_MAXIMUM) {
@@ -44,9 +44,9 @@ class Concrete5_Controller_Dashboard_Users_Add extends Controller {
 			
 				if (strlen($username) >= USER_USERNAME_MINIMUM && !$valc->username($username)) {
 					if(USER_USERNAME_ALLOW_SPACES) {
-						$this->error->add(t('A username may only contain letters, numbers and spaces.'));
+						$this->error->add(t('A username may only contain letters, numbers, spaces, dots (not at the beginning/end), underscores (not at the beginning/end).'));
 					} else {
-						$this->error->add(t('A username may only contain letters or numbers.'));
+						$this->error->add(t('A username may only contain letters numbers, dots (not at the beginning/end), underscores (not at the beginning/end).'));
 					}
 				}
 			
@@ -78,7 +78,7 @@ class Concrete5_Controller_Dashboard_Users_Add extends Controller {
 					if ($uak->isAttributeKeyRequiredOnRegister()) {
 						$e1 = $uak->validateAttributeForm();
 						if ($e1 == false) {
-							$this->error->add(t('The field "%s" is required', tc('AttributeKeyName', $uak->getAttributeKeyName())));
+							$this->error->add(t('The field "%s" is required', $uak->getAttributeKeyDisplayName()));
 						} else if ($e1 instanceof ValidationErrorHelper) {
 							$this->error->add( $e1->getList() );
 						}

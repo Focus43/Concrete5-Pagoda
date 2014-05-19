@@ -91,7 +91,7 @@ class Concrete5_Model_FileVersion extends Object {
 	}
 
 	public function getSize() {
-		return round($this->fvSize / 1024) . t('KB');
+		return Loader::helper('number')->formatSize($this->fvSize, 'KB');
 	}
 	public function getFullSize() {
 		return $this->fvSize;
@@ -151,7 +151,11 @@ class Concrete5_Model_FileVersion extends Object {
 		$data['fvID'] = $fvID;
 		$data['fvDateAdded'] = $date;
 		$u = new User();
-		$data['fvAuthorUID'] = $u->getUserID();
+		if ($u->isRegistered()) {
+            $data['fvAuthorUID'] = $u->getUserID();
+        } else {
+            $data['fvAuthorUID'] = 0;
+        }
 
 		// If This version is the approved version, we approve the new one.
 		if ($this->isApproved()) {
@@ -268,7 +272,7 @@ class Concrete5_Model_FileVersion extends Object {
 		$tags = FileVersion::cleanTags($tags);
 		$db->Execute("update FileVersions set fvTags = ? where fID = ? and fvID = ?", array($tags, $this->getFileID(), $this->getFileVersionID()));
 		$this->logVersionUpdate(FileVersion::UT_TAGS);
-		$this->fvTitle = $tags;
+		$this->fvTags = $tags;
 		Events::fire('on_file_version_update_tags', $this, $tags);
 		$fo = $this->getFile();
 		$fo->refreshCache();
@@ -279,7 +283,7 @@ class Concrete5_Model_FileVersion extends Object {
 		$db = Loader::db();
 		$db->Execute("update FileVersions set fvDescription = ? where fID = ? and fvID = ?", array($descr, $this->getFileID(), $this->getFileVersionID()));
 		$this->logVersionUpdate(FileVersion::UT_DESCRIPTION);
-		$this->fvTitle = $descr;
+		$this->fvDescription = $descr;
 		Events::fire('on_file_version_update_description', $this, $descr);
 		$fo = $this->getFile();
 		$fo->refreshCache();
@@ -572,7 +576,9 @@ class Concrete5_Model_FileVersion extends Object {
 			}
 
 			if ((!is_object($av)) || ($cnt > 1)) {
-				$av = $ak->addAttributeValue();
+				$newAV = $ak->addAttributeValue();
+				$av = FileAttributeValue::getByID($newAV->getAttributeValueID());
+				$av->setFile($this->getFile());
 			}
 		}
 

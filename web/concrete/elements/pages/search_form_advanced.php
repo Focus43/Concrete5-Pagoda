@@ -13,6 +13,10 @@ $searchFields = array(
 	'version_status' => t('Approved Version')
 );
 
+if (PERMISSIONS_MODEL != 'simple') {
+	$searchFields['permissions_inheritance'] = t('Permissions Inheritance');
+}
+
 if (!$searchDialog) {
 	$searchFields['parent'] = t('Parent Page');
 }
@@ -20,7 +24,7 @@ if (!$searchDialog) {
 Loader::model('attribute/categories/collection');
 $searchFieldAttributes = CollectionAttributeKey::getSearchableList();
 foreach($searchFieldAttributes as $ak) {
-	$searchFields[$ak->getAttributeKeyID()] = tc('AttributeKeyName', $ak->getAttributeKeyName());
+	$searchFields[$ak->getAttributeKeyID()] = $ak->getAttributeKeyDisplayName();
 }
 
 ?>
@@ -55,6 +59,14 @@ foreach($searchFieldAttributes as $ak) {
 		<?=$form->text('owner', array('class'=>'span5'))?>
 		</span>
 
+		<span class="ccm-search-option"  search-field="permissions_inheritance">
+			<select name="cInheritPermissionsFrom">
+				<option value="PARENT"<? if ($req['cInheritPermissionsFrom'] == 'PARENT') { ?> selected <? } ?>><?=t('Parent Page')?></option>
+				<option value="TEMPLATE" <? if ($req['cInheritPermissionsFrom'] == 'TEMPLATE') { ?> selected <? } ?>><?=t('Page Type')?></option>
+				<option value="OVERRIDE"<? if ($req['cInheritPermissionsFrom'] == 'OVERRIDE') { ?> selected <? } ?>><?=t('Itself (Override)')?></option>
+			</select>
+		</span>
+
 		<span class="ccm-search-option"  search-field="version_status">
 		<label class="checkbox"><?=$form->radio('cvIsApproved', 0, false)?> <span><?=t('Unapproved')?></span></label>
 		<label class="checkbox"><?=$form->radio('cvIsApproved', 1, false)?> <span><?=t('Approved')?></span></label>
@@ -85,7 +97,7 @@ foreach($searchFieldAttributes as $ak) {
 			<select name="ptID">
 			<? $themes = PageTheme::getList(); ?>
 			<? foreach($themes as $pt) { ?>
-				<option value="<?=$pt->getThemeID()?>"><?=$pt->getThemeName()?></option>			
+				<option value="<?=$pt->getThemeID()?>"><?=$pt->getThemeDisplayName()?></option>			
 			<? } ?>
 			</select>
 		</span>		
@@ -213,6 +225,16 @@ foreach($searchFieldAttributes as $ak) {
 						<? if ($req == 'owner') { ?>
 							<span class="ccm-search-option"  search-field="owner">
 							<?=$form->text('owner', $searchRequest['owner'], array('class' => 'span5'))?>
+							</span>
+						<? } ?>
+
+						<? if ($req == 'permissions_inheritance') { ?>
+							<span class="ccm-search-option"  search-field="permissions_inheritance">
+							<select name="cInheritPermissionsFrom">
+								<option value="PARENT"<? if ($searchRequest['cInheritPermissionsFrom'] == 'PARENT') { ?> selected <? } ?>><?=t('Parent Page')?></option>
+								<option value="TEMPLATE" <? if ($searchRequest['cInheritPermissionsFrom'] == 'TEMPLATE') { ?> selected <? } ?>><?=t('Page Type')?></option>
+								<option value="OVERRIDE"<? if ($searchRequest['cInheritPermissionsFrom'] == 'OVERRIDE') { ?> selected <? } ?>><?=t('Itself (Override)')?></option>
+							</select>
 							</span>
 						<? } ?>
 

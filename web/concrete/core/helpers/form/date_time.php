@@ -134,12 +134,18 @@ class Concrete5_Helper_Form_DateTime {
 			if ($a == 'AM') {
 				$html .= 'selected';
 			}
-			$html .= '>AM</option>';
+			$html .= '>';
+			// This prints out the translation of "AM" in the current language
+			$html .= Loader::helper("date")->date("A",mktime(1));
+			$html .= '</option>';
 			$html .= '<option value="PM" ';
 			if ($a == 'PM') {
 				$html .= 'selected';
 			}
-			$html .= '>PM</option>';
+			$html .= '>';
+			// This prints out the translation of "PM" in the current language
+			$html .= Loader::helper("date")->date("A",mktime(13));
+			$html .= '</option>';
 			$html .= '</select>';
 		}
 		$html .= '</span>';
@@ -178,7 +184,7 @@ EOS;
 	/** 
 	 * Creates form fields and JavaScript calendar includes for a particular item but includes only calendar controls (no time.)
 	 * <code>
-	 *     $dh->datetime('yourStartDate', '2008-07-12 3:00:00');
+	 *     $dh->date('yourStartDate', '2008-07-12 3:00:00');
 	 * </code>
 	 * @param string $prefix
 	 * @param string $value
@@ -208,4 +214,3 @@ EOS;
 	}	
 
 }
-

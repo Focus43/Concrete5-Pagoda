@@ -24,7 +24,7 @@ $text = Loader::helper('text');
 Loader::model('file_attributes');
 $searchFieldAttributes = FileAttributeKey::getSearchableList();
 foreach($searchFieldAttributes as $ak) {
-	$searchFields[$ak->getAttributeKeyID()] = tc('AttributeKeyName', $ak->getAttributeKeyName());
+	$searchFields[$ak->getAttributeKeyID()] = $ak->getAttributeKeyDisplayName();
 }
 
 $ext1 = FileList::getExtensionList();
@@ -123,6 +123,7 @@ foreach($t1 as $value) {
 		print $form->hidden('fileSelector', $fileSelector); 
 	?>	
 	<input type="hidden" name="searchInstance" value="<?=$searchInstance?>" />
+	<br/>
 	<div class="ccm-pane-options-permanent-search">
 
 	<?
@@ -143,14 +144,14 @@ foreach($t1 as $value) {
 			<div class="controls">
 				<?=$form->select('fssID', $savedSearches, $fssID, array('class' => 'span3', 'style' => 'vertical-align: middle'))?>
 				<? if ($_REQUEST['fssID'] > 0) { ?>
-					<a href="<?=REL_DIR_FILES_TOOLS_REQUIRED?>/files/delete_set?fsID=<?=$_REQUEST['fssID']?>&searchInstance=<?=$searchInstance?>" class="ccm-file-set-delete-saved-search" dialog-append-buttons="true" dialog-title="<?=t('Delete File Set')?>" dialog-width="320" dialog-height="110" dialog-modal="false" style="vertical-align: middle"><img src="<?=ASSETS_URL_IMAGES?>/icons/delete_small.png" style="vertical-align: middle" width="16" height="16" border="0" /></a>
+					<a href="<?=REL_DIR_FILES_TOOLS_REQUIRED?>/files/delete_set?fsID=<?=h($_REQUEST['fssID'])?>&searchInstance=<?=$searchInstance?>" class="ccm-file-set-delete-saved-search" dialog-append-buttons="true" dialog-title="<?=t('Delete File Set')?>" dialog-width="320" dialog-height="110" dialog-modal="false" style="vertical-align: middle"><img src="<?=ASSETS_URL_IMAGES?>/icons/delete_small.png" style="vertical-align: middle" width="16" height="16" border="0" /></a>
 				<? } ?>
 			</div>
 			</div>
 			
 		<? } ?>
 
-		<div class="span3">
+		<div class="span4">
 		<?=$form->label('fvKeywords', t('Keywords'))?>
 		<div class="controls">
 			<?=$form->text('fKeywords', $searchRequest['fKeywords'], array('style'=> 'width: 130px')); ?>
@@ -328,6 +329,6 @@ foreach($t1 as $value) {
 	$('#ccm-<?=$searchInstance?>-advanced-search select[name=fssID]').attr('disabled', false);
 	<? } ?>
 	
-	$(".chosen-select").chosen();	
+	$(".chosen-select").chosen(ccmi18n_chosen);	
 
 });</script>

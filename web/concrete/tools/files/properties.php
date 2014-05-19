@@ -139,7 +139,7 @@ function printFileAttributeRow($ak, $fv) {
 	
 	$html = '
 	<tr class="ccm-attribute-editable-field">
-		<td><strong><a href="javascript:void(0)">' . tc('AttributeKeyName', $ak->getAttributeKeyName()) . '</a></strong></td>
+		<td><strong><a href="javascript:void(0)">' . $ak->getAttributeKeyDisplayName() . '</a></strong></td>
 		<td width="100%" class="ccm-attribute-editable-field-central"><div class="ccm-attribute-editable-field-text">' . $text . '</div>
 		<form method="post" action="' . REL_DIR_FILES_TOOLS_REQUIRED . '/files/properties">
 		<input type="hidden" name="fakID" value="' . $ak->getAttributeKeyID() . '" />
@@ -160,7 +160,7 @@ function printFileAttributeRow($ak, $fv) {
 
 	$html = '
 	<tr>
-		<td><strong>' . tc('AttributeKeyName', $ak->getAttributeKeyName()) . '</strong></td>
+		<td><strong>' . $ak->getAttributeKeyDisplayName() . '</strong></td>
 		<td width="100%" colspan="2">' . $text . '</td>
 	</tr>';	
 	}
@@ -222,6 +222,11 @@ if (!$previewMode && $fp->canEditFileContents()) {
 	<td><strong><?=t('URL to File')?></strong></td>
 	<td width="100%" colspan="2"><?=$fv->getRelativePath(true)?></td>
 </tr>
+<tr>
+	<td><strong><?=t('Download URL')?></strong></td>
+	<td width="100%" colspan="2"><?=h(BASE_URL . View::url('/download_file', $fv->getFileID()))?></td>
+</tr>
+
 <?
 $oc = $f->getOriginalPageObject();
 if (is_object($oc)) { 
@@ -246,7 +251,7 @@ if (is_object($oc)) {
 </tr>
 <tr>
 	<td><strong><?=t('Size')?></strong></td>
-	<td colspan="2"><?=$fv->getSize()?> (<?=t2(/*i18n: %s is a number */ '%s byte', '%s bytes', $fv->getFullSize(), Loader::helper('number')->format($fv->getFullSize()))?>)</td>
+	<td colspan="2"><?=$fv->getSize()?> (<?=Loader::helper('number')->formatSize($fv->getFullSize(), 'bytes')?>)</td>
 </tr>
 <tr>
 	<td><strong><?=t('Date Added')?></strong></td>

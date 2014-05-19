@@ -63,11 +63,28 @@ class Concrete5_Model_JobSet extends Object {
 	public function getJobSetID() {return $this->jsID;}
 	public function getJobSetName() {return $this->jsName;}
 	public function getPackageID() {return $this->pkgID;}
-	
+
+	/** Returns the display name for this job set (localized and escaped accordingly to $format)
+	* @param string $format = 'html'
+	*	Escape the result in html format (if $format is 'html').
+	*	If $format is 'text' or any other value, the display name won't be escaped.
+	* @return string
+	*/
+	public function getJobSetDisplayName($format = 'html') {
+		$value = tc('JobSetName', $this->getJobSetName());
+		switch($format) {
+			case 'html':
+				return h($value);
+			case 'text':
+			default:
+				return $value;
+		}
+	}
+
 	public function updateJobSetName($jsName) {
-		$this->jsName = $jsName;
+		$this->jsName = Loader::helper('security')->sanitizeString($jsName);
 		$db = Loader::db();
-		$db->Execute("update JobSets set jsName = ? where jsID = ?", array($jsName, $this->jsID));
+		$db->Execute("update JobSets set jsName = ? where jsID = ?", array($this->jsName, $this->jsID));
 	}
 
 	public function addJob(Job $j) {
@@ -80,6 +97,7 @@ class Concrete5_Model_JobSet extends Object {
 
 	public static function add($jsName, $pkg = false) {
 		$db = Loader::db();
+		$jsName = Loader::helper('security')->sanitizeString($jsName);
 		$pkgID = 0;
 		if (is_object($pkg)) {
 			$pkgID = $pkg->getPackageID();

@@ -110,9 +110,9 @@ $(function() {
 
 		// Button settings
 		button_image_url: "<?=ASSETS_URL_IMAGES?>/icons/add_file_swfupload.png",	// Relative to the Flash file
-		button_width: "80",
+		button_width: "110",
 		button_text: '<span class="uploadButtonText"><?=t('Add Files')?><\/span>',
-		button_height: "16",
+		button_height: "18",
 		button_text_left_padding: 18,
 		button_text_style: ".uploadButtonText {background-color: #eee; font-family: Helvetica Neue, Helvetica, Arial}",
 		button_placeholder_id: "ccm-file-add-multiple-spanButtonPlaceHolder",
@@ -283,7 +283,7 @@ $(function() {
 				</td>
 				<td width="20%" valign="middle" class="center"><?=$ft->getThumbnail(1)?></td>
 				<td width="45%" valign="middle"><?=$file_array['name']?></td>
-				<td width="25%" valign="middle" class="center"><?=$file_array['size']?><?=t('Kb')?></td>
+				<td width="25%" valign="middle" class="center"><?=Loader::helper('number')->formatSize($file_array['size'], 'KB')?></td>
 			</tr>
 		<?php } ?>
 		</table>

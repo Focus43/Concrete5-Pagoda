@@ -31,7 +31,7 @@ class Concrete5_Helper_Date {
 		}
 		
 		$req = Request::get();
-		if ($req->hasCustomRequestUser()) {
+		if ($req->hasCustomRequestUser() && $req->getCustomRequestDateTime()) {
 			return date($mask, strtotime($req->getCustomRequestDateTime()));
 		}
 		
@@ -171,7 +171,7 @@ class Concrete5_Helper_Date {
 		}
 		else{
 			if ($diff>86400) {
-					$days=date("z",$diff);
+					$days= floor($diff / 86400);
 					$timeRemaining = t2('%d day', '%d days', $days, $days);
 					if($precise==1) {
 						$timeRemaining .= ', '.t2('%d hour', '%d hours', $hours, $hours);

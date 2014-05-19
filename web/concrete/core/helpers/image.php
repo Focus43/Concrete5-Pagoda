@@ -59,12 +59,22 @@ class Concrete5_Helper_Image {
 	/**
 	 * Creates a new image given an original path, a new path, a target width and height.
 	 * Optionally crops image to exactly match given width and height.
-	 * @params string $originalPath, string $newpath, int $width, int $height, bool $crop
-	 * @return void
-	 */		
+	 * @param string $originalPath The path to the original image
+	 * @param string $newpath The path to the new image to be created
+	 * @param int $width The maximum width of the new image
+	 * @param int $height The maximum height of the new image
+	 * @param bool $crop = false Set to true to resize and crop the image, set to false to just resize the image 
+	 * @return bool
+	 * @example Resizing from 200x200 to 100x50 with $crop = false will result in a 50 x 50 image (same aspect ratio as source, scaled down to a quarter of size)
+	 * @example Resizing from 200x200 to 100x50 with $crop = true will result in a 100 x 50 image (same aspect ratio as source, scaled down to a half of size and cropped in height)
+	 * @example Resizing from 200x200 to 1000x1000 with either $crop = false or $crop = true in a copy of the original image (200x200)
+	 */
 	public function create($originalPath, $newPath, $width, $height, $crop = false) {
 		// first, we grab the original image. We shouldn't ever get to this function unless the image is valid
 		$imageSize = @getimagesize($originalPath);
+		if($imageSize === false) {
+			return false;
+		}
 		$oWidth = $imageSize[0];
 		$oHeight = $imageSize[1];
 		$finalWidth = 0; //For cropping, this is really "scale to width before chopping extra height"
@@ -138,28 +148,66 @@ class Concrete5_Helper_Image {
 			*/
 			$crop_src_y = round(($oHeight - ($height * $oWidth / $width)) * 0.5);
 		}
-		
-		//create "canvas" to put new resized and/or cropped image into
-		if ($crop) {
-			$image = @imageCreateTrueColor($width, $height);
-		} else {
-			$image = @imageCreateTrueColor($finalWidth, $finalHeight);
+		$processed = false;
+		if(class_exists('Imagick')) {
+			try {
+				$image = new Imagick();
+				$imageRead = false;
+				if ($crop) {
+					$image->setSize($finalWidth, $finalHeight);
+					if($image->readImage($originalPath) === true) {
+						$image->cropThumbnailImage($width, $height);
+						$imageRead = true;
+					}
+					
+				} else {
+					$image->setSize($width, $height);
+					if($image->readImage($originalPath) === true) {
+						$image->thumbnailImage($width, $height, true);
+						$imageRead = true;
+					}
+				}
+				if($imageRead) {
+					if($image->getCompression() == imagick::COMPRESSION_JPEG) {
+						$image->setCompressionQuality($this->jpegCompression);
+					}
+					if($image->writeImage($newPath) === true) {
+						$processed = true;
+					}
+				}
+			}
+			catch(Exception $x) {
+			}
 		}
-		
-		$im = false;		
-		switch($imageSize[2]) {
-			case IMAGETYPE_GIF:
-				$im = @imageCreateFromGIF($originalPath);
-				break;
-			case IMAGETYPE_JPEG:
-				$im = @imageCreateFromJPEG($originalPath);
-				break;
-			case IMAGETYPE_PNG:
-				$im = @imageCreateFromPNG($originalPath);
-				break;
-		}
-		
-		if ($im) {
+		if(!$processed) {
+			//create "canvas" to put new resized and/or cropped image into
+			if ($crop) {
+				$image = @imageCreateTrueColor($width, $height);
+			} else {
+				$image = @imageCreateTrueColor($finalWidth, $finalHeight);
+			}
+			if($image === false) {
+				return false;
+			}
+			$im = false;
+			switch($imageSize[2]) {
+				case IMAGETYPE_GIF:
+					$im = @imageCreateFromGIF($originalPath);
+					break;
+				case IMAGETYPE_JPEG:
+					$im = @imageCreateFromJPEG($originalPath);
+					break;
+				case IMAGETYPE_PNG:
+					$im = @imageCreateFromPNG($originalPath);
+					break;
+				default:
+					@imagedestroy($image);
+					return false;
+			}
+			if($im === false) {
+				@imagedestroy($image);
+				return false;
+			}
 			// Better transparency - thanks for the ideas and some code from mediumexposure.com
 			if (($imageSize[2] == IMAGETYPE_GIF) || ($imageSize[2] == IMAGETYPE_PNG)) {
 				$trnprt_indx = imagecolortransparent($im);
@@ -198,22 +246,31 @@ class Concrete5_Helper_Image {
 			}
 			
 			$res = @imageCopyResampled($image, $im, 0, 0, $crop_src_x, $crop_src_y, $finalWidth, $finalHeight, $oWidth, $oHeight);
-			if ($res) {
-				switch($imageSize[2]) {
-					case IMAGETYPE_GIF:
-						$res2 = imageGIF($image, $newPath);
-						break;
-					case IMAGETYPE_JPEG:
-						$res2 = imageJPEG($image, $newPath, $this->jpegCompression);
-						break;
-					case IMAGETYPE_PNG:
-						$res2 = imagePNG($image, $newPath);
-						break;
-				}
+			@imagedestroy($im);
+			if($res === false) {
+				@imagedestroy($image);
+				return false;
+			}
+			$res2 = false;
+			switch($imageSize[2]) {
+				case IMAGETYPE_GIF:
+					$res2 = @imageGIF($image, $newPath);
+					break;
+				case IMAGETYPE_JPEG:
+					$res2 = @imageJPEG($image, $newPath, $this->jpegCompression);
+					break;
+				case IMAGETYPE_PNG:
+					$res2 = @imagePNG($image, $newPath);
+					break;
+			}
+			@imagedestroy($image);
+			if($res2 === false) {
+				return false;
 			}
 		}
 		
 		@chmod($newPath, FILE_PERMISSIONS_MODE);
+		return true;
 	}
 	
 	/** 
