@@ -24,9 +24,6 @@
 			// if using the FluidDNS package
 			define('PAGE_TITLE_FORMAT', '%2$s');
 		}
-		
-		// application profiler. disabled on production by default (just uncomment to use)
-		//define('ENABLE_APPLICATION_PROFILER', true);
 
         // disable marketplace support b/c of Pagodabox read-only file system
         define('ENABLE_MARKETPLACE_SUPPORT', false);
@@ -65,8 +62,6 @@
                 // if using the FluidDNS package
                 define('PAGE_TITLE_FORMAT', '%2$s');
             }
-            // application profiler. disable this for live sites! (just comment out)
-            //define('ENABLE_APPLICATION_PROFILER', true);
 
         }else{
 

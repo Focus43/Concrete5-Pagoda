@@ -2,9 +2,6 @@
 defined('C5_EXECUTE') or die('Access Denied.');
 
 $classes = array(
-	// @app_profiler
-	'ApplicationProfiler' => array('library', 'application_profiler'),
-	
 	'Log' => array('library','log'),
 	'Request' => array('library','request'),
 	'Localization' => array('library','localization'),

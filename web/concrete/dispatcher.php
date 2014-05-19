@@ -40,9 +40,6 @@
 		require(DIR_CONFIG_SITE . '/site_post_autoload.php');
 	}
 
-	## APP PROFILER ## // @app_profiler
-	ApplicationProfiler::start( defined('ENABLE_APPLICATION_PROFILER') );
-
 	## Exception handler
 	require($cdir . '/startup/exceptions.php');
 
@@ -88,9 +85,6 @@
 
 	# Startup check, install ##
 	require($cdir . '/startup/config_check_complete.php');
-
-	## Determines whether we can use the more efficient permission local caching
-	require($cdir . '/startup/permission_cache_check.php');
 
 	## Determines whether we can use the more efficient permission local caching
 	require($cdir . '/startup/permission_cache_check.php');

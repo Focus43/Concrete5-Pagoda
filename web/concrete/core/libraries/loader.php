@@ -260,12 +260,6 @@
 						}
 						
 						ADOdb_Active_Record::SetDatabaseAdapter($_dba);
-
-						// @app_profiler
-						if( defined('ENABLE_APPLICATION_PROFILER') && (ENABLE_APPLICATION_PROFILER === true) ){
-							ApplicationProfiler::enableQueryLogging( $_dba );
-						}
-
 					} else if (defined('DB_SERVER')) {
 						$v = View::getInstance();
 						$v->renderError(t('Unable to connect to database.'), t('A database error occurred while processing this request.'));

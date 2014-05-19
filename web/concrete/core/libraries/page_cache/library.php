@@ -10,13 +10,9 @@ abstract class Concrete5_Library_PageCache {
 		if (defined('APP_CHARSET')) {
 			header("Content-Type: text/html; charset=" . APP_CHARSET);
 		}
-		
 		foreach ($record->getCacheRecordHeaders() as $header) {
 			header($header);
 		}
-        
-        // @app_profiler
-        ApplicationProfiler::finish( $record );
 
 		print($record->getCacheRecordContent());
 	}
