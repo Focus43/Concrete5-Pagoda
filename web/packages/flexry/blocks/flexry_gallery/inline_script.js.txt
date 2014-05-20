@@ -1,0 +1,2 @@
+/*! FLEXRY - Build v0.0.6 (2014-03-11) */
+try{jQuery(function(a){for(var b=0;b<a.length;b++)a[b].call()}(window._flexry||[]))}catch(err){}

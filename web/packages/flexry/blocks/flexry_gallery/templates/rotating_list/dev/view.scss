@@ -1,0 +1,14 @@
+@import '../../../../../css/dev/variables-mixins';
+
+$spacing        : 5px;
+$transitionTime : .5s;
+
+.flexryRtl {text-align:center;margin:-$spacing;
+  .flexry-rtl-group {position:relative;overflow:hidden;@include box-sizing(border-box);@include transition(height $transitionTime/2 ease);}
+  .flexry-rtl-item {visibility:hidden;opacity:0;padding:$spacing;overflow:hidden;position:absolute;top:0;left:0;width:100%;margin:0;z-index:1;@include transition(all $transitionTime ease $transitionTime/2);
+    &:first-child {position:relative;}
+    &.current {visibility:visible;opacity:1;z-index:2;}
+    img.rtl-image {height:auto;width:auto;max-width:100%;margin:0 auto;display:inline-block;}
+    span {display:none;}
+  }
+}

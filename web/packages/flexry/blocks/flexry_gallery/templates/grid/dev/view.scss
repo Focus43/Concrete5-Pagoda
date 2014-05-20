@@ -1,0 +1,90 @@
+@import '../../../../../css/dev/variables-mixins';
+
+// AVAILABLE COLUMN COUNTS
+$columnCounts: 2, 3, 4, 5, 6, 7, 8, 9, 10;
+
+////////////////////////////////// BASE STYLES //////////////////////////////////
+.flexryGridWrap {position:relative;
+  .flexryGrid {
+    .grid-sizer, .grid-item {min-width:50%;width:50%;}
+    .grid-item {display:inline-block;color:inherit;@include box-sizing(border-box);}
+    .grid-item-inner {position:relative;overflow:hidden;@include box-shadow(0 0 3px rgba(0,0,0,.45));
+      img {width:100%;transition:-webkit-filter .5s ease;/*not widely supported yet*/}
+    }
+
+    // meta default (same as &.meta-hide .meta)
+    .meta {display:none;padding:8px;
+      .poz {max-width:100%;max-height:100%;/* placeholder for extra positioning control */}
+      span {display:block;font-size:90%;line-height:1.3em;padding:1px 0;@include box-sizing(border-box);
+        &.title {text-transform:capitalize;font-size:130%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+        &:empty {display:none;}
+      }
+    }
+
+    // meta below
+    &.meta-below .meta {display:block;background:#fff;color:#2d2d2d;font-size:inherit;}
+
+    // meta on hover
+    &.meta-hover {
+      .meta {padding:0;color:#fff;display:block;position:absolute;height:100%;left:0;right:0;bottom:-100%;text-shadow:0 1px 0 #000; @include box-sizing(border-box);@include transition(bottom .15s ease-out);@include opaqueGradientFull;
+        .poz {position:absolute;bottom:0;padding:8px;}
+      }
+      .grid-item:hover {
+        img {@include filter(grayscale(65%));}
+        .meta {bottom:0;}
+      }
+    }
+  }
+
+  // PAGINATION STATUS
+  .loader {cursor:pointer;font-weight:bold;text-decoration:none;color:#2d2d2d;text-align:center;display:block;padding:10px 8px 9px;line-height:1;margin:10px 0;border:1px solid #f5f5f5; @include box-sizing(border-box);@include border-radius(5px);@include box-shadow(0 1px 1px rgba(25,25,25,.5));@include transition(background .25s ease);@include grayGradient;
+    &:hover {background:#e1e1e1;}
+    span {display:inline-block;padding-left:0;line-height:1;@include transition(padding .35s ease-out);}
+    &.working span {padding-left:25px;background:transparent url('#{$imagePath}loader-small.gif') no-repeat 0 50%;}
+  }
+}
+
+
+////////////////////////////////// RESPONSIVE //////////////////////////////////
+// DEFAULT/MOBILE-FIRST; SET MIN-WIDTH AT 50% FOR ALL
+@each $columns in $columnCounts  {
+  .flexryGrid.columns-#{$columns} {
+    .grid-sizer, .grid-item {min-width:50%;width:percentage(100/$columns)/100;}
+  }
+}
+
+// IF SCREEN IS LARGER THAN 480PX, ALLOW 3 COLUMNS
+@media screen and (min-width:$screen-xs){
+  @each $columns in $columnCounts  {
+    .flexryGrid.columns-#{$columns} {
+      .grid-sizer, .grid-item {min-width:33.3333%;width:percentage(100/$columns)/100;}
+    }
+  }
+}
+
+// IF SCREEN IS LARGER THAN 768PX, ALLOW 4 COLUMNS
+@media screen and (min-width:$screen-sm){
+  @each $columns in $columnCounts  {
+    .flexryGrid.columns-#{$columns} {
+      .grid-sizer, .grid-item {min-width:25%;width:percentage(100/$columns)/100;}
+    }
+  }
+}
+
+// IF SCREEN IS LARGER THAN 992PX, ALLOW 5 COLUMNS
+@media screen and (min-width:$screen-md){
+  @each $columns in $columnCounts  {
+    .flexryGrid.columns-#{$columns} {
+      .grid-sizer, .grid-item {min-width:20%;width:percentage(100/$columns)/100;}
+    }
+  }
+}
+
+// IF SCREEN IS LARGER THAN 1200PX, ALLOW UP TO TEN COLUMNS
+@media screen and (min-width:$screen-lg){
+  @each $columns in $columnCounts  {
+    .flexryGrid.columns-#{$columns} {
+      .grid-sizer, .grid-item {min-width:0;width:percentage(100/$columns)/100;}
+    }
+  }
+}

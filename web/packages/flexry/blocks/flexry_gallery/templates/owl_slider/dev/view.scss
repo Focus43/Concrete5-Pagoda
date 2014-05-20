@@ -1,0 +1,39 @@
+@import '../../../../../css/dev/variables-mixins';
+// "namespace" everything under flexryOwl class
+.flexryOwl {
+  @import 'owl.carousel';
+  @import 'owl.theme';
+  @import 'owl.transitions';
+
+  .owl-wrapper {font-size:0;line-height:0;}
+  .owl-item {text-align:center;}
+
+  .flexry-owl-item {display:inline-block;margin:0 auto;}
+
+  .flexry-owl-item-inner {position:relative;overflow:hidden;@include box-shadow(0 0 9px rgba(0,0,0,.45));}
+
+  .slider-image {}
+
+  // meta default (same as &.meta-hide .meta)
+  .meta {display:none;padding:8px;text-align:left;font-size:14px;line-height:1.3em;
+    .poz {max-width:100%;max-height:100%;/* placeholder for extra positioning control */}
+    span {display:block;font-size:90%;line-height:1.3em;padding:1px 0;@include box-sizing(border-box);
+      &.title {text-transform:capitalize;font-size:130%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+      &:empty {display:none;}
+    }
+  }
+
+  // meta below
+  &.meta-below .meta {display:block;background:#fff;color:#2d2d2d;font-size:inherit;}
+
+  // meta on hover
+  &.meta-hover {
+    .meta {padding:0;color:#fff;display:block;position:absolute;height:100%;left:0;right:0;bottom:-100%;text-shadow:0 1px 0 #000; @include box-sizing(border-box);@include transition(bottom .15s ease-out);@include opaqueGradientFull;
+      .poz {position:absolute;bottom:0;padding:8px;}
+    }
+    .flexry-owl-item:hover {
+      img {@include filter(grayscale(65%));}
+      .meta {bottom:0;}
+    }
+  }
+}

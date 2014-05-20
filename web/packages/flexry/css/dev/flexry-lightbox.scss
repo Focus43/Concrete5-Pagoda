@@ -1,0 +1,249 @@
+@import 'variables-mixins';
+
+$transitionTime : .2s;
+$spinnerColor   : #2d2d2d;
+$spinnerSize    : 75px;
+$defaultMask    : rgba(0,0,0,.8);
+
+@mixin centerize {
+  position:fixed;top:50%;left:50%;width:95%;max-width:95%;max-height:100%;@include box-sizing(border-box);@include transform(translateX(-50%) translateY(-50%));
+}
+
+@mixin fixedFull {
+  top:0;left:0;right:0;bottom:0;width:100%;height:100%;position:fixed;
+}
+
+/**
+ * Make the html/body tags at least 100% in height
+ */
+html.flexry-lb-active, html.flexry-lb-active body {overflow-x:hidden;min-height:100%;}
+
+/**
+ * Lightbox styles (heights are handled below, based on touch enabled devices)
+ */
+.flexry-lightbox {font-size:14px;text-align:center;display:none;z-index:999;@include fixedFull;
+  [data-transition] {width:100%;height:100%;}
+  .masker {background:$defaultMask;@include fixedFull;}
+  div, span {text-align:inherit !important;}
+
+  /**
+   * MAIN CONTENT AREA - HIDDEN BY DEFAULT, UNTIL THE LOADER IS SWAPPED
+   */
+  .modal-container {visibility:hidden;opacity:0;height:95%;@include centerize;@include transition(all $transitionTime ease-out);@include perspective(1300px);
+    .content {height:100%;margin:0;display:block;position:relative;@include transition(all $transitionTime ease-out);@include backface-visibility(hidden);@include transform-style(preserve-3d);
+      img.primary-img {width:auto;height:auto;max-height:100%;max-width:100%;position:absolute;top:50%;left:50%;@include box-shadow(0 0 25px rgba(0,0,0,.75));@include transform(translateY(-50%) translateX(-50%));}
+    }
+  }
+
+  /**
+   * GALLERY NAVIGATION ARROWS (HIDDEN BY DEFAULT)
+   */
+  .gallery-arrows {cursor:pointer;display:none;padding:0 6px;position:fixed;top:50%;width:60px;max-width:60px;height:90px;margin-top:-45px;background-color:rgba(0,0,0,.5);background-position:50% 50%;background-repeat:no-repeat;background-size:45%;z-index:1001; @include box-shadow(0 0 24px rgba(25,25,25,.65));
+    &.prev {left:0;background-image:url('#{$imagePath}arrow_left.png');}
+    &.next {right:0;background-image:url('#{$imagePath}arrow_right.png');}
+  }
+  // .flexry-lightbox.arrows to enable
+  &.arrows .gallery-arrows {display:block;}
+
+  /**
+   * CAPTIONS (HIDDEN BY DEFAULT)
+   */
+  .caption-container {display:none;z-index:1;@include centerize;
+    .caption {position:absolute;left:0;display:none;width:100%;z-index:2;color:#fff;@include box-sizing(border-box);
+      span {position:relative;display:inline-block;padding:6px 15px;margin:0 auto;background:rgba(0,0,0,.75);
+        &:empty {display:none;}
+      }
+      &.title {top:0;}
+      &.descr {bottom:0;}
+    }
+  }
+
+  /**
+   * LOADING CONTAINER - VISIBLE BY DEFAULT
+   */
+  .loader-container {visibility:visible;opacity:1;@include centerize;@include transition(all $transitionTime/2 ease-out);
+    .inner {display:inline-block;margin:0 auto;width:$spinnerSize;height:$spinnerSize;background:$spinnerColor;border:3px dashed #fff;@include border-radius(50%);@include animation(spin 2.5s infinite linear);}
+  }
+
+  /**
+   * GALLERY MARKERS (HIDDEN BY DEFAULT)
+   */
+  .gallery-markers {display:none;text-align:center;position:absolute;bottom:0;left:0;width:100%;
+    $markerMargin: 3px;
+    .m-inner {display:table-cell;vertical-align:middle;@include perspective(800px);}
+    .m {cursor:pointer;position:relative;display:inline-block;margin:$markerMargin;background-color:#fff;width:15px;height:15px; @include border-radius(50%);@include box-shadow(0 0 4px #000);@include transition(background .25s ease);
+      .t {position:absolute;margin-bottom:12px;width:200px;left:-(100px-($markerMargin*2));opacity:0;display:block;bottom:100%;z-index:-1;visibility:hidden;@include transform-style(preserve-3d);@include transform-origin(0 50%);@include transform(rotateX(20deg) translateZ(-55px));@include transition(all .15s ease);
+        img {padding:3px;background:#fff;display:block;margin:0 auto;max-width:160px;max-height:100px;width:auto; @include box-shadow(0 0 6px #000);}
+      }
+      // transition-to state
+      &:hover {background-color:#9ca8aa;
+        .t {opacity:1;z-index:1001;visibility:visible;@include transform(rotateX(0) translateZ(0));}
+      }
+    }
+  }
+
+  /**
+   * Close button
+   */
+  .closer {cursor:pointer;display:block;text-decoration:none;position:fixed;top:0;right:0;color:#2d2d2d;background:#C6E746;z-index:1001;
+    span {display:block;padding:10px;text-transform:uppercase;}
+  }
+
+  /**
+   * TOGGLE-ABLE CLASSES TO SHOW EITHER WORKING OR LOADED
+   */
+  &.loaded {
+    .modal-container {visibility:visible;opacity:1;}
+    .loader-container {visibility:hidden;opacity:0;}
+  }
+}
+
+
+/////////////////// HEIGHTS BASED ON DIFFERENT MODULES ///////////////////
+@media screen and (min-width:$screen-sm-mid){
+  .flexry-lightbox {
+
+  }
+}
+
+// when screen >= 568 vertical
+@media screen and (min-height:$screen-xs) {
+  .flexry-lightbox {
+    &.captions {
+      .caption-container, .caption.title {display:block;}
+    }
+  }
+}
+
+@media screen and (min-height:$screen-sm-mid) {
+  .flexry-lightbox {
+    &.captions {
+      .caption.descr {display:block;}
+    }
+  }
+}
+
+@media screen and (min-height: $screen-sm-mid) and (min-width: $screen-sm){
+  html.flexry-no-touch {
+    .flexry-lightbox {
+      &.markers {
+        .modal-container {height:100%;
+          .content {height:85%;top:5%;}
+          .caption-container {position:absolute;}
+        }
+        .gallery-markers {display:table;height:8%;}
+      }
+    }
+  }
+}
+
+// If viewing the modal and user clicks print, print *just* the image
+@media print {
+  html.flexry-lb-active {max-height:100%;height:100%;margin:0 !important;
+    body {max-height:100%;height:100%;margin:0 !important;
+      * {visibility: hidden;display: none;}
+    }
+    .flexry-lightbox,
+    .flexry-lightbox .modal-container,
+    .flexry-lightbox .modal-container .content,
+    #flexry-featured-img {
+      background:#fff;visibility:visible;display:block;position:relative;top:initial;right:initial;left:initial;bottom:initial;width:100%;max-width:100%;height:100%;max-height:100%;margin: 0 !important;padding:0;text-align:center;
+      @include transform(none);
+      @include transition(none);
+      @include perspective(0);
+      @include transform-style(none);
+    }
+    #flexry-featured-img {
+      width:auto !important;height:auto !important;display:inline-block !important;margin:0 auto;
+    }
+  }
+}
+
+
+
+////////////////////////////////// EFFECTS //////////////////////////////////
+.flexry-lightbox {
+  // Spin in effect
+  .fx-spin {
+    .modal-container .content {@include transform(scale(0) rotate(720deg));}
+  }
+  &.loaded .fx-spin {
+    .modal-container .content {@include transform(scale(1) rotate(0deg));}
+  }
+
+  // Fall effect
+  .fx-fall {
+    .modal-container .content {@include transform(translateZ(600px) rotateX(50deg));}
+  }
+  &.loaded .fx-fall {
+    .modal-container .content {@include transform(translateZ(0px) rotateX(0deg));}
+  }
+
+  // Zoom effect
+  .fx-zoom {
+    .modal-container .content {@include transform(scale(.75));}
+  }
+  &.loaded .fx-zoom {
+    .modal-container .content {@include transform(scale(1));}
+  }
+
+  // 3D-flip vertical
+  .fx-flip-vertical {
+    .modal-container .content {@include transform(rotateX(-80deg));}
+  }
+  &.loaded .fx-flip-vertical {
+    .modal-container .content {@include transform(rotateX(0deg));}
+  }
+
+  // 3D-flip horizontal
+  .fx-flip-horizontal {
+    .modal-container .content {@include transform(rotateY(-80deg));}
+  }
+  &.loaded .fx-flip-horizontal {
+    .modal-container .content {@include transform(rotateY(0deg));}
+  }
+
+  // Slide in right
+  .fx-slide-in-right {
+    .modal-container .content {@include transform(translateX(30%));}
+  }
+  &.loaded .fx-slide-in-right {
+    .modal-container .content {@include transform(translateX(0));}
+  }
+
+  // Slide in left
+  .fx-slide-in-left {
+    .modal-container .content {@include transform(translateX(-30%));}
+  }
+  &.loaded .fx-slide-in-left {
+    .modal-container .content {@include transform(translateX(0));}
+  }
+
+  // Fall from the side
+  .fx-side-fall {
+    .modal-container .content {@include transform(translate(30%) translateZ(600px) rotate(20deg));}
+  }
+  &.loaded .fx-side-fall {
+    .modal-container .content {@include transform(translate(0%) translateZ(0) rotate(0deg));}
+  }
+
+  // 3D-slit
+  .fx-slit {
+    .modal-container .content {opacity:0;@include transform(translateZ(-3000px) rotateY(90deg));}
+  }
+  &.loaded .fx-slit {
+    .modal-container .content {@include animation(slit .7s forwards ease-out);}
+  }
+}
+
+////////////////////////////////// ANIMATION FUNCTIONS //////////////////////////////////
+@include keyframes(slit){
+  50%  { opacity:.5; @include transform(translateZ(-250px) rotateY(89deg)); -webkit-animation-timing-function: ease-out; -moz-animation-timing-function: ease-out; -ms-animation-timing-function: ease-out; -o-animation-timing-function: ease-out; animation-timing-function: ease-in;}
+  100% { opacity: 1; @include transform(translateZ(0) rotateY(0deg)); }
+}
+
+@include keyframes(spin){
+  0%   { @include transform(rotate(0deg) scale(.8,.8)); }
+  50%  { @include transform(rotate(180deg) scale(1.2,1.2)); }
+  100% { @include transform(rotate(359deg) scale(.8,.8)); }
+}

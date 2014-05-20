@@ -1,0 +1,5 @@
+@import '../../../../../css/dev/variables-mixins';
+// "namespace" everything under the flexryCamera class
+.flexryCamera {@include clearfix;
+  @import 'camera-base';
+}
