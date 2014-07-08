@@ -30,6 +30,9 @@
 	require($corePath . '/startup/file_access_check.php');
 	
 	require($corePath . '/startup/localization.php');
+
+    ## Security helpers
+    require($corePath . '/startup/security.php');
 	
 	## Autoload core classes
 	spl_autoload_register(array('Loader', 'autoloadCore'), true);
@@ -128,9 +131,10 @@
 		
 		// if we get here, we're installing a new instance
 		$spl = Loader::startingPointPackage('blank');
-		
+
+        $tempUserObj = new User();
 		define('INSTALL_USER_EMAIL', 'change@me.com');
-		define('INSTALL_USER_PASSWORD_HASH', User::encryptPassword('c5@dmin', PASSWORD_SALT));
+		define('INSTALL_USER_PASSWORD_HASH', $tempUserObj->encryptPassword('c5@dmin', PASSWORD_SALT));
 		define('SITE', 'Concrete5 Pagoda');
 		
 		$routines = $spl->getInstallRoutines();
