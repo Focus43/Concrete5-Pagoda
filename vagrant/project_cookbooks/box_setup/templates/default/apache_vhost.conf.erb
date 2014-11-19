@@ -2,7 +2,7 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   ServerName <%= @params[:server_name] %>
-  ServerAlias <%= @params[:server_alias] %>
+  ServerAlias *
 
   DocumentRoot <%= @params[:docroot] %>
 
@@ -47,7 +47,7 @@
 <VirtualHost *:443>
     ServerAdmin webmaster@localhost
     ServerName <%= @params[:server_name] %>
-    ServerAlias <%= @params[:server_alias] %>
+    ServerAlias *
 
     DocumentRoot <%= @params[:docroot] %>
 

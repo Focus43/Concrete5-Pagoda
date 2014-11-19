@@ -12,13 +12,17 @@ default[:box_setup][:dev_stack][:opts][:php_tools][:xdebug] = true
 default[:box_setup][:dev_stack][:opts][:php_tools][:phpunit] = true
 default[:box_setup][:dev_stack][:opts][:redis] = true
 default[:box_setup][:dev_stack][:opts][:nodejs][:install] = true
-default[:box_setup][:dev_stack][:opts][:nodejs][:gruntjs] = true
+default[:box_setup][:dev_stack][:opts][:nodejs][:gruntjs] = false
+default[:box_setup][:dev_stack][:opts][:nodejs][:gulpjs] = true
 default[:box_setup][:dev_stack][:opts][:nodejs][:bower] = true
 default[:box_setup][:dev_stack][:opts][:nodejs][:npm][:auto_install_packages] = true
 default[:box_setup][:dev_stack][:opts][:nodejs][:npm][:package_json_location] = '/home/vagrant/app/build'
 default[:box_setup][:dev_stack][:opts][:ruby][:rbenv] = true
 default[:box_setup][:dev_stack][:opts][:ruby][:version] = '2.1.0'
 default[:box_setup][:dev_stack][:opts][:ruby][:gems] = []
+default[:box_setup][:dev_stack][:opts][:composer][:install] = false
+default[:box_setup][:dev_stack][:opts][:composer][:auto_install_packages] = false
+default[:box_setup][:dev_stack][:opts][:composer][:composerjson_location] = ''
 
 # Other settings not necessarily displayed in the Vagrantfile, but configurable
 default[:box_setup][:application_name] = 'concrete5'

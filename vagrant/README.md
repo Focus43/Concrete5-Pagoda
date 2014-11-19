@@ -4,8 +4,7 @@
 Developers, primarily. Or command-line savvy designers. Especially useful for **teams** where everyone might not
 be developing on the same OS.
 
-Currently VirtualBox is the only virtualization provider supported. Future releases may include pre-built boxes
-for VMWare as well.
+Currently VirtualBox is the only virtualization provider supported. Future releases may support VMWare as well.
 
 * [Overview](#overview)
 * [Usage / Getting Started](#usage--getting-started)
@@ -21,25 +20,120 @@ By using Vagrant, you can be sure that anyone working on the project will be run
 and you can tailor the VM build to closely mimic your production environment. If you're new to Vagrant or the idea
 of working with virtual machines for development, [read this](http://www.vagrantup.com/about.html).
 
-The files included for this Vagrant build will create a development server with the following installed (ideal for
-Concrete5 development):
+Instead of having to install and configure a Concrete5 project by hand, you can just add the `vagrant` directory to your project, run `vagrant up`, and you'll have a fully sandboxed environment specifically for your project. Further, you can manage your development environment programatically via the Vagrantfile - instead of telling team members to configure this or that.
+
+The files included for this Vagrant build will create a development environment with the following installed, tailored for C5 development:
 * Ubuntu Linux 12.04 64-bit
 * Apache 2
 * PHP 5.3.10
 * MySQL 5.5
-* Redis
-* NodeJS
-* GruntJS is auto-installed
-* Xdebug
-* PHPUnit
-
-Out of the box, you'll be able to run Grunt tasks for core asset builds, and run unit tests, with *zero configuration*.
+* Composer (optional; for use on 5.7 development currently)
+* Redis (optional)
+* NodeJS (optional)
+* GruntJS (optional)
+* Xdebug (optional)
+* PHPUnit (optional)
 
 ## Usage / Getting Started ##
 
 **Prerequisites**: Ensure Git is installed (instructions for: [OSX](http://help.pagodabox.com/customer/portal/articles/200927),
 [Windows](http://help.pagodabox.com/customer/portal/articles/202068)), as well as: [VirtualBox](https://www.virtualbox.org/), and [Vagrant](http://docs.vagrantup.com/v2/installation/).
 Installers are available for all common OSs.
+
+### Get The Vagrant Files ###
+
+With the prerequisites installed, all that's necessary is to copy the `vagrant` directory to your Concrete5 project root (ie. at the same level as the `web` directory).
+
+**Via Git**
+If your project is using Git for version control, you can add this repository as a remote and simply checkout the /vagrant directory:
+
+    $: cd {your-project-root}
+    $: git remote add vagrant-repo {this-repo-git-clone-url}
+    $: git fetch vagrant-repo
+    $: git checkout vagrant-repo/master -- vagrant
+
+**By Hand**
+Download this repo as a zip file from Github, and extract the /vagrant directory into your project root. Done.
+
+### Configuring ###
+
+With the Vagrant directory added to your project, open the extensionless file name `Vagrantfile` inside the /vagrant directory. At the top of this file, you'll see a series of hashes you can use to configure the build for your project. **Note:** sensible defaults have been used, and there is actually zero configuration required to run a Concrete5 site. "Configuration" refers to optional tools/settings you may want to use on any given project.
+
+#### Concrete5 Installation Settings ####
+
+Configure the admin password, whether Pretty URLs should be enabled, and optionally the MySQL database settings running within the VM. Unless you want to dig in with the machine configuration, generally only touch the admin_pass option.
+
+    # Basic settings
+    box_settings[:concrete5] = {
+      :admin_pass => 'c5@dmin',
+      :db_name => 'concrete5_site',
+      :db_username => 'root',
+      :db_password => 'root',
+      :db_server => '127.0.0.1',
+      :pretty_urls => true 
+    }
+
+#### VM Configuration ####
+
+How much memory should your host machine delegate to the VM? Which ports should be forwarded? (For example, if you were to use Grunt's livereload plugin, you could port forward 54329).
+
+    # Machine config
+    box_settings[:vm_config] = {
+      :memory_cap => '384',
+      :port_forwards => {
+          80 => 8080, # Apache (ie, :80 in the VM -> :8080 on your machine)
+          443 => 4433, # SSL
+          3306 => 3307 # MySQL
+      }
+    }
+
+#### MySQL Timezone Tables ####
+
+Setup automatically? Make sure your production system matches!
+
+    # Misc options
+    box_settings[:auto_install_mysql_timezone_tables] = true
+
+#### Development Tools ####
+
+If you're going to hack on Concrete5 core, or you're a developer that wants to use any of the following tools for a project, you can simply enable by toggling true/false below.
+
+    # Developer tools
+    box_settings[:dev_stack] = {
+      :enable => true,
+      :opts => {
+          :php_tools => {
+              :xdebug => false,
+              :phpunit => false
+          },
+          :redis => false,
+          # If :install = false, gruntjs, bower, and npm won't be installed as they need Node
+          :nodejs => {
+              :install => false,
+              :gruntjs => true,
+              :bower => true,
+              :npm => {
+                :auto_install_packages => true,
+                :package_json_location => '/home/vagrant/app/build' # defaults to ../build
+              }
+          },
+          # If :rbenv = false, no options below will be relevant
+          :ruby => {
+              :rbenv => false,
+              :version => '2.1.0',
+              :gems => [
+                  {:name => 'bundler'}
+              ]
+          },
+          :composer => { # ONLY RELEVANT FOR 5.7 DEVELOPMENT!
+              :install => false,
+              :auto_install_packages => true,
+              :composerjson_location => '/home/vagrant/app/web/concrete/'
+          }
+      }
+    }
+
+### Run The Machine ###
 
 From the command line, navigate to this directory (`$: cd {root}/vagrant/`) in your Concrete5 repository , then simply
 
