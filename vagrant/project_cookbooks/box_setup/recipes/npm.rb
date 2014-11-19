@@ -19,6 +19,16 @@ if node[:box_setup][:dev_stack][:enable] && node[:box_setup][:dev_stack][:opts][
     end
   end
 
+  # Install GulpJS?
+  if node[:box_setup][:dev_stack][:opts][:nodejs][:gulpjs]
+    execute "Installing Gulp via NPM..." do
+      cwd '/home/vagrant'
+      user 'root'
+      command '/usr/local/bin/npm install -g gulp'
+      action :run
+    end
+  end
+
   # Install Bower?
   if node[:box_setup][:dev_stack][:opts][:nodejs][:bower]
     execute "Installing Bower via NPM..." do
